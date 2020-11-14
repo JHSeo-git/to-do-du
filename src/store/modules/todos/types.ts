@@ -11,6 +11,4 @@ export type Todo = {
   done: boolean;
 };
 
-export interface TodosState {
-  todos: Todo[];
-}
+export type TodosState = Todo[];

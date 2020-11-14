@@ -7,7 +7,6 @@ import { lightTheme, darkTheme } from "styles/theme";
 import { GlobalStyle } from "styles/globalStyles";
 
 function App() {
-  // TODO: redux provider
   return (
     <Provider store={store}>
       <ThemeProvider theme={lightTheme}>
