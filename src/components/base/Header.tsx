@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import logo from "static/images/logo.svg";
 
 interface Props {
   userMenu: React.ReactNode;
@@ -8,12 +9,11 @@ interface Props {
 
 const HeaderWrapper = styled.header`
   height: 4rem;
-  padding-left: ${(props) => props.theme.space[3]};
-  padding-right: ${(props) => props.theme.space[3]};
+  padding-left: ${(props) => props.theme.space[5]};
+  padding-right: ${(props) => props.theme.space[5]};
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: ${(props) => props.theme.grayLightColor};
 `;
 
 const HeaderColumn = styled.div`
@@ -25,8 +25,8 @@ const Logo = styled(Link)`
   margin-right: ${(props) => props.theme.space[3]};
 `;
 
-const LogoText = styled.span`
-  color: ${(props) => props.theme.blackColor};
+const LogoImg = styled.img`
+  height: 40px;
 `;
 
 const MenuNav = styled.nav`
@@ -47,7 +47,7 @@ const Header = ({ userMenu }: Props) => {
     <HeaderWrapper>
       <HeaderColumn>
         <Logo to="/">
-          Logo <LogoText>Logo</LogoText>
+          <LogoImg src={logo} alt="logo" />
         </Logo>
         <MenuNav>
           <MenuLink to="/">A Menu</MenuLink>
