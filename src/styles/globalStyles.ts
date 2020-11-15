@@ -1,8 +1,8 @@
 import { createGlobalStyle } from "styled-components";
 import reset from "styled-reset";
 
-export const GlobalStyle = createGlobalStyle`
-    ${reset}
+export const GlobalStyle = createGlobalStyle`    
+    ${reset}    
     * {
     	margin: 0;
         padding: 0;
@@ -14,6 +14,7 @@ export const GlobalStyle = createGlobalStyle`
         margin: 0;
         padding: 0;
         color: ${({ theme }: { theme: any }) => theme.textColor};
+        font-family: 'Noto Sans KR', sans-serif;
     }
     button { 
         cursor: pointer;
@@ -21,5 +22,9 @@ export const GlobalStyle = createGlobalStyle`
         outline: none;
         color: ${({ theme }: { theme: any }) => theme.textColor};
         background: ${({ theme }: { theme: any }) => theme.bgColor};
+    }
+    a{
+        text-decoration: none;
+        color: inherit;
     }
 `;
