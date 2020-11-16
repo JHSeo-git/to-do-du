@@ -1,6 +1,7 @@
 import { DefaultTheme } from "styled-components";
 
 const fontSizes = [
+  "0.4rem",
   "0.6rem",
   "0.8rem",
   "1rem",
@@ -16,9 +17,10 @@ const fontSizes = [
   "6.4rem",
 ];
 const space = [
-  "0",
-  ".4rem",
-  ".8rem",
+  "0.4rem",
+  "0.6rem",
+  "0.8rem",
+  "1rem",
   "1.2rem",
   "1.6rem",
   "2.0rem",

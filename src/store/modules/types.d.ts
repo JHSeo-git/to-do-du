@@ -1,8 +1,8 @@
 import { StateType } from "typesafe-actions";
-import todoReducer from "./todos/reducer";
+import { TodosState } from "./todos";
 
 interface State {
-  todos: typeof todoReducer;
+  todoState: TodosState;
 }
 
 declare module "typesafe-actions" {

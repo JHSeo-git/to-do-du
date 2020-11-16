@@ -2,8 +2,8 @@ import { useSelector } from "react-redux";
 import { RootState } from "typesafe-actions";
 
 const useTodos = () => {
-  const todos = useSelector((state: RootState) => {
-    return state.todos;
+  const todos = useSelector(({ todoState }: RootState) => {
+    return todoState;
   });
   return todos;
 };

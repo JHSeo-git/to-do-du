@@ -2,11 +2,9 @@
 
 To Do App with firebase
 
-## NASS(new added study skills)
+### react-redux
 
-### redux
-
-- redux-hooks
+- redux hooks
 
 ###
 
@@ -14,6 +12,6 @@ To Do App with firebase
 
 ##
 
-- react-redux, typesafe-actions, immer
+- react-redux, redux-saga, typesafe-actions, immer
 - styled-components, styled-reset
 - react-helmet-async
