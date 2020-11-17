@@ -1,14 +1,10 @@
-import { authService, firebaseInstance } from "fBase";
+import firebase from "firebase/app";
+import { authService } from "fBase";
+import { call } from "redux-saga/effects";
 
-export const socialLogin = (provider: string) => {
-  console.log("run");
-  let fbProvider = new firebaseInstance.auth.GoogleAuthProvider();
+export function* signInWithPopup(authProvider: firebase.auth.AuthProvider) {
+  const auth = authService();
+  const { credential } = yield call([auth, auth.signInWithPopup], authProvider);
 
-  if (provider === "google") {
-    fbProvider = new firebaseInstance.auth.GoogleAuthProvider();
-  } else if (provider === "github") {
-    fbProvider = new firebaseInstance.auth.GithubAuthProvider();
-  }
-
-  return authService.signInWithPopup(fbProvider);
-};
+  return credential;
+}

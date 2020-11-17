@@ -1,5 +1,5 @@
 import React from "react";
-import useTodos from "lib/hooks/redux/useTodos";
+import useTodos from "lib/hooks/redux/todos/useTodos";
 
 const TodoList = () => {
   const todos = useTodos();

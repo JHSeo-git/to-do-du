@@ -1,21 +1,24 @@
-import { UserCredential } from "@firebase/auth-types";
-import { takeEvery, call, put } from "redux-saga/effects";
-import { ActionType, createReducer, createAsyncAction } from "typesafe-actions";
+import { put, call, takeEvery } from "redux-saga/effects";
+import { ActionType, createAsyncAction, createReducer } from "typesafe-actions";
 import produce from "immer";
 import * as AuthAPI from "lib/api/auth";
+import * as FbUtils from "lib/fbUtils";
 
-// action type
+// Action Type
 const ASYNC_SOCIAL_LOGIN = {
-  REQUEST: "@@auth/ASYNC_SOCIAL_LOGIN_REQUEST",
-  SUCCESS: "@@auth/ASYNC_SOCIAL_LOGIN_SUCCESS",
-  FAILURE: "@@auth/ASYNC_SOCIAL_LOGIN_FAILURE",
+  REQEUST: "todos/ASYNC_SOCIAL_LOGINREQUEST",
+  SUCCESS: "todos/ASYNC_SOCIAL_LOGINSUCCESS",
+  FAILURE: "todos/ASYNC_SOCIAL_LOGINFAILURE",
 };
 
-type AuthResult = UserCredential;
+interface AuthResult {
+  id: string;
+  username: string;
+}
 
-// action
-export const asyncSocialLogin = createAsyncAction(
-  ASYNC_SOCIAL_LOGIN.REQUEST,
+// Async Action
+const asyncSocialLogin = createAsyncAction(
+  ASYNC_SOCIAL_LOGIN.REQEUST,
   ASYNC_SOCIAL_LOGIN.SUCCESS,
   ASYNC_SOCIAL_LOGIN.FAILURE
 )<string, AuthResult, string>();
@@ -26,11 +29,16 @@ export const actions = {
 
 export type AuthAction = ActionType<typeof actions>;
 
-export type AuthState = {
+interface Auth {
+  id: string;
+  username: string;
+}
+
+export interface AuthState {
   loading: boolean;
-  authResult?: AuthResult;
+  authResult?: Auth;
   error?: string;
-};
+}
 
 const initialState: AuthState = {
   loading: false,
@@ -38,47 +46,49 @@ const initialState: AuthState = {
   error: undefined,
 };
 
-// reducer
+// Reducer
 export const reducer = createReducer<AuthState>(initialState, {
-  [ASYNC_SOCIAL_LOGIN.REQUEST]: (state) =>
+  [ASYNC_SOCIAL_LOGIN.REQEUST]: (state) =>
     produce(state, (draft) => {
       draft.loading = true;
     }),
   [ASYNC_SOCIAL_LOGIN.SUCCESS]: (
     state,
     action: ActionType<typeof asyncSocialLogin.success>
-  ) =>
-    produce(state, (draft) => {
+  ) => {
+    return produce(state, (draft) => {
       if (!action) return;
-      const { payload: fbAuthResult } = action;
-      draft.authResult = fbAuthResult;
-      draft.loading = false;
-    }),
+      const { payload: authResult } = action;
+      draft.authResult = {
+        id: authResult.id,
+        username: authResult.username,
+      };
+    });
+  },
   [ASYNC_SOCIAL_LOGIN.FAILURE]: (
     state,
     action: ActionType<typeof asyncSocialLogin.failure>
-  ) =>
-    produce(state, (draft) => {
+  ) => {
+    return produce(state, (draft) => {
       if (!action) return;
       const { payload: message } = action;
       draft.error = message;
-      draft.loading = false;
-    }),
+    });
+  },
 });
 
 // saga
-function* asyncSocialLoginSaga(
-  action: ReturnType<typeof asyncSocialLogin.request>
-) {
+function* socialLoginSaga(action: ReturnType<typeof asyncSocialLogin.request>) {
   try {
-    const provider = action.payload;
-    const authResult: AuthResult = yield call(AuthAPI.socialLogin, provider);
+    const authProvider = FbUtils.getStringToAuthProvider(action.payload);
+    if (!authProvider) return;
+    const authResult = yield call(AuthAPI.signInWithPopup, authProvider);
     yield put(asyncSocialLogin.success(authResult));
   } catch (e) {
     yield put(asyncSocialLogin.failure(e.message));
   }
 }
 
-export function* socialLoginSaga() {
-  yield takeEvery(ASYNC_SOCIAL_LOGIN.REQUEST, asyncSocialLoginSaga);
+export function* saga() {
+  yield takeEvery(ASYNC_SOCIAL_LOGIN.REQEUST, socialLoginSaga);
 }

@@ -1,12 +1,12 @@
 import { ActionType, createAction, createReducer } from "typesafe-actions";
 import produce from "immer";
 
-export const ADD_TODO = "@@todos/ADD_TODO";
+const ADD_TODO = "@@todos/ADD_TODO";
 //const REMOVE_TODO = "todos/REMOVE_TODO";
 //const COMPLETE_TODO = "todos/COMPLETE_TODO";
 
 // TODO: call firebase db insert
-export const addTodo = createAction(ADD_TODO, (todo: Todo) => todo)();
+const addTodo = createAction(ADD_TODO, (todo: Todo) => todo)();
 
 export const actions = {
   addTodo,

@@ -11,13 +11,15 @@ const sagaMiddleware = createSagaMiddleware();
 const middleware = [sagaMiddleware];
 
 // TODO: add saga middleware
-const configure = (preloadedState: any) =>
-  createStore(
+const configure = (preloadedState: any) => {
+  const store = createStore(
     modules,
     preloadedState,
     composeEnhancers(applyMiddleware(...middleware))
   );
 
-sagaMiddleware.run(rootSaga);
+  sagaMiddleware.run(rootSaga);
+  return store;
+};
 
 export default configure;

@@ -15,5 +15,13 @@ declare module "styled-components" {
     secondaryColor: string;
     secondaryLightColor: string;
     secondaryDarkColor: string;
+    blueColor: string;
+    blueDarkColor: string;
+    blueLightColor: string;
+    redColor: string;
+    redDarkColor: string;
+    redLightColor: string;
+    alertColor: string;
+    informColor: string;
   }
 }

@@ -1,22 +1,36 @@
 import { combineReducers } from "redux";
+import { StateType } from "typesafe-actions";
 import { all } from "redux-saga/effects";
-import { reducer as authReducer, socialLoginSaga as authSaga } from "./auth";
-import { reducer as todosReducer } from "./todos";
+import { reducer as authReducer, saga as authSaga } from "./auth";
 import { reducer as baseReducer } from "./base";
+import { reducer as todosReducer } from "./todos";
+import { reducer as userReducer } from "./user";
 
-interface ModuleType {
-  [moduleName: string]: any;
-}
+// interface ModuleType {
+//   [moduleName: string]: any;
+// }
 
-const modules: ModuleType = {};
+// const modules: ModuleType = {};
 
-modules["auth"] = authReducer;
-modules["todos"] = todosReducer;
-modules["base"] = baseReducer;
+// modules["auth"] = authReducer;
+// modules["base"] = baseReducer;
+// modules["todos"] = todosReducer;
+// modules["user"] = userReducer;
 
-export default combineReducers(modules);
+const rootReducer = combineReducers({
+  auth: authReducer,
+  base: baseReducer,
+  todos: todosReducer,
+  user: userReducer,
+});
+
+export default rootReducer;
 
 // TODO: saga reducers
 export function* rootSaga() {
   yield all([authSaga()]);
+}
+
+declare module "typesafe-actions" {
+  export type RootState = StateType<typeof rootReducer>;
 }

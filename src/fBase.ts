@@ -1,31 +1,28 @@
-import fb from "firebase/app";
+import firebase from "firebase/app";
 
 const {
-  FB_API_KEY,
-  FB_AUTH_DOMAIN,
-  FB_DATABASE_URL,
-  FB_PROJECT_ID,
-  FB_STORAGE_BUCKET,
-  FB_MESSAGING_SENDER_ID,
-  FB_APP_ID,
-  FB_MEASUREMENT_ID,
+  REACT_APP_APIKEY,
+  REACT_APP_AUTHDOMAIN,
+  REACT_APP_DATABASEURL,
+  REACT_APP_PROJECTID,
+  REACT_APP_STORAGEBUCKET,
+  REACT_APP_MESSAGINGSENDERID,
+  REACT_APP_APPID,
+  REACT_APP_MEASUREMENTID,
 } = process.env;
 
-const fbConfig = {
-  apiKey: FB_API_KEY,
-  authDomain: FB_AUTH_DOMAIN,
-  databaseURL: FB_DATABASE_URL,
-  projectId: FB_PROJECT_ID,
-  storageBucket: FB_STORAGE_BUCKET,
-  messagingSenderId: FB_MESSAGING_SENDER_ID,
-  appId: FB_APP_ID,
-  measurementId: FB_MEASUREMENT_ID,
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: REACT_APP_APIKEY,
+  authDomain: REACT_APP_AUTHDOMAIN,
+  databaseURL: REACT_APP_DATABASEURL,
+  projectId: REACT_APP_PROJECTID,
+  storageBucket: REACT_APP_STORAGEBUCKET,
+  messagingSenderId: REACT_APP_MESSAGINGSENDERID,
+  appId: REACT_APP_APPID,
+  measurementId: REACT_APP_MEASUREMENTID,
 };
-
 // Initialize Firebase
-fb.initializeApp(fbConfig);
-//fb.analytics();
-
-export const firebaseInstance = fb;
-
-export const authService = fb.auth();
+export const firebaseInstance = firebase.initializeApp(firebaseConfig);
+export const authService = firebaseInstance.auth;
+//  firebase.analytics();

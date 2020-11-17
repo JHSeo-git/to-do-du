@@ -1,15 +1,15 @@
 import { ActionType, createAction, createReducer } from "typesafe-actions";
 import produce from "immer";
 
-export const OPEN_SIDEBAR = "@@base/OPEN_SIDEBAR";
-export const CLOSE_SIDEBAR = "@@base/OPEN)SIDEBAR";
+const OPEN_SIDEBAR = "@@base/OPEN_SIDEBAR";
+const CLOSE_SIDEBAR = "@@base/OPEN)SIDEBAR";
 
 // TODO: call firebase db insert
-export const openSidebar = createAction(
+const openSidebar = createAction(
   OPEN_SIDEBAR,
   ({ sidebar }: BaseState) => sidebar
 )();
-export const closeSidebar = createAction(
+const closeSidebar = createAction(
   CLOSE_SIDEBAR,
   ({ sidebar }: BaseState) => sidebar
 )();

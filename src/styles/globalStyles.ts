@@ -20,8 +20,7 @@ export const GlobalStyle = createGlobalStyle`
         cursor: pointer;
         border: none;
         outline: none;
-        color: ${({ theme }: { theme: any }) => theme.textColor};
-        background: ${({ theme }: { theme: any }) => theme.bgColor};
+        font-family: inherit;
     }
     a{
         text-decoration: none;
