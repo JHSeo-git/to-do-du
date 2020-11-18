@@ -11,25 +11,15 @@ const LandingWrapper = styled.div`
 const Inner = styled.div`
   margin-top: ${(props) => props.theme.space[8]};
   padding: ${(props) => props.theme.space[5]};
-  background: ${(props) => props.theme.grayDarkColor};
+  background: ${(props) => props.theme.primaryColor};
   box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
   border-radius: 3px;
-`;
-
-const Title = styled.h2`
-  text-align: center;
-  font-size: ${(props) => props.theme.fontSizes[5]};
-  font-weight: 700;
-  margin-bottom: ${(props) => props.theme.space[2]};
-  color: ${(props) => props.theme.whiteColor};
-  margin-bottom: ${(props) => props.theme.space[5]};
 `;
 
 const LandingTemplate = () => {
   return (
     <LandingWrapper>
       <Inner>
-        <Title>Login With</Title>
         <LoginForm />
       </Inner>
     </LandingWrapper>

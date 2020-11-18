@@ -53,9 +53,9 @@ const lightTheme: DefaultTheme = {
   primaryColor: "#64b5f6",
   primaryLightColor: "#9be7ff",
   primaryDarkColor: "#2286c3",
-  secondaryColor: "$4dd0e1",
-  secondaryLightColor: "$88ffff",
-  secondaryDarkColor: "$009faf",
+  secondaryColor: "#4dd0e1",
+  secondaryLightColor: "#88ffff",
+  secondaryDarkColor: "#009faf",
 };
 
 const darkTheme: DefaultTheme = {
@@ -63,9 +63,9 @@ const darkTheme: DefaultTheme = {
   primaryColor: "#263238",
   primaryLightColor: "#4f5b62",
   primaryDarkColor: "#000a12",
-  secondaryColor: "$006064",
-  secondaryLightColor: "$428e92",
-  secondaryDarkColor: "$00363a",
+  secondaryColor: "#006064",
+  secondaryLightColor: "#428e92",
+  secondaryDarkColor: "#00363a",
 };
 
 export const theme = {

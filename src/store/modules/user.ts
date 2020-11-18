@@ -29,7 +29,7 @@ export interface UserState {
 
 // Action
 const setUser = createAction(SET_USER, (payload: User | null) => payload)();
-const logOut = createAsyncAction(
+const asyncLogOut = createAsyncAction(
   ASYNC_LOG_OUT.REQUEST,
   ASYNC_LOG_OUT.SUCCESS,
   ASYNC_LOG_OUT.FAILURE
@@ -38,7 +38,7 @@ const logOut = createAsyncAction(
 // Export actions
 export const actions = {
   setUser,
-  logOut,
+  asyncLogOut,
 };
 
 // Type Action

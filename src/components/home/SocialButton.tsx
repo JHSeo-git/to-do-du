@@ -15,31 +15,31 @@ const Button = styled.button`
   color: ${(props) => props.theme.blackColor};
   text-align: left;
   border-radius: 5px;
-  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1);
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
   transition: all 0.2s ease-in-out;
   &:hover {
-    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.7);
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
   }
   &:active {
-    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3);
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
   }
   ${(props: ButtonProps) =>
     props.provider === "Github" &&
     css`
-      background: ${(props) => props.theme.grayColor};
-      color: ${(props) => props.theme.whiteColor};
+      color: ${(props) => props.theme.grayDarkColor};
+      background: ${(props) => props.theme.whiteColor};
     `}
   ${(props: ButtonProps) =>
     props.provider === "Facebook" &&
     css`
-      background: ${(props) => props.theme.blueDarkColor};
-      color: ${(props) => props.theme.whiteColor};
+      color: ${(props) => props.theme.blueDarkColor};
+      background: ${(props) => props.theme.whiteColor};
     `}
     ${(props: ButtonProps) =>
     props.provider === "Google" &&
     css`
-      background: ${(props) => props.theme.redDarkColor};
-      color: ${(props) => props.theme.whiteColor};
+      color: ${(props) => props.theme.redDarkColor};
+      background: ${(props) => props.theme.whiteColor};
     `}
 `;
 
@@ -52,7 +52,7 @@ const SocialButton = ({ provider }: ButtonProps) => {
 
   return (
     <Button provider={provider} onClick={onClick}>
-      {provider}
+      Continue with {provider}
     </Button>
   );
 };
