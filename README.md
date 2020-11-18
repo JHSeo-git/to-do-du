@@ -15,8 +15,8 @@ To Do App with firebase
 - typescript: typesafe-actions and @types
 - pattern : ducks
 - mapStateToProps, mapStateToProps: replace to hooks
-- sync : typesafe-actions
-- async : redux-saga
+- sync : typesafe-actions > reducer
+- async : redux-saga, generator
 - immutability: immer.js
 
 #### and so
