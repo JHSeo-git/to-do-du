@@ -18,7 +18,7 @@ export type Todo = {
   id: string;
   title: string;
   content?: string;
-  // TODO: add Date and think format
+  // TODO: add Date and think Date format
   done: boolean;
 };
 

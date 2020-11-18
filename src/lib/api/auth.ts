@@ -8,3 +8,5 @@ export function* signInWithPopup(authProvider: firebase.auth.AuthProvider) {
 
   return credential;
 }
+
+export const logout = () => authService.signOut();

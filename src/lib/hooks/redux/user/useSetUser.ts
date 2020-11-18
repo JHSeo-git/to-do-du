@@ -4,7 +4,7 @@ import { actions, User } from "store/modules/user";
 
 const useSetUser = () => {
   const dispatch = useDispatch();
-  return useCallback((user: User) => dispatch(actions.setUser(user)), [
+  return useCallback((user: User | null) => dispatch(actions.setUser(user)), [
     dispatch,
   ]);
 };

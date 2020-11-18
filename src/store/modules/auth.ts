@@ -7,11 +7,10 @@ import * as FbUtils from "lib/fbUtils";
 
 // Action Type
 const ASYNC_SOCIAL_LOGIN = {
-  REQEUST: "todos/ASYNC_SOCIAL_LOGINREQUEST",
-  SUCCESS: "todos/ASYNC_SOCIAL_LOGINSUCCESS",
-  FAILURE: "todos/ASYNC_SOCIAL_LOGINFAILURE",
+  REQEUST: "@@auth/ASYNC_SOCIAL_LOGINREQUEST",
+  SUCCESS: "@@auth/ASYNC_SOCIAL_LOGINSUCCESS",
+  FAILURE: "@@auth/ASYNC_SOCIAL_LOGINFAILURE",
 };
-
 type AuthResult = firebase.auth.AuthCredential;
 
 // Async Action
@@ -75,7 +74,6 @@ function* socialLoginSaga(action: ReturnType<typeof asyncSocialLogin.request>) {
     const authProvider = FbUtils.getStringToAuthProvider(action.payload);
     if (!authProvider) return;
     const authResult = yield call(AuthAPI.signInWithPopup, authProvider);
-    console.log(authResult);
     yield put(asyncSocialLogin.success(authResult));
   } catch (e) {
     yield put(asyncSocialLogin.failure(e.message));

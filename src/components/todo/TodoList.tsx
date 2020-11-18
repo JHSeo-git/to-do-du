@@ -1,8 +1,8 @@
 import React from "react";
-import useTodos from "lib/hooks/redux/todos/useTodos";
+import useTodoState from "lib/hooks/redux/todos/useTodoState";
 
 const TodoList = () => {
-  const todos = useTodos();
+  const todos = useTodoState();
   return (
     <ul>
       {todos?.map((todo) => (

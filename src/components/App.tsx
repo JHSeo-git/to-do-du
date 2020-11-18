@@ -1,11 +1,11 @@
 import React from "react";
 import { Provider } from "react-redux";
-import store from "store";
-import AppRouter from "components/AppRouter";
 import { ThemeProvider } from "styled-components";
-import { theme } from "styles/theme";
+import AppRouter from "components/AppRouter";
+import HelmetTemplate from "components/base/HelmetTemplate";
+import store from "store";
 import { GlobalStyle } from "styles/globalStyles";
-import HelmetTemplate from "./base/HelmetTemplate";
+import { theme } from "styles/theme";
 
 function App() {
   return (

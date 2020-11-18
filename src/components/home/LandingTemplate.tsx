@@ -17,6 +17,7 @@ const Inner = styled.div`
 `;
 
 const Title = styled.h2`
+  text-align: center;
   font-size: ${(props) => props.theme.fontSizes[5]};
   font-weight: 700;
   margin-bottom: ${(props) => props.theme.space[2]};
