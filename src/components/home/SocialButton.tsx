@@ -44,10 +44,14 @@ const Button = styled.button`
 `;
 
 const SocialButton = ({ provider }: ButtonProps) => {
-  const socialLogin = useSocialLogin(provider);
+  const socialLogin = useSocialLogin();
+
+  const onClick = () => {
+    socialLogin(provider);
+  };
 
   return (
-    <Button provider={provider} onClick={socialLogin}>
+    <Button provider={provider} onClick={onClick}>
       {provider}
     </Button>
   );

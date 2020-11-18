@@ -1,10 +1,20 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import Home from "pages/Home";
+import useSetUser from "lib/hooks/redux/user/useSetUser";
+import { authService } from "fBase";
 
 const AppRouter = () => {
-  // 로그인 시
-  // 미 로그인 시
+  const setUser = useSetUser();
+
+  useEffect(() => {
+    authService.onAuthStateChanged((user) => {
+      if (user) {
+        setUser(user);
+      }
+    });
+  }, [setUser]);
+
   return (
     <BrowserRouter>
       <Switch>
