@@ -21,6 +21,7 @@ const Title = styled.h2`
   font-weight: 700;
   margin-bottom: ${(props) => props.theme.space[2]};
   color: ${(props) => props.theme.whiteColor};
+  margin-bottom: ${(props) => props.theme.space[5]};
 `;
 
 const LandingTemplate = () => {

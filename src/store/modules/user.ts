@@ -4,9 +4,10 @@ import produce from "immer";
 // Action type
 const SET_USER = "@@user/SET_USER";
 
-interface User {
-  id: string;
-  username: string;
+export interface User {
+  uid: string | null;
+  email: string | null;
+  displayName: string | null;
 }
 
 export interface UserState {

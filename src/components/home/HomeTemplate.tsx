@@ -5,7 +5,6 @@ import useUserState from "lib/hooks/redux/user/useUserState";
 
 const HomeTemplate = () => {
   const userState = useUserState();
-  console.log(userState);
 
   // logged or not
   return userState.user ? <TodoList /> : <LandingTemplate />;

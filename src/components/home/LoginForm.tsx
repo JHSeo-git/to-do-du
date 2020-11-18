@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import SocialButton from "components/common/SocialButton";
+import SocialButton from "components/home/SocialButton";
 
 const LoginFormWrapper = styled.div`
   width: 480px;

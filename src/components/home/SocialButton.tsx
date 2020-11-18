@@ -1,4 +1,5 @@
 import React from "react";
+import useSocialLogin from "lib/hooks/redux/auth/useSocialLogin";
 import styled, { css } from "styled-components";
 
 interface ButtonProps {
@@ -8,7 +9,7 @@ interface ButtonProps {
 
 const Button = styled.button`
   width: 100%;
-  padding: ${(props) => props.theme.space[2]};
+  padding: ${(props) => props.theme.space[4]};
   font-size: ${(props) => props.theme.fontSizes[3]};
   background: ${(props) => props.theme.whiteColor};
   color: ${(props) => props.theme.blackColor};
@@ -43,7 +44,13 @@ const Button = styled.button`
 `;
 
 const SocialButton = ({ provider }: ButtonProps) => {
-  return <Button provider={provider}>{provider}</Button>;
+  const socialLogin = useSocialLogin(provider);
+
+  return (
+    <Button provider={provider} onClick={socialLogin}>
+      {provider}
+    </Button>
+  );
 };
 
 export default SocialButton;
