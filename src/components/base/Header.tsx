@@ -5,6 +5,7 @@ import logo from "static/images/logo.svg";
 
 interface Props {
   userMenu: React.ReactNode;
+  userMenuButton: React.ReactNode;
 }
 
 const HeaderWrapper = styled.header`
@@ -42,7 +43,7 @@ const MenuLink = styled(Link)`
   }
 `;
 
-const Header = ({ userMenu }: Props) => {
+const Header = ({ userMenu, userMenuButton }: Props) => {
   return (
     <HeaderWrapper>
       <HeaderColumn>
@@ -55,7 +56,10 @@ const Header = ({ userMenu }: Props) => {
           <MenuLink to="/">C Menu</MenuLink>
         </MenuNav>
       </HeaderColumn>
-      <HeaderColumn>{userMenu}</HeaderColumn>
+      <HeaderColumn>
+        {userMenuButton}
+        {userMenu}
+      </HeaderColumn>
     </HeaderWrapper>
   );
 };

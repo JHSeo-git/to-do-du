@@ -1,6 +1,13 @@
 import "styled-components";
 
 declare module "styled-components" {
+  interface ZIndex {
+    prev: number;
+    default: number;
+    menu: number;
+    popup: number;
+    toast: number;
+  }
   export interface DefaultTheme {
     fontSizes: string[];
     space: string[];
@@ -23,5 +30,8 @@ declare module "styled-components" {
     redLightColor: string;
     alertColor: string;
     informColor: string;
+    facebookBlue: string;
+    githubGray: string;
+    zIndex: ZIndex;
   }
 }

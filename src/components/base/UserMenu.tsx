@@ -1,39 +1,47 @@
 import React from "react";
 import styled from "styled-components";
-import useUserState from "lib/hooks/redux/user/useUserState";
-import useLogout from "lib/hooks/redux/user/useLogout";
+import UserMenuItem from "./UserMenuItem";
 
 const UserMenuWrapper = styled.div`
   display: flex;
   align-items: center;
+  position: relative;
 `;
-const TempLogOutButton = styled.button`
-  border-radius: 3px;
-  padding: ${(props) => props.theme.space[1]};
-  background: ${(props) => props.theme.primaryColor};
-  color: ${(props) => props.theme.blackColor};
-  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1);
-  transition: all 0.2s ease-in-out;
-  &:hover {
-    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.7);
-  }
-  &:active {
-    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3);
-  }
+
+const Inner = styled.div`
+  position: absolute;
+  right: 0;
+  top: calc(100% + 2rem);
+  background: ${(props) => props.theme.whiteColor};
+  z-index: ${(props) => props.theme.zIndex.menu};
 `;
+
+const MenuItems = styled.ul`
+  min-width: 12rem;
+  box-shadow: 1px 1px 2px 1px rgba(0, 0, 0, 0.2);
+`;
+
+const MenuItem = styled.li``;
 
 const UserMenu = () => {
-  const userState = useUserState();
-  const logout = useLogout();
-
-  const onClick = () => {
-    logout();
-  };
   return (
     <UserMenuWrapper>
-      {userState.user && (
-        <TempLogOutButton onClick={onClick}>Log out</TempLogOutButton>
-      )}
+      <Inner>
+        <MenuItems>
+          <MenuItem>
+            <UserMenuItem>새로운 To-du</UserMenuItem>
+          </MenuItem>
+          <MenuItem>
+            <UserMenuItem>임시 To-du</UserMenuItem>
+          </MenuItem>
+          <MenuItem>
+            <UserMenuItem>설정</UserMenuItem>
+          </MenuItem>
+          <MenuItem>
+            <UserMenuItem>로그아웃</UserMenuItem>
+          </MenuItem>
+        </MenuItems>
+      </Inner>
     </UserMenuWrapper>
   );
 };

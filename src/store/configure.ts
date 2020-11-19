@@ -10,7 +10,6 @@ const composeEnhancers = devTools || compose;
 const sagaMiddleware = createSagaMiddleware();
 const middleware = [sagaMiddleware];
 
-// TODO: add saga middleware
 const configure = (preloadedState: any) => {
   const store = createStore(
     modules,

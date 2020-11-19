@@ -21,6 +21,8 @@ export const GlobalStyle = createGlobalStyle`
         border: none;
         outline: none;
         font-family: inherit;
+        background: inherit;
+        color: inherit;
     }
     a{
         text-decoration: none;

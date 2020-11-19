@@ -30,6 +30,14 @@ const space = [
   "9.6rem",
 ];
 
+const zIndex = {
+  prev: -1,
+  default: 0,
+  menu: 10,
+  popup: 100,
+  toast: 500,
+};
+
 const commonTheme = {
   whiteColor: "#ffffff",
   blackColor: "#000000",
@@ -44,8 +52,11 @@ const commonTheme = {
   blueLightColor: "#6ec6ff",
   alertColor: "#d50000",
   informColor: "#00c853",
+  facebookBlue: "#4267B2",
+  githubGray: "#211F1F",
   fontSizes,
   space,
+  zIndex,
 };
 
 const lightTheme: DefaultTheme = {

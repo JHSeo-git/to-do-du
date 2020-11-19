@@ -6,24 +6,23 @@ const LoginFormWrapper = styled.div`
   width: 480px;
 `;
 
-const Title = styled.h2`
+const Title = styled.h1`
   text-align: center;
-  font-size: ${(props) => props.theme.fontSizes[5]};
+  font-size: ${(props) => props.theme.fontSizes[9]};
   font-weight: 700;
-  margin-bottom: ${(props) => props.theme.space[2]};
   color: ${(props) => props.theme.whiteColor};
-  margin-bottom: ${(props) => props.theme.space[5]};
+  margin-bottom: ${(props) => props.theme.space[7]};
 `;
 
 const ButtonItems = styled.ul`
   display: flex;
-  flex-direction: column;
+  align-items: center;
 `;
 
 const ButtonItem = styled.li`
   width: 100%;
   &:not(:last-child) {
-    margin-bottom: ${(props) => props.theme.space[3]};
+    margin-right: ${(props) => props.theme.space[3]};
   }
 `;
 

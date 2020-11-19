@@ -7,9 +7,9 @@ import * as FbUtils from "lib/fbUtils";
 
 // Action Type
 const ASYNC_SOCIAL_LOGIN = {
-  REQEUST: "@@auth/ASYNC_SOCIAL_LOGINREQUEST",
-  SUCCESS: "@@auth/ASYNC_SOCIAL_LOGINSUCCESS",
-  FAILURE: "@@auth/ASYNC_SOCIAL_LOGINFAILURE",
+  REQEUST: "@@auth/ASYNC_SOCIAL_LOGIN_REQUEST",
+  SUCCESS: "@@auth/ASYNC_SOCIAL_LOGIN_SUCCESS",
+  FAILURE: "@@auth/ASYNC_SOCIAL_LOGIN_FAILURE",
 };
 type AuthResult = firebase.auth.AuthCredential;
 
