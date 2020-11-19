@@ -30,6 +30,9 @@ const AppRouter = () => {
             <Route exact to="/">
               <Home />
             </Route>
+            <Route to="/test">
+              <div>test</div>
+            </Route>
           </Switch>
         </BrowserRouter>
       ) : (

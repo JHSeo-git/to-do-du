@@ -26,7 +26,7 @@ const Inner = styled.div`
   opacity: 0;
   background: ${(props) => props.theme.whiteColor};
   z-index: ${(props) => props.theme.zIndex.menu};
-  animation: ${animation} 0.5s linear forwards;
+  animation: ${animation} 0.3s linear forwards;
 `;
 
 const MenuItems = styled.ul`
