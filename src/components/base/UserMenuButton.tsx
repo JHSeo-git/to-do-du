@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useRef } from "react";
 import styled from "styled-components";
 import { FaCaretDown } from "react-icons/fa";
 import useUserState from "lib/hooks/redux/user/useUserState";
-import useLogout from "lib/hooks/redux/user/useLogout";
+import useBaseState from "lib/hooks/redux/base/useBaseState";
+import useUserMenu from "lib/hooks/redux/base/useUserMenu";
+import useOnClickOutside from "lib/hooks/common/useOnClickOutside";
 
 const UserMenuButtonWrapper = styled.div`
   display: flex;
@@ -31,15 +33,28 @@ const Button = styled.button`
 
 const UserMenuButton = () => {
   const userState = useUserState();
-  const logout = useLogout();
+  const baseState = useBaseState();
+  const setUserMenu = useUserMenu();
 
-  const onLogout = () => {
-    logout();
+  const ref = useRef(null);
+
+  const onClick = () => {
+    if (baseState.userMenu) {
+      setUserMenu(false);
+    } else {
+      setUserMenu(true);
+    }
   };
+
+  const handleOnClickOutSide = () => {
+    setUserMenu(false);
+  };
+
+  useOnClickOutside(ref, handleOnClickOutSide);
   return (
     <UserMenuButtonWrapper>
       {userState.user && (
-        <Button onClick={onLogout}>
+        <Button onClick={onClick} ref={ref}>
           <ButtonText>Log out</ButtonText>
           <CaretDownIcon />
         </Button>

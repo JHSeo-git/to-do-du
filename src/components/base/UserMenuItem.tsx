@@ -23,13 +23,13 @@ const MenuWrapper = styled.div`
   ${defaultMenuStyle}
 `;
 
-const UserMenuItem = ({ to, children }: Props) => {
+const UserMenuItem = ({ to, children, onClick }: Props) => {
   return (
     <>
       {to ? (
         <MenuLink to={to}>{children}</MenuLink>
       ) : (
-        <MenuWrapper>{children}</MenuWrapper>
+        <MenuWrapper onClick={onClick}>{children}</MenuWrapper>
       )}
     </>
   );

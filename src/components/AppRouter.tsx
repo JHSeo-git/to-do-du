@@ -21,6 +21,7 @@ const AppRouter = () => {
 
   // logged in
   // logged out
+  // TODO: User Initialize component
   return (
     <>
       {userState.processed ? (

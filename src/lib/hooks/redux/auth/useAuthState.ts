@@ -1,8 +1,8 @@
 import { useSelector } from "react-redux";
-import { AuthState } from "store/modules/auth";
+import { RootState } from "typesafe-actions";
 
 const useAuthState = () => {
-  const authState = useSelector((state: AuthState) => state);
+  const authState = useSelector(({ auth }: RootState) => auth);
   return authState;
 };
 

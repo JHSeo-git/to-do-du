@@ -1,6 +1,17 @@
 import React from "react";
-import styled from "styled-components";
-import UserMenuItem from "./UserMenuItem";
+import styled, { keyframes } from "styled-components";
+import UserMenuItem from "components/base/UserMenuItem";
+import useBaseState from "lib/hooks/redux/base/useBaseState";
+import useLogout from "lib/hooks/redux/user/useLogout";
+
+const animation = keyframes`
+  0%{
+    opacity: 0;
+  }
+  100%{
+    opacity: 1;
+  }
+`;
 
 const UserMenuWrapper = styled.div`
   display: flex;
@@ -12,8 +23,10 @@ const Inner = styled.div`
   position: absolute;
   right: 0;
   top: calc(100% + 2rem);
+  opacity: 0;
   background: ${(props) => props.theme.whiteColor};
   z-index: ${(props) => props.theme.zIndex.menu};
+  animation: ${animation} 0.5s linear forwards;
 `;
 
 const MenuItems = styled.ul`
@@ -24,25 +37,32 @@ const MenuItems = styled.ul`
 const MenuItem = styled.li``;
 
 const UserMenu = () => {
+  const baseState = useBaseState();
+  const logout = useLogout();
+
   return (
-    <UserMenuWrapper>
-      <Inner>
-        <MenuItems>
-          <MenuItem>
-            <UserMenuItem>새로운 To-du</UserMenuItem>
-          </MenuItem>
-          <MenuItem>
-            <UserMenuItem>임시 To-du</UserMenuItem>
-          </MenuItem>
-          <MenuItem>
-            <UserMenuItem>설정</UserMenuItem>
-          </MenuItem>
-          <MenuItem>
-            <UserMenuItem>로그아웃</UserMenuItem>
-          </MenuItem>
-        </MenuItems>
-      </Inner>
-    </UserMenuWrapper>
+    <>
+      {baseState.userMenu ? (
+        <UserMenuWrapper>
+          <Inner>
+            <MenuItems>
+              <MenuItem>
+                <UserMenuItem>새로운 To-du</UserMenuItem>
+              </MenuItem>
+              <MenuItem>
+                <UserMenuItem>임시 To-du</UserMenuItem>
+              </MenuItem>
+              <MenuItem>
+                <UserMenuItem>설정</UserMenuItem>
+              </MenuItem>
+              <MenuItem>
+                <UserMenuItem onClick={logout}>로그아웃</UserMenuItem>
+              </MenuItem>
+            </MenuItems>
+          </Inner>
+        </UserMenuWrapper>
+      ) : null}
+    </>
   );
 };
 
