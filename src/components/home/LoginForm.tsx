@@ -4,6 +4,7 @@ import SocialButton from "components/home/SocialButton";
 
 const LoginFormWrapper = styled.div`
   width: 480px;
+  background: ${(props) => props.theme.primaryColor};
 `;
 
 const Title = styled.h1`
@@ -11,12 +12,14 @@ const Title = styled.h1`
   font-size: ${(props) => props.theme.fontSizes[9]};
   font-weight: 700;
   color: ${(props) => props.theme.whiteColor};
-  margin-bottom: ${(props) => props.theme.space[7]};
+  padding: ${(props) => props.theme.space[6]} 0;
 `;
 
 const ButtonItems = styled.ul`
   display: flex;
   align-items: center;
+  background: ${(props) => props.theme.whiteColor};
+  padding: ${(props) => props.theme.space[3]} 0;
 `;
 
 const ButtonItem = styled.li`

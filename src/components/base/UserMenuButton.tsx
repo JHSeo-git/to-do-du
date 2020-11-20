@@ -55,7 +55,7 @@ const UserMenuButton = () => {
     <UserMenuButtonWrapper>
       {userState.user && (
         <Button onClick={onClick} ref={ref}>
-          <ButtonText>Log out</ButtonText>
+          <ButtonText>User Menu</ButtonText>
           <CaretDownIcon />
         </Button>
       )}
