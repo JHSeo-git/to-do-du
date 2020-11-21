@@ -16,10 +16,8 @@ const Title = styled.h1`
 `;
 
 const ButtonItems = styled.ul`
-  display: flex;
-  align-items: center;
   background: ${(props) => props.theme.whiteColor};
-  padding: ${(props) => props.theme.space[3]} 0;
+  padding: ${(props) => props.theme.space[2]};
 `;
 
 const ButtonItem = styled.li`

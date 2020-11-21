@@ -7,9 +7,14 @@ import useLogout from "lib/hooks/redux/user/useLogout";
 const animation = keyframes`
   0%{
     opacity: 0;
+    transform: scale(0);
+  }
+  90%{
+    opacity: 1;
+    transform: scale(1.1);
   }
   100%{
-    opacity: 1;
+    transform: scale(1);
   }
 `;
 
@@ -23,10 +28,10 @@ const Inner = styled.div`
   position: absolute;
   right: 0;
   top: calc(100% + 2rem);
-  opacity: 0;
   background: ${(props) => props.theme.whiteColor};
   z-index: ${(props) => props.theme.zIndex.menu};
-  animation: ${animation} 0.3s linear forwards;
+  transform-origin: top;
+  animation: ${animation} 0.075s linear forwards;
 `;
 
 const MenuItems = styled.ul`
