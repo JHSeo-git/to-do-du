@@ -1,12 +1,9 @@
 import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import UserMenu from "components/base/UserMenu";
+import UserMenuButton from "components/base/UserMenuButton";
 import logo from "static/images/logo.svg";
-
-interface Props {
-  userMenu: React.ReactNode;
-  userMenuButton: React.ReactNode;
-}
 
 const HeaderWrapper = styled.header`
   height: 4rem;
@@ -43,7 +40,7 @@ const MenuLink = styled(Link)`
   }
 `;
 
-const Header = ({ userMenu, userMenuButton }: Props) => {
+const Header = () => {
   return (
     <HeaderWrapper>
       <HeaderColumn>
@@ -57,8 +54,8 @@ const Header = ({ userMenu, userMenuButton }: Props) => {
         </MenuNav>
       </HeaderColumn>
       <HeaderColumn>
-        {userMenuButton}
-        {userMenu}
+        <UserMenuButton />
+        <UserMenu />
       </HeaderColumn>
     </HeaderWrapper>
   );

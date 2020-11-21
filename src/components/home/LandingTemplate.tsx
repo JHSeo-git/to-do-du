@@ -1,6 +1,9 @@
 import React from "react";
 import styled from "styled-components";
-import LoginForm from "./LoginForm";
+
+interface Props {
+  loginForm: React.ReactNode;
+}
 
 const LandingWrapper = styled.div`
   display: flex;
@@ -13,12 +16,10 @@ const Inner = styled.div`
   box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 `;
 
-const LandingTemplate = () => {
+const LandingTemplate = ({ loginForm }: Props) => {
   return (
     <LandingWrapper>
-      <Inner>
-        <LoginForm />
-      </Inner>
+      <Inner>{loginForm}</Inner>
     </LandingWrapper>
   );
 };
