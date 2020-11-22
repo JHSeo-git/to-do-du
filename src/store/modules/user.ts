@@ -6,7 +6,7 @@ import {
 } from "typesafe-actions";
 import produce from "immer";
 import * as AuthAPI from "lib/api/auth";
-import { call, takeLatest } from "redux-saga/effects";
+import { call, put, takeLatest } from "redux-saga/effects";
 
 // Action type
 const SET_USER = "@@user/SET_USER";
@@ -33,7 +33,7 @@ const asyncLogOut = createAsyncAction(
   ASYNC_LOG_OUT.REQUEST,
   ASYNC_LOG_OUT.SUCCESS,
   ASYNC_LOG_OUT.FAILURE
-)<undefined, string, string>();
+)<undefined, undefined, string>();
 
 // Export actions
 export const actions = {
@@ -59,12 +59,20 @@ export const reducer = createReducer<UserState>(initialState, {
       draft.user = user;
       draft.processed = true;
     }),
+  [ASYNC_LOG_OUT.SUCCESS]: (
+    state,
+    action: ActionType<typeof asyncLogOut.success>
+  ) =>
+    produce(state, (draft) => {
+      if (!action) return;
+      draft.user = null;
+    }),
 });
 
 function* logout() {
   try {
-    const result = yield call(AuthAPI.logout);
-    yield call(() => console.log("log out success : ", result));
+    yield call(AuthAPI.logout);
+    yield put(asyncLogOut.success());
   } catch (e) {
     yield call(() => console.log(e.message));
   }
