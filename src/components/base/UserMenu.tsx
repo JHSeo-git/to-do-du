@@ -9,7 +9,7 @@ const animation = keyframes`
     opacity: 0;
     transform: scale(0);
   }
-  90%{
+  50%{
     opacity: 1;
     transform: scale(1.1);
   }

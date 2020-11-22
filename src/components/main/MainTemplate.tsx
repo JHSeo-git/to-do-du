@@ -20,8 +20,6 @@ const Left = styled.div`
 `;
 const Right = styled.div`
   width: 100%;
-  height: 100vh;
-  overflow-y: auto;
   display: flex;
 `;
 
@@ -29,10 +27,14 @@ const Content = styled.div`
   flex: 1;
   display: flex;
   flex-direction: column;
+  height: 100vh;
+  overflow-y: auto;
 `;
 
 const Detail = styled.div`
-  min-width: 100px; // TODO: refactor width
+  height: 100vh;
+  overflow-y: auto;
+  display: flex;
 `;
 
 const MainTemplate = ({ header, sidebar, detailbar, children }: Props) => {

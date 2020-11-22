@@ -1,7 +1,9 @@
 import React from "react";
 import styled from "styled-components";
 
-const TodoDetailWrapper = styled.div``;
+const TodoDetailWrapper = styled.div`
+  background: lightblue;
+`;
 
 const TodoTitle = styled.h3`
   font-size: ${(props) => props.theme.fontSizes[6]};
