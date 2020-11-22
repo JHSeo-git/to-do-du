@@ -1,10 +1,21 @@
-import { ActionType, createAction, createReducer } from "typesafe-actions";
+import {
+  ActionType,
+  createAction,
+  createAsyncAction,
+  createReducer,
+} from "typesafe-actions";
 import produce from "immer";
+import { put, call, takeEvery } from "redux-saga/effects";
+import * as TodoAPI from "lib/api/todos";
 
 const OPEN_NEW_TODO = "@@todos/OPEN_NEW_TODO";
 const CLOSE_NEW_TODO = "@@todos/CLOSE_NEW_TODO";
 const CHANGE_REGISTER_TODO = "@@todos/CHANGE_REGISTER_TODO";
-const ADD_TODO = "@@todos/ADD_TODO";
+const ASYNC_ADD_TODO = {
+  REQUEST: "@@todos/ADD_TODO_REQUEST",
+  SUCCESS: "@@todos/ADD_TODO_SUCCESS",
+  FAILURE: "@@todos/ADD_TODO_FAILURE",
+};
 //const REMOVE_TODO = "todos/REMOVE_TODO";
 //const COMPLETE_TODO = "todos/COMPLETE_TODO";
 
@@ -16,22 +27,27 @@ const changeRegisterTodo = createAction(
     return { name, value };
   }
 )();
-// TODO: change AsyncAction to firestore add api
-const addTodo = createAction(ADD_TODO, (todo: RegiterTodo) => todo)();
+
+const asyncAddTodo = createAsyncAction(
+  ASYNC_ADD_TODO.REQUEST,
+  ASYNC_ADD_TODO.SUCCESS,
+  ASYNC_ADD_TODO.FAILURE
+)<RegisterTodo, undefined, string>();
 
 export const actions = {
-  addTodo,
   openNewTodo,
   closeNewTodo,
   changeRegisterTodo,
+  asyncAddTodo,
 };
 
 export type TodosAction = ActionType<typeof actions>;
 
-export type RegiterTodo = {
+export type RegisterTodo = {
   title: string;
   content: string;
-  [name: string]: string;
+  done: boolean;
+  [name: string]: string | boolean;
 };
 
 export type Todo = {
@@ -44,8 +60,10 @@ export type Todo = {
 
 export type TodosState = {
   showTodoInput: boolean;
-  registerForm: RegiterTodo;
+  registerForm: RegisterTodo;
   todos: Todo[];
+  loading: boolean;
+  error?: string;
 };
 
 const initialState: TodosState = {
@@ -53,11 +71,14 @@ const initialState: TodosState = {
   registerForm: {
     title: "",
     content: "",
+    done: false,
   },
   todos: [],
+  loading: false,
+  error: undefined,
 };
 
-export const reducer = createReducer<TodosState, TodosAction>(initialState, {
+export const reducer = createReducer<TodosState>(initialState, {
   [OPEN_NEW_TODO]: (state) =>
     produce(state, (draft) => {
       draft.showTodoInput = true;
@@ -76,4 +97,49 @@ export const reducer = createReducer<TodosState, TodosAction>(initialState, {
       draft.registerForm[registerForm.name] = registerForm.value;
     });
   },
+  [ASYNC_ADD_TODO.REQUEST]: (
+    state,
+    action: ActionType<typeof asyncAddTodo.request>
+  ) =>
+    produce(state, (draft) => {
+      if (!action) return;
+      draft.loading = true;
+    }),
+  [ASYNC_ADD_TODO.SUCCESS]: (
+    state,
+    action: ActionType<typeof asyncAddTodo.success>
+  ) =>
+    produce(state, (draft) => {
+      if (!action) return;
+      draft.loading = false;
+      draft.error = "";
+      draft.registerForm = {
+        title: "",
+        content: "",
+        done: false,
+      };
+    }),
+  [ASYNC_ADD_TODO.FAILURE]: (
+    state,
+    action: ActionType<typeof asyncAddTodo.failure>
+  ) =>
+    produce(state, (draft) => {
+      if (!action) return;
+      const { payload: message } = action;
+      draft.loading = false;
+      draft.error = message;
+    }),
 });
+
+function* addTodoSaga(action: ReturnType<typeof asyncAddTodo.request>) {
+  try {
+    yield call(TodoAPI.addNewTodo, action.payload);
+    yield put(asyncAddTodo.success());
+  } catch (e) {
+    yield put(asyncAddTodo.failure(e.message));
+  }
+}
+
+export function* saga() {
+  yield takeEvery(ASYNC_ADD_TODO.REQUEST, addTodoSaga);
+}

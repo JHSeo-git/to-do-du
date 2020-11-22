@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 
 interface Props {
+  title: string;
   content?: string;
 }
 
@@ -10,8 +11,12 @@ const TodoWrapper = styled.div`
   align-items: center;
 `;
 
-const Todo = ({ content }: Props) => {
-  return <TodoWrapper>{content}</TodoWrapper>;
+const Todo = ({ title, content }: Props) => {
+  return (
+    <TodoWrapper>
+      {title}-{content}
+    </TodoWrapper>
+  );
 };
 
 export default Todo;

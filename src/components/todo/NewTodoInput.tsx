@@ -5,6 +5,8 @@ import { pressedKey } from "lib/common";
 import useToggleNewInput from "lib/hooks/redux/todos/useToggleNewInput";
 import useTodoState from "lib/hooks/redux/todos/useTodoState";
 import useChangeRegisterTodo from "lib/hooks/redux/todos/useChangeRegisterTodo";
+import useAddTodo from "lib/hooks/redux/todos/useAddTodo";
+import Spinner from "components/common/Spinner";
 
 const RegIcon = styled(FaRegCircle)`
   color: ${(props) => props.theme.grayDarkColor};
@@ -28,6 +30,7 @@ const NewTodoInput = () => {
   const todoState = useTodoState();
   const toggleShowInput = useToggleNewInput();
   const changeRegisterTodo = useChangeRegisterTodo();
+  const addNewTodo = useAddTodo();
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -39,8 +42,8 @@ const NewTodoInput = () => {
   });
 
   const onRegister = () => {
-    // TODO: add redux
-    console.log("todo add redux");
+    // TODO: validate empty input
+    addNewTodo(todoState.registerForm);
   };
 
   return (
@@ -52,7 +55,9 @@ const NewTodoInput = () => {
         onChange={onChange}
         onKeyPress={onKeyPressEnter}
         autoFocus
+        required
       />
+      {todoState.loading && <Spinner />}
     </NewTodoInputWrapper>
   );
 };

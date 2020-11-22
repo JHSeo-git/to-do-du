@@ -13,11 +13,12 @@ const TodoItem = styled.li``;
 
 const Todos = () => {
   const todoState = useTodoState();
+  // TODO: initailize Todos list
   return (
     <TodoItems>
       {todoState.todos?.map((todo) => (
         <TodoItem key={todo.id}>
-          <Todo content={todo.content} />
+          <Todo title={todo.title} content={todo.content} />
         </TodoItem>
       ))}
       <TodoItem>
