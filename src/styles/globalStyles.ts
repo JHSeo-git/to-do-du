@@ -28,4 +28,7 @@ export const GlobalStyle = createGlobalStyle`
         text-decoration: none;
         color: inherit;
     }
+    input{
+        outline: none;
+    }
 `;

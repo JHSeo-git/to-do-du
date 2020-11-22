@@ -49,8 +49,6 @@ const Header = () => {
         </Logo>
         <MenuNav>
           <MenuLink to="/">A Menu</MenuLink>
-          <MenuLink to="/">B Menu</MenuLink>
-          <MenuLink to="/">C Menu</MenuLink>
         </MenuNav>
       </HeaderColumn>
       <HeaderColumn>
