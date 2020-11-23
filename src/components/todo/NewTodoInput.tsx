@@ -1,7 +1,6 @@
 import React from "react";
 import styled from "styled-components";
 import { FaRegCircle } from "react-icons/fa";
-import { pressedKey } from "lib/common";
 import useToggleNewInput from "lib/hooks/redux/todos/useToggleNewInput";
 import useTodoState from "lib/hooks/redux/todos/useTodoState";
 import useChangeRegisterTodo from "lib/hooks/redux/todos/useChangeRegisterTodo";
@@ -20,7 +19,7 @@ const NewTodoInputBox = styled.input`
   font-weight: 500;
 `;
 
-const NewTodoInputWrapper = styled.div`
+const NewTodoInputWrapper = styled.form`
   display: flex;
   align-items: center;
   padding: ${(props) => props.theme.space[1]} 0;
@@ -37,23 +36,19 @@ const NewTodoInput = () => {
     changeRegisterTodo({ name, value });
   };
 
-  const onKeyPressEnter = pressedKey(() => {
-    onRegister();
-  });
+  const onRegister = (e: React.SyntheticEvent<HTMLFormElement>) => {
+    e.preventDefault();
 
-  const onRegister = () => {
-    // TODO: validate empty input
     addNewTodo(todoState.registerForm);
   };
 
   return (
-    <NewTodoInputWrapper>
+    <NewTodoInputWrapper onSubmit={onRegister}>
       <RegIcon onClick={toggleShowInput} />
       <NewTodoInputBox
         name="title"
         value={todoState.registerForm.title}
         onChange={onChange}
-        onKeyPress={onKeyPressEnter}
         autoFocus
         required
       />
