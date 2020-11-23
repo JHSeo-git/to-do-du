@@ -5,7 +5,7 @@ import NewTodoInput from "./NewTodoInput";
 import NewTodoButton from "./NewTodoButton";
 
 const NewTodoWrapper = styled.div`
-  min-width: 50px;
+  min-height: 50px;
 `;
 
 const NewTodo = () => {

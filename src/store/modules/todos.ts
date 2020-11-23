@@ -5,16 +5,21 @@ import {
   createReducer,
 } from "typesafe-actions";
 import produce from "immer";
-import { put, call, takeEvery } from "redux-saga/effects";
+import { put, call, all, takeEvery } from "redux-saga/effects";
 import * as TodoAPI from "lib/api/todos";
 
 const OPEN_NEW_TODO = "@@todos/OPEN_NEW_TODO";
 const CLOSE_NEW_TODO = "@@todos/CLOSE_NEW_TODO";
 const CHANGE_REGISTER_TODO = "@@todos/CHANGE_REGISTER_TODO";
+const ASYNC_GET_TODOS = {
+  REQUEST: "@@todos/ASYNC_GET_TODOS_REQUEST",
+  SUCCESS: "@@todos/ASYNC_GET_TODOS_SUCCESS",
+  FAILURE: "@@todos/ASYNC_GET_TODOS_FAILURE",
+};
 const ASYNC_ADD_TODO = {
-  REQUEST: "@@todos/ADD_TODO_REQUEST",
-  SUCCESS: "@@todos/ADD_TODO_SUCCESS",
-  FAILURE: "@@todos/ADD_TODO_FAILURE",
+  REQUEST: "@@todos/ASYNC_ADD_TODO_REQUEST",
+  SUCCESS: "@@todos/ASYNC_ADD_TODO_SUCCESS",
+  FAILURE: "@@todos/ASYNC_ADD_TODO_FAILURE",
 };
 //const REMOVE_TODO = "todos/REMOVE_TODO";
 //const COMPLETE_TODO = "todos/COMPLETE_TODO";
@@ -27,7 +32,11 @@ const changeRegisterTodo = createAction(
     return { name, value };
   }
 )();
-
+const asyncGetTodos = createAsyncAction(
+  ASYNC_GET_TODOS.REQUEST,
+  ASYNC_GET_TODOS.SUCCESS,
+  ASYNC_GET_TODOS.FAILURE
+)<undefined, Todo[], string>();
 const asyncAddTodo = createAsyncAction(
   ASYNC_ADD_TODO.REQUEST,
   ASYNC_ADD_TODO.SUCCESS,
@@ -38,6 +47,7 @@ export const actions = {
   openNewTodo,
   closeNewTodo,
   changeRegisterTodo,
+  asyncGetTodos,
   asyncAddTodo,
 };
 
@@ -47,7 +57,9 @@ export type RegisterTodo = {
   title: string;
   content: string;
   done: boolean;
-  [name: string]: string | boolean;
+  userId: string | null;
+  createdAt: number | null;
+  [name: string]: string | boolean | number | null;
 };
 
 export type Todo = {
@@ -56,6 +68,7 @@ export type Todo = {
   content?: string;
   // TODO: add Date and think Date format
   done: boolean;
+  userId: string;
 };
 
 export type TodosState = {
@@ -72,6 +85,8 @@ const initialState: TodosState = {
     title: "",
     content: "",
     done: false,
+    userId: null,
+    createdAt: null,
   },
   todos: [],
   loading: false,
@@ -97,6 +112,34 @@ export const reducer = createReducer<TodosState>(initialState, {
       draft.registerForm[registerForm.name] = registerForm.value;
     });
   },
+  [ASYNC_GET_TODOS.REQUEST]: (
+    state,
+    action: ActionType<typeof asyncGetTodos.request>
+  ) =>
+    produce(state, (draft) => {
+      if (!action) return;
+      draft.loading = true;
+    }),
+  [ASYNC_GET_TODOS.SUCCESS]: (
+    state,
+    action: ActionType<typeof asyncGetTodos.success>
+  ) =>
+    produce(state, (draft) => {
+      if (!action) return;
+      const { payload: todos } = action;
+      draft.loading = false;
+      draft.todos = todos;
+    }),
+  [ASYNC_GET_TODOS.FAILURE]: (
+    state,
+    action: ActionType<typeof asyncGetTodos.failure>
+  ) =>
+    produce(state, (draft) => {
+      if (!action) return;
+      const { payload: message } = action;
+      draft.loading = false;
+      draft.error = message;
+    }),
   [ASYNC_ADD_TODO.REQUEST]: (
     state,
     action: ActionType<typeof asyncAddTodo.request>
@@ -113,10 +156,13 @@ export const reducer = createReducer<TodosState>(initialState, {
       if (!action) return;
       draft.loading = false;
       draft.error = "";
+      draft.showTodoInput = false;
       draft.registerForm = {
         title: "",
         content: "",
         done: false,
+        userId: null,
+        createdAt: null,
       };
     }),
   [ASYNC_ADD_TODO.FAILURE]: (
@@ -140,6 +186,18 @@ function* addTodoSaga(action: ReturnType<typeof asyncAddTodo.request>) {
   }
 }
 
+function* getTodosSaga(action: ReturnType<typeof asyncGetTodos.request>) {
+  try {
+    const todos = yield call(TodoAPI.getTodos);
+    yield put(asyncGetTodos.success(todos));
+  } catch (e) {
+    yield put(asyncAddTodo.failure(e.message));
+  }
+}
+
 export function* saga() {
-  yield takeEvery(ASYNC_ADD_TODO.REQUEST, addTodoSaga);
+  yield all([
+    takeEvery(ASYNC_ADD_TODO.REQUEST, addTodoSaga),
+    takeEvery(ASYNC_GET_TODOS.REQUEST, getTodosSaga),
+  ]);
 }

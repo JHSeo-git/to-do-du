@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import useTodoState from "lib/hooks/redux/todos/useTodoState";
+import useGetTodos from "lib/hooks/redux/todos/useGetTodos";
 import Todo from "components/todo/Todo";
 import NewTodo from "components/todo/NewTodo";
 
@@ -13,12 +14,18 @@ const TodoItem = styled.li``;
 
 const Todos = () => {
   const todoState = useTodoState();
-  // TODO: initailize Todos list
+  const getTodos = useGetTodos();
+
+  // TODO: refactoring
+  useEffect(() => {
+    getTodos();
+  }, [getTodos]);
+
   return (
     <TodoItems>
       {todoState.todos?.map((todo) => (
         <TodoItem key={todo.id}>
-          <Todo title={todo.title} content={todo.content} />
+          <Todo {...todo} />
         </TodoItem>
       ))}
       <TodoItem>
