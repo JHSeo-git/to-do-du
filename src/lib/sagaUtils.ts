@@ -1,5 +1,7 @@
+import firebase from "firebase/app";
 import { AsyncActionCreatorBuilder, createAsyncAction } from "typesafe-actions";
-import { call, put } from "redux-saga/effects";
+import { cancelled, take, call, put } from "redux-saga/effects";
+import { EventChannel, eventChannel, buffers } from "redux-saga";
 
 interface AsyncAction {
   REQUEST: string;
@@ -63,4 +65,48 @@ export default function createAsyncSaga<
       }
     }
   };
+}
+
+export function makeChannel(
+  collection: firebase.firestore.CollectionReference,
+  buffer = buffers.none(),
+  snapshotListenOptions:
+    | firebase.firestore.SnapshotListenOptions
+    | undefined
+    | null
+) {
+  const ref = collection;
+
+  const channel = eventChannel((emit) => {
+    const unsubscribe = snapshotListenOptions
+      ? ref.onSnapshot(snapshotListenOptions, emit)
+      : ref.onSnapshot(emit);
+
+    // Returns unsubscribe function
+    return unsubscribe;
+  }, buffer);
+
+  return channel;
+}
+
+export function* syncChannel(channel: EventChannel<any>, options: any) {
+  const { onSuccess, onFailure, transform } = options;
+
+  try {
+    while (true) {
+      const data = yield take(channel);
+      const transformedData = transform ? transform(data) : data;
+      yield put(onSuccess(transformedData));
+    }
+  } catch (err) {
+    /* eslint-disable no-console */
+    if (onFailure) yield put(onFailure(err));
+    else
+      console.error(
+        "The following error has been ignored because no `failureActionCreator` has been set:",
+        err
+      );
+  } finally {
+    if (yield cancelled()) channel.close();
+  }
 }

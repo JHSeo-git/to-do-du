@@ -2,13 +2,12 @@ import { useCallback } from "react";
 import { useDispatch } from "react-redux";
 import { actions } from "store/modules/todos";
 
-// TODO: channel
-const useSyncGetTodos = () => {
+const useSyncTodos = () => {
   const dispatch = useDispatch();
 
-  return useCallback(() => dispatch(actions.asyncGetTodos.request()), [
+  return useCallback(() => dispatch(actions.asyncSyncTodos.request()), [
     dispatch,
   ]);
 };
 
-export default useSyncGetTodos;
+export default useSyncTodos;

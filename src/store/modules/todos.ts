@@ -4,9 +4,11 @@ import {
   createAsyncAction,
   createReducer,
 } from "typesafe-actions";
+import firebase from "firebase/app";
 import produce from "immer";
-import { put, call, all, takeEvery } from "redux-saga/effects";
+import { put, call, all, takeEvery, fork } from "redux-saga/effects";
 import * as TodoAPI from "lib/api/todos";
+import { syncChannel } from "lib/sagaUtils";
 
 const OPEN_NEW_TODO = "@@todos/OPEN_NEW_TODO";
 const CLOSE_NEW_TODO = "@@todos/CLOSE_NEW_TODO";
@@ -15,6 +17,11 @@ const ASYNC_GET_TODOS = {
   REQUEST: "@@todos/ASYNC_GET_TODOS_REQUEST",
   SUCCESS: "@@todos/ASYNC_GET_TODOS_SUCCESS",
   FAILURE: "@@todos/ASYNC_GET_TODOS_FAILURE",
+};
+const ASYNC_SYNC_TODOS = {
+  REQUEST: "@@todos/ASYNC_SYNC_TODOS_REQUEST",
+  SUCCESS: "@@todos/ASYNC_SYNC_TODOS_SUCCESS",
+  FAILURE: "@@todos/ASYNC_SYNC_TODOS_FAILURE",
 };
 const ASYNC_ADD_TODO = {
   REQUEST: "@@todos/ASYNC_ADD_TODO_REQUEST",
@@ -37,6 +44,11 @@ const asyncGetTodos = createAsyncAction(
   ASYNC_GET_TODOS.SUCCESS,
   ASYNC_GET_TODOS.FAILURE
 )<undefined, Todo[], string>();
+const asyncSyncTodos = createAsyncAction(
+  ASYNC_SYNC_TODOS.REQUEST,
+  ASYNC_SYNC_TODOS.SUCCESS,
+  ASYNC_SYNC_TODOS.FAILURE
+)<undefined, Todo[], string>();
 const asyncAddTodo = createAsyncAction(
   ASYNC_ADD_TODO.REQUEST,
   ASYNC_ADD_TODO.SUCCESS,
@@ -48,6 +60,7 @@ export const actions = {
   closeNewTodo,
   changeRegisterTodo,
   asyncGetTodos,
+  asyncSyncTodos,
   asyncAddTodo,
 };
 
@@ -141,6 +154,34 @@ export const reducer = createReducer<TodosState>(initialState, {
       draft.loading = false;
       draft.error = message;
     }),
+  [ASYNC_SYNC_TODOS.REQUEST]: (
+    state,
+    action: ActionType<typeof asyncSyncTodos.request>
+  ) =>
+    produce(state, (draft) => {
+      if (!action) return;
+      draft.loading = true;
+    }),
+  [ASYNC_SYNC_TODOS.SUCCESS]: (
+    state,
+    action: ActionType<typeof asyncSyncTodos.success>
+  ) =>
+    produce(state, (draft) => {
+      if (!action) return;
+      const { payload: todos } = action;
+      draft.loading = false;
+      draft.todos = todos;
+    }),
+  [ASYNC_SYNC_TODOS.FAILURE]: (
+    state,
+    action: ActionType<typeof asyncSyncTodos.failure>
+  ) =>
+    produce(state, (draft) => {
+      if (!action) return;
+      const { payload: message } = action;
+      draft.loading = false;
+      draft.error = message;
+    }),
   [ASYNC_ADD_TODO.REQUEST]: (
     state,
     action: ActionType<typeof asyncAddTodo.request>
@@ -196,9 +237,39 @@ function* getTodosSaga(action: ReturnType<typeof asyncGetTodos.request>) {
   }
 }
 
+export interface SyncTodosOptions {
+  onSuccess: typeof asyncSyncTodos.success;
+  onFailure: typeof asyncSyncTodos.failure;
+  snapshotListenOptions: firebase.firestore.SnapshotListenOptions | undefined;
+  transform: any;
+}
+
+function* syncTodosSaga(action: ReturnType<typeof asyncSyncTodos.request>) {
+  const channel = yield call(TodoAPI.syncGetTodos, undefined);
+  const options: SyncTodosOptions = {
+    onSuccess: asyncSyncTodos.success,
+    onFailure: asyncSyncTodos.failure,
+    snapshotListenOptions: undefined,
+    transform: (snapshot: firebase.firestore.QuerySnapshot<Todo>) => {
+      const todos: Todo[] = snapshot.docs.map((doc) => {
+        const id = doc.id;
+        const todo = doc.data();
+        return {
+          ...todo,
+          id,
+        };
+      });
+
+      return todos;
+    },
+  };
+  yield fork(syncChannel, channel, options);
+}
+
 export function* saga() {
   yield all([
     takeEvery(ASYNC_ADD_TODO.REQUEST, addTodoSaga),
     takeEvery(ASYNC_GET_TODOS.REQUEST, getTodosSaga),
+    takeEvery(ASYNC_SYNC_TODOS.REQUEST, syncTodosSaga),
   ]);
 }

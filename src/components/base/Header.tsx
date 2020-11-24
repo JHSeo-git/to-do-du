@@ -7,8 +7,7 @@ import logo from "static/images/logo.svg";
 
 const HeaderWrapper = styled.header`
   height: 4rem;
-  padding-left: ${(props) => props.theme.space[5]};
-  padding-right: ${(props) => props.theme.space[5]};
+  padding: ${(props) => props.theme.space[5]};
   display: flex;
   justify-content: space-between;
   align-items: center;

@@ -2,6 +2,7 @@ import firebase from "firebase/app";
 import { dbService } from "fBase";
 import { call } from "redux-saga/effects";
 import { RegisterTodo, Todo } from "store/modules/todos";
+import { makeChannel } from "lib/sagaUtils";
 
 const TODO_DOC_NAME = "todos";
 
@@ -26,4 +27,19 @@ export function* getTodos() {
     };
   });
   return todos;
+}
+
+export function* syncGetTodos(
+  snapshotListenOptions: firebase.firestore.SnapshotListenOptions | undefined
+) {
+  const collection = dbService.collection(TODO_DOC_NAME);
+
+  const channel = yield call(
+    makeChannel,
+    collection,
+    undefined,
+    snapshotListenOptions
+  );
+
+  return channel;
 }

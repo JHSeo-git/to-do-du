@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
 import useTodoState from "lib/hooks/redux/todos/useTodoState";
-import useGetTodos from "lib/hooks/redux/todos/useGetTodos";
 import Todo from "components/todo/Todo";
 import NewTodo from "components/todo/NewTodo";
+import useSyncTodos from "lib/hooks/redux/todos/useSyncTodos";
 
 const TodoItems = styled.ul`
   background: ${(props) => props.theme.whiteColor};
@@ -14,12 +14,12 @@ const TodoItem = styled.li``;
 
 const Todos = () => {
   const todoState = useTodoState();
-  const getTodos = useGetTodos();
+  const syncTodos = useSyncTodos();
 
   // TODO: refactoring
   useEffect(() => {
-    getTodos();
-  }, [getTodos]);
+    syncTodos();
+  }, [syncTodos]);
 
   return (
     <TodoItems>
