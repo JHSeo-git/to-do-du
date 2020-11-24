@@ -45,6 +45,7 @@ const NewTodoInput = () => {
         onChange={onChange}
         autoFocus={true}
         required={true}
+        placeholder="할 일을 작성해보세요"
       />
       {todoState.loading && <Spinner />}
     </NewTodoInputWrapper>

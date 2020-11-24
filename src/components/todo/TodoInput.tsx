@@ -7,6 +7,7 @@ interface Props {
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   autoFocus: boolean;
   required: boolean;
+  placeholder: string;
 }
 
 const TodoInputWrapper = styled.div`
@@ -21,9 +22,20 @@ const TodoInputBox = styled.input`
   border: none;
   font-size: ${(props) => props.theme.fontSizes[3]};
   font-weight: 500;
+  &::placeholder {
+    font-style: italic;
+    opacity: 0.7;
+  }
 `;
 
-const TodoInput = ({ name, value, onChange, autoFocus, required }: Props) => {
+const TodoInput = ({
+  name,
+  value,
+  onChange,
+  autoFocus,
+  required,
+  placeholder,
+}: Props) => {
   return (
     <TodoInputWrapper>
       <TodoInputBox
@@ -32,6 +44,7 @@ const TodoInput = ({ name, value, onChange, autoFocus, required }: Props) => {
         onChange={onChange}
         autoFocus={autoFocus}
         required={required}
+        placeholder={placeholder}
       />
     </TodoInputWrapper>
   );
