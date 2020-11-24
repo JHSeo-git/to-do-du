@@ -69,6 +69,7 @@ export type Todo = {
   // TODO: add Date and think Date format
   done: boolean;
   userId: string;
+  createdAt: number;
 };
 
 export type TodosState = {

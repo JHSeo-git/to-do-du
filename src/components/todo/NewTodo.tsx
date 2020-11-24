@@ -1,10 +1,11 @@
 import React from "react";
 import styled from "styled-components";
 import useTodoState from "lib/hooks/redux/todos/useTodoState";
-import NewTodoInput from "./NewTodoInput";
-import NewTodoButton from "./NewTodoButton";
+import NewTodoInput from "components/todo/NewTodoInput";
+import NewTodoButton from "components/todo/NewTodoButton";
 
 const NewTodoWrapper = styled.div`
+  margin-top: ${(props) => props.theme.space[5]};
   min-height: 50px;
 `;
 

@@ -6,17 +6,10 @@ import useTodoState from "lib/hooks/redux/todos/useTodoState";
 import useChangeRegisterTodo from "lib/hooks/redux/todos/useChangeRegisterTodo";
 import useAddTodo from "lib/hooks/redux/todos/useAddTodo";
 import Spinner from "components/common/Spinner";
+import TodoInput from "components/todo/TodoInput";
 
 const RegIcon = styled(FaRegCircle)`
   color: ${(props) => props.theme.grayDarkColor};
-`;
-
-const NewTodoInputBox = styled.input`
-  flex: 1;
-  margin-left: ${(props) => props.theme.space[2]};
-  border: none;
-  font-size: ${(props) => props.theme.fontSizes[3]};
-  font-weight: 500;
 `;
 
 const NewTodoInputWrapper = styled.form`
@@ -42,15 +35,16 @@ const NewTodoInput = () => {
     addNewTodo(todoState.registerForm);
   };
 
+  // TODO: useOnClickOutside
   return (
     <NewTodoInputWrapper onSubmit={onRegister}>
       <RegIcon onClick={toggleShowInput} />
-      <NewTodoInputBox
+      <TodoInput
         name="title"
         value={todoState.registerForm.title}
         onChange={onChange}
-        autoFocus
-        required
+        autoFocus={true}
+        required={true}
       />
       {todoState.loading && <Spinner />}
     </NewTodoInputWrapper>
