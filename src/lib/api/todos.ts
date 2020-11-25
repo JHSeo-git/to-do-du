@@ -2,7 +2,7 @@ import firebase from "firebase/app";
 import { dbService } from "fBase";
 import { call } from "redux-saga/effects";
 import { RegisterTodo, Todo } from "store/modules/todos";
-import { makeChannel } from "lib/sagaUtils";
+import { makeChannel } from "lib/fbUtils";
 
 const TODO_DOC_NAME = "todos";
 

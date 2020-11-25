@@ -10,7 +10,7 @@ import { call, put, takeLatest } from "redux-saga/effects";
 
 // Action type
 const SET_USER = "@@user/SET_USER";
-const ASYNC_LOG_OUT = {
+export const ASYNC_LOG_OUT = {
   REQUEST: "@@user/LOG_OUT_REQUEST",
   SUCCESS: "@@user/LOG_OUT_SUCCESS",
   FAILURE: "@@user/LOG_OUT_FAILURE",

@@ -6,9 +6,19 @@ import {
 } from "typesafe-actions";
 import firebase from "firebase/app";
 import produce from "immer";
-import { put, call, all, takeEvery, fork } from "redux-saga/effects";
+import {
+  put,
+  call,
+  all,
+  takeEvery,
+  fork,
+  take,
+  cancel,
+  takeLatest,
+} from "redux-saga/effects";
 import * as TodoAPI from "lib/api/todos";
-import { syncChannel } from "lib/sagaUtils";
+import { syncChannel } from "lib/fbUtils";
+import { ASYNC_LOG_OUT } from "store/modules/user";
 
 const OPEN_NEW_TODO = "@@todos/OPEN_NEW_TODO";
 const CLOSE_NEW_TODO = "@@todos/CLOSE_NEW_TODO";
@@ -244,32 +254,44 @@ export interface SyncTodosOptions {
   transform: any;
 }
 
-function* syncTodosSaga(action: ReturnType<typeof asyncSyncTodos.request>) {
-  const channel = yield call(TodoAPI.syncGetTodos, undefined);
-  const options: SyncTodosOptions = {
-    onSuccess: asyncSyncTodos.success,
-    onFailure: asyncSyncTodos.failure,
-    snapshotListenOptions: undefined,
-    transform: (snapshot: firebase.firestore.QuerySnapshot<Todo>) => {
-      const todos: Todo[] = snapshot.docs.map((doc) => {
-        const id = doc.id;
-        const todo = doc.data();
-        return {
-          ...todo,
-          id,
-        };
-      });
+function* syncTodosSaga() {
+  try {
+    const channel = yield call(TodoAPI.syncGetTodos, undefined);
+    const options: SyncTodosOptions = {
+      onSuccess: asyncSyncTodos.success,
+      onFailure: asyncSyncTodos.failure,
+      snapshotListenOptions: undefined,
+      transform: (snapshot: firebase.firestore.QuerySnapshot<Todo>) => {
+        const todos: Todo[] = snapshot.docs.map((doc) => {
+          const id = doc.id;
+          const todo = doc.data();
+          return {
+            ...todo,
+            id,
+          };
+        });
 
-      return todos;
-    },
-  };
-  yield fork(syncChannel, channel, options);
+        return todos;
+      },
+    };
+    yield fork(syncChannel, channel, options);
+  } catch (e) {
+    yield put(asyncSyncTodos.failure(e.message));
+  }
+}
+
+function* syncTodosSagaWithLogInfo() {
+  let task = yield fork(syncTodosSaga);
+
+  // watching LOGOUT SUCESS or FAILURE
+  yield take(ASYNC_LOG_OUT.SUCCESS || ASYNC_LOG_OUT.FAILURE);
+  yield cancel(task);
 }
 
 export function* saga() {
   yield all([
     takeEvery(ASYNC_ADD_TODO.REQUEST, addTodoSaga),
     takeEvery(ASYNC_GET_TODOS.REQUEST, getTodosSaga),
-    takeEvery(ASYNC_SYNC_TODOS.REQUEST, syncTodosSaga),
+    takeLatest(ASYNC_SYNC_TODOS.REQUEST, syncTodosSagaWithLogInfo),
   ]);
 }
