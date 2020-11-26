@@ -43,3 +43,8 @@ export function* syncGetTodos(
 
   return channel;
 }
+
+export function* deleteTodos(id: string) {
+  const document = dbService.collection(TODO_DOC_NAME).doc(id);
+  return yield call([document, document.delete]);
+}

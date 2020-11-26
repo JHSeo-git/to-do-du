@@ -38,7 +38,11 @@ const ASYNC_ADD_TODO = {
   SUCCESS: "@@todos/ASYNC_ADD_TODO_SUCCESS",
   FAILURE: "@@todos/ASYNC_ADD_TODO_FAILURE",
 };
-//const REMOVE_TODO = "todos/REMOVE_TODO";
+const ASYNC_DELETE_TODO = {
+  REQUEST: "@@todos/ASYNC_DELETE_TODO_REQUEST",
+  SUCCESS: "@@todos/ASYNC_DELETE_TODO_SUCCESS",
+  FAILURE: "@@todos/ASYNC_DELETE_TODO_FAILURE",
+};
 //const COMPLETE_TODO = "todos/COMPLETE_TODO";
 
 const openNewTodo = createAction(OPEN_NEW_TODO)();
@@ -64,6 +68,11 @@ const asyncAddTodo = createAsyncAction(
   ASYNC_ADD_TODO.SUCCESS,
   ASYNC_ADD_TODO.FAILURE
 )<RegisterTodo, undefined, string>();
+const asyncDeleteTodo = createAsyncAction(
+  ASYNC_DELETE_TODO.REQUEST,
+  ASYNC_DELETE_TODO.SUCCESS,
+  ASYNC_DELETE_TODO.FAILURE
+)<string, undefined, string>();
 
 export const actions = {
   openNewTodo,
@@ -72,6 +81,7 @@ export const actions = {
   asyncGetTodos,
   asyncSyncTodos,
   asyncAddTodo,
+  asyncDeleteTodo,
 };
 
 export type TodosAction = ActionType<typeof actions>;
@@ -98,6 +108,7 @@ export type Todo = {
 export type TodosState = {
   showTodoInput: boolean;
   registerForm: RegisterTodo;
+  targetTodoId?: string;
   todos: Todo[];
   loading: boolean;
   error?: string;
@@ -115,6 +126,7 @@ const initialState: TodosState = {
   todos: [],
   loading: false,
   error: undefined,
+  targetTodoId: undefined,
 };
 
 export const reducer = createReducer<TodosState>(initialState, {
@@ -227,6 +239,34 @@ export const reducer = createReducer<TodosState>(initialState, {
       draft.loading = false;
       draft.error = message;
     }),
+  [ASYNC_DELETE_TODO.REQUEST]: (
+    state,
+    action: ActionType<typeof asyncDeleteTodo.request>
+  ) =>
+    produce(state, (draft) => {
+      if (!action) return;
+      const { payload: id } = action;
+      draft.loading = true;
+      draft.targetTodoId = id;
+    }),
+  [ASYNC_DELETE_TODO.SUCCESS]: (
+    state,
+    action: ActionType<typeof asyncDeleteTodo.success>
+  ) =>
+    produce(state, (draft) => {
+      if (!action) return;
+      draft.loading = false;
+    }),
+  [ASYNC_DELETE_TODO.FAILURE]: (
+    state,
+    action: ActionType<typeof asyncDeleteTodo.failure>
+  ) =>
+    produce(state, (draft) => {
+      if (!action) return;
+      draft.loading = false;
+      const { payload: message } = action;
+      draft.error = message;
+    }),
 });
 
 function* addTodoSaga(action: ReturnType<typeof asyncAddTodo.request>) {
@@ -288,10 +328,20 @@ function* syncTodosSagaWithLogInfo() {
   yield cancel(task);
 }
 
+function* deleteTodoSaga(action: ReturnType<typeof asyncDeleteTodo.request>) {
+  try {
+    yield call(TodoAPI.deleteTodos, action.payload);
+    yield put(asyncDeleteTodo.success());
+  } catch (e) {
+    yield put(asyncDeleteTodo.failure(e.message));
+  }
+}
+
 export function* saga() {
   yield all([
     takeEvery(ASYNC_ADD_TODO.REQUEST, addTodoSaga),
     takeEvery(ASYNC_GET_TODOS.REQUEST, getTodosSaga),
     takeLatest(ASYNC_SYNC_TODOS.REQUEST, syncTodosSagaWithLogInfo),
+    takeEvery(ASYNC_DELETE_TODO.REQUEST, deleteTodoSaga),
   ]);
 }
