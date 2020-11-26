@@ -6,6 +6,7 @@ import moment from "moment";
 import useUserState from "lib/hooks/redux/user/useUserState";
 import { Todo as TodoProps } from "store/modules/todos";
 import useDeleteTodo from "lib/hooks/redux/todos/useDeleteTodo";
+import useConfirm from "lib/hooks/common/useConfirm";
 
 const TodoWrapper = styled.div`
   padding: ${(props) => props.theme.space[2]} 0;
@@ -51,9 +52,10 @@ const TodoContent = styled.span`
 const Todo = ({ id, title, content, done, userId, createdAt }: TodoProps) => {
   const userState = useUserState();
   const deleteTodo = useDeleteTodo();
+  const confirm = useConfirm();
 
   const onClick = () => {
-    deleteTodo(id);
+    confirm("Confirm delete", () => deleteTodo(id));
   };
 
   return (
@@ -63,9 +65,7 @@ const Todo = ({ id, title, content, done, userId, createdAt }: TodoProps) => {
       )}
       {done ? <RegCheckIcon size="20" /> : <RegIcon size="20" />}
       <TodoContentWrapper>
-        <TodoTitle>
-          {title}/{id}
-        </TodoTitle>
+        <TodoTitle>{title}</TodoTitle>
         <TodoContent>
           {moment(createdAt).format("yyyy.MM.DD HH:mm:ss.SSS")}
         </TodoContent>
