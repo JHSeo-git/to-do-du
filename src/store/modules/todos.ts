@@ -341,7 +341,7 @@ export function* saga() {
   yield all([
     takeEvery(ASYNC_ADD_TODO.REQUEST, addTodoSaga),
     takeEvery(ASYNC_GET_TODOS.REQUEST, getTodosSaga),
-    takeLatest(ASYNC_SYNC_TODOS.REQUEST, syncTodosSagaWithLogInfo),
     takeEvery(ASYNC_DELETE_TODO.REQUEST, deleteTodoSaga),
+    takeLatest(ASYNC_SYNC_TODOS.REQUEST, syncTodosSagaWithLogInfo),
   ]);
 }
