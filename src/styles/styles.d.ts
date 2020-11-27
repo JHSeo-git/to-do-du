@@ -4,6 +4,7 @@ declare module "styled-components" {
   interface ZIndex {
     prev: number;
     default: number;
+    headerSticky: number;
     menu: number;
     popup: number;
     toast: number;

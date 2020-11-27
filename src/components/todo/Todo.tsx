@@ -26,6 +26,7 @@ const DeleteIcon = styled(FaMinusCircle)`
   color: ${(props) => props.theme.alertColor};
   margin-right: ${(props) => props.theme.space[0]};
   cursor: pointer;
+  transition: all 0.2s linear;
   &:hover {
     color: ${(props) => lighten(0.1, props.theme.alertColor)};
   }

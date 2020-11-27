@@ -16,7 +16,6 @@ const Left = styled.div`
   width: 200px; // TODO: refactor width
   height: 100vh;
   overflow-y: auto;
-  background: red;
 `;
 const Right = styled.div`
   width: 100%;

@@ -33,6 +33,7 @@ const space = [
 const zIndex = {
   prev: -1,
   default: 0,
+  headerSticky: 5,
   menu: 10,
   popup: 100,
   toast: 500,

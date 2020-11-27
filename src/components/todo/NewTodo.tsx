@@ -5,8 +5,13 @@ import NewTodoInput from "components/todo/NewTodoInput";
 import NewTodoButton from "components/todo/NewTodoButton";
 
 const NewTodoWrapper = styled.div`
-  margin-top: ${(props) => props.theme.space[5]};
+  background: inherit;
   min-height: 50px;
+  display: flex;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: ${(props) => props.theme.zIndex.headerSticky};
 `;
 
 const NewTodo = () => {

@@ -5,9 +5,15 @@ import Todo from "components/todo/Todo";
 import NewTodo from "components/todo/NewTodo";
 import useSyncTodos from "lib/hooks/redux/todos/useSyncTodos";
 
+const TodosWrapper = styled.div`
+  background: ${(props) => props.theme.whiteColor};
+  padding: 0 ${(props) => props.theme.space[2]};
+  position: relative;
+`;
+
 const TodoItems = styled.ul`
   background: ${(props) => props.theme.whiteColor};
-  padding: ${(props) => props.theme.space[2]};
+  overflow-y: auto;
 `;
 
 const TodoItem = styled.li``;
@@ -22,16 +28,16 @@ const Todos = () => {
   }, [syncTodos]);
 
   return (
-    <TodoItems>
-      {todoState.todos?.map((todo) => (
-        <TodoItem key={todo.id}>
-          <Todo {...todo} />
-        </TodoItem>
-      ))}
-      <TodoItem>
-        <NewTodo />
-      </TodoItem>
-    </TodoItems>
+    <TodosWrapper>
+      <NewTodo />
+      <TodoItems>
+        {todoState.todos?.map((todo) => (
+          <TodoItem key={todo.id}>
+            <Todo {...todo} />
+          </TodoItem>
+        ))}
+      </TodoItems>
+    </TodosWrapper>
   );
 };
 

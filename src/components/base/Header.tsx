@@ -20,6 +20,13 @@ const HeaderColumn = styled.div`
 
 const Logo = styled(Link)`
   margin-right: ${(props) => props.theme.space[3]};
+  transition: all 0.2s linear;
+  &:hover {
+    box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);
+  }
+  &:active {
+    box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.1);
+  }
 `;
 
 const LogoImg = styled.img`
@@ -47,7 +54,7 @@ const Header = () => {
           <LogoImg src={logo} alt="logo" />
         </Logo>
         <MenuNav>
-          <MenuLink to="/">A Menu</MenuLink>
+          <MenuLink to="/"></MenuLink>
         </MenuNav>
       </HeaderColumn>
       <HeaderColumn>
