@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import Home from "pages/Home";
+import Todos from "pages/Todos";
 import { authService } from "fBase";
 import useUserState from "lib/hooks/redux/user/useUserState";
 import useSetUser from "lib/hooks/redux/user/useSetUser";
@@ -27,11 +28,17 @@ const AppRouter = () => {
       {userState.processed ? (
         <BrowserRouter>
           <Switch>
-            <Route exact to="/">
+            <Route exact path="/">
               <Home />
             </Route>
-            <Route to="/test">
+            <Route path="/todos">
+              <Todos />
+            </Route>
+            <Route path="/test">
               <div>test</div>
+              <Route path="/test/abc">
+                <div>abc</div>
+              </Route>
             </Route>
           </Switch>
         </BrowserRouter>

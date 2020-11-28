@@ -13,12 +13,11 @@ const MainWrapper = styled.div`
 `;
 
 const Left = styled.div`
-  width: 200px; // TODO: refactor width
   height: 100vh;
   overflow-y: auto;
 `;
 const Right = styled.div`
-  width: 100%;
+  flex: 1;
   display: flex;
 `;
 

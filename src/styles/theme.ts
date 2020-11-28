@@ -1,4 +1,4 @@
-import { DefaultTheme } from "styled-components";
+import { DefaultTheme, MajorSize, ZIndex } from "styled-components";
 
 const fontSizes = [
   "0.4rem",
@@ -30,7 +30,12 @@ const space = [
   "9.6rem",
 ];
 
-const zIndex = {
+const majorSize: MajorSize = {
+  sidebarOpenWidth: "12rem",
+  sidebarCloseWidth: "3.125rem",
+};
+
+const zIndex: ZIndex = {
   prev: -1,
   default: 0,
   headerSticky: 5,
@@ -58,6 +63,7 @@ const commonTheme = {
   fontSizes,
   space,
   zIndex,
+  majorSize,
 };
 
 const lightTheme: DefaultTheme = {

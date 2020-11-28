@@ -1,6 +1,10 @@
 import "styled-components";
 
 declare module "styled-components" {
+  interface MajorSize {
+    sidebarOpenWidth: string;
+    sidebarCloseWidth: string;
+  }
   interface ZIndex {
     prev: number;
     default: number;
@@ -34,5 +38,6 @@ declare module "styled-components" {
     facebookBlue: string;
     githubGray: string;
     zIndex: ZIndex;
+    majorSize: MajorSize;
   }
 }

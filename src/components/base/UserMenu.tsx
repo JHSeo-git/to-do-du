@@ -52,12 +52,6 @@ const UserMenu = () => {
           <Inner>
             <MenuItems>
               <MenuItem>
-                <UserMenuItem>새로운 To-du</UserMenuItem>
-              </MenuItem>
-              <MenuItem>
-                <UserMenuItem>임시 To-du</UserMenuItem>
-              </MenuItem>
-              <MenuItem>
                 <UserMenuItem>설정</UserMenuItem>
               </MenuItem>
               <MenuItem>

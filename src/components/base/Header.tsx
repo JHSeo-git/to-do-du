@@ -21,6 +21,7 @@ const HeaderColumn = styled.div`
 const Logo = styled(Link)`
   margin-right: ${(props) => props.theme.space[3]};
   transition: all 0.2s linear;
+  user-select: none;
   &:hover {
     box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);
   }
