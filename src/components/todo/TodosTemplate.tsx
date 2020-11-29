@@ -8,7 +8,7 @@ interface Props {
   children: React.ReactNode;
 }
 
-const MainWrapper = styled.div`
+const TodosTemplateWrapper = styled.div`
   display: flex;
 `;
 
@@ -35,9 +35,9 @@ const Detail = styled.div`
   display: flex;
 `;
 
-const MainTemplate = ({ header, sidebar, detailbar, children }: Props) => {
+const TodosTemplate = ({ header, sidebar, detailbar, children }: Props) => {
   return (
-    <MainWrapper>
+    <TodosTemplateWrapper>
       <Left>{sidebar}</Left>
       <Right>
         <Content>
@@ -46,8 +46,8 @@ const MainTemplate = ({ header, sidebar, detailbar, children }: Props) => {
         </Content>
         <Detail>{detailbar}</Detail>
       </Right>
-    </MainWrapper>
+    </TodosTemplateWrapper>
   );
 };
 
-export default MainTemplate;
+export default TodosTemplate;

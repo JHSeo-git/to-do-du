@@ -12,6 +12,7 @@ declare module "styled-components" {
     menu: number;
     popup: number;
     toast: number;
+    modal: number;
   }
   export interface DefaultTheme {
     fontSizes: string[];

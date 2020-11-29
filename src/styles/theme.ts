@@ -41,6 +41,7 @@ const zIndex: ZIndex = {
   headerSticky: 5,
   menu: 10,
   popup: 100,
+  modal: 200,
   toast: 500,
 };
 

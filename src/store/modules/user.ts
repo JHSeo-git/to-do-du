@@ -6,7 +6,7 @@ import {
 } from "typesafe-actions";
 import produce from "immer";
 import * as AuthAPI from "lib/api/auth";
-import { call, put, takeLatest } from "redux-saga/effects";
+import { call, put, takeLatest, getContext } from "redux-saga/effects";
 
 // Action type
 const SET_USER = "@@user/SET_USER";
@@ -70,9 +70,13 @@ export const reducer = createReducer<UserState>(initialState, {
 });
 
 function* logout() {
+  // TODO: after logout, redirect? push?
   try {
     yield call(AuthAPI.logout);
     yield put(asyncLogOut.success());
+
+    const history = yield getContext("history");
+    history.push("/");
   } catch (e) {
     yield call(() => console.log(e.message));
   }

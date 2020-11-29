@@ -1,4 +1,5 @@
 import React from "react";
+import { Helmet } from "react-helmet-async";
 import styled from "styled-components";
 
 interface Props {
@@ -19,6 +20,9 @@ const Inner = styled.div`
 const LandingTemplate = ({ loginForm }: Props) => {
   return (
     <LandingWrapper>
+      <Helmet>
+        <title>로그인</title>
+      </Helmet>
       <Inner>{loginForm}</Inner>
     </LandingWrapper>
   );
