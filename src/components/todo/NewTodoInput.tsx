@@ -38,7 +38,7 @@ const NewTodoInput = () => {
   // TODO: useOnClickOutside
   return (
     <NewTodoInputWrapper onSubmit={onRegister}>
-      <RegIcon onClick={toggleShowInput} />
+      <RegIcon size="20" onClick={toggleShowInput} />
       <TodoInput
         name="title"
         value={todoState.registerForm.title}

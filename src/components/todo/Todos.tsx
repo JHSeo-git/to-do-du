@@ -33,7 +33,10 @@ const Todos = () => {
       <TodoItems>
         {todoState.todos?.map((todo) => (
           <TodoItem key={todo.id}>
-            <Todo {...todo} />
+            <Todo
+              {...todo}
+              isSelected={todoState.selectedTodo?.id === todo.id}
+            />
           </TodoItem>
         ))}
       </TodoItems>

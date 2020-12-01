@@ -6,7 +6,6 @@ import { authService } from "fBase";
 import useUserState from "lib/hooks/redux/user/useUserState";
 import useSetUser from "lib/hooks/redux/user/useSetUser";
 import FullscreenLoader from "./base/FullscreenLoader";
-import { Helmet } from "react-helmet-async";
 
 const AppRouter = () => {
   const userState = useUserState();

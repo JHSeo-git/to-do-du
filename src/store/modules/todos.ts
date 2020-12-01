@@ -23,6 +23,7 @@ import { ASYNC_LOG_OUT } from "store/modules/user";
 const OPEN_NEW_TODO = "@@todos/OPEN_NEW_TODO";
 const CLOSE_NEW_TODO = "@@todos/CLOSE_NEW_TODO";
 const CHANGE_REGISTER_TODO = "@@todos/CHANGE_REGISTER_TODO";
+const SHOW_TODO_DETAIL = "@@todos/SHOW_TODO_DETAIL";
 const ASYNC_GET_TODOS = {
   REQUEST: "@@todos/ASYNC_GET_TODOS_REQUEST",
   SUCCESS: "@@todos/ASYNC_GET_TODOS_SUCCESS",
@@ -53,6 +54,10 @@ const changeRegisterTodo = createAction(
     return { name, value };
   }
 )();
+const showTodoDetail = createAction(
+  SHOW_TODO_DETAIL,
+  (payload: Todo) => payload
+)();
 const asyncGetTodos = createAsyncAction(
   ASYNC_GET_TODOS.REQUEST,
   ASYNC_GET_TODOS.SUCCESS,
@@ -78,6 +83,7 @@ export const actions = {
   openNewTodo,
   closeNewTodo,
   changeRegisterTodo,
+  showTodoDetail,
   asyncGetTodos,
   asyncSyncTodos,
   asyncAddTodo,
@@ -102,6 +108,7 @@ export type Todo = {
   // TODO: add Date and think Date format
   done: boolean;
   userId: string;
+  targetDate: string;
   createdAt: number;
 };
 
@@ -109,6 +116,7 @@ export type TodosState = {
   showTodoInput: boolean;
   registerForm: RegisterTodo;
   targetTodoId?: string;
+  selectedTodo?: Todo;
   todos: Todo[];
   loading: boolean;
   error?: string;
@@ -123,6 +131,7 @@ const initialState: TodosState = {
     userId: null,
     createdAt: null,
   },
+  selectedTodo: undefined,
   todos: [],
   loading: false,
   error: undefined,
@@ -148,6 +157,12 @@ export const reducer = createReducer<TodosState>(initialState, {
       draft.registerForm[registerForm.name] = registerForm.value;
     });
   },
+  [SHOW_TODO_DETAIL]: (state, action: ActionType<typeof showTodoDetail>) =>
+    produce(state, (draft) => {
+      if (!action) return;
+      const { payload: todo } = action;
+      draft.selectedTodo = todo;
+    }),
   [ASYNC_GET_TODOS.REQUEST]: (
     state,
     action: ActionType<typeof asyncGetTodos.request>

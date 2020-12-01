@@ -33,7 +33,7 @@ const NewTodoButton = () => {
   const toggleShowInput = useToggleNewInput();
   return (
     <NewTodoButtonWrapper onClick={toggleShowInput}>
-      <PlusIcon />
+      <PlusIcon size="20" />
       <NewTodoText>할 일 추가하기</NewTodoText>
     </NewTodoButtonWrapper>
   );

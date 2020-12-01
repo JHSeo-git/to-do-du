@@ -53,7 +53,7 @@ const UserMenuButton = () => {
   useOnClickOutside(ref, handleOnClickOutSide);
   return (
     <UserMenuButtonWrapper>
-      {userState.user && (
+      {userState?.user && (
         <Button onClick={onClick} ref={ref}>
           <ButtonText>User Menu</ButtonText>
           <CaretDownIcon />

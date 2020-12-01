@@ -11,6 +11,7 @@ const NewTodoWrapper = styled.div`
   align-items: center;
   position: sticky;
   top: 0;
+  padding-left: ${(props) => props.theme.space[1]};
   z-index: ${(props) => props.theme.zIndex.headerSticky};
 `;
 

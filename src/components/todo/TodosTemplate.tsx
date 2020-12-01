@@ -31,7 +31,6 @@ const Content = styled.div`
 
 const Detail = styled.div`
   height: 100vh;
-  overflow-y: auto;
   display: flex;
 `;
 
