@@ -1,11 +1,8 @@
 import React from "react";
 import styled, { css } from "styled-components";
-import { lighten, darken, rgba } from "polished";
-import { FaRegCircle, FaRegCheckCircle, FaMinusCircle } from "react-icons/fa";
+import { rgba } from "polished";
+import { FaRegCircle, FaRegCheckCircle } from "react-icons/fa";
 import moment from "moment";
-import useUserState from "lib/hooks/redux/user/useUserState";
-import useDeleteTodo from "lib/hooks/redux/todos/useDeleteTodo";
-import useConfirm from "lib/hooks/common/useConfirm";
 import useSelectedTodo from "lib/hooks/redux/todos/useSelectedTodo";
 import { Todo as TodoProps } from "store/modules/todos";
 
@@ -41,19 +38,6 @@ const RegCheckIcon = styled(FaRegCheckCircle)`
   color: ${(props) => props.theme.primaryDarkColor};
 `;
 
-const DeleteIcon = styled(FaMinusCircle)`
-  color: ${(props) => props.theme.alertColor};
-  margin-right: ${(props) => props.theme.space[0]};
-  cursor: pointer;
-  transition: all 0.2s linear;
-  &:hover {
-    color: ${(props) => lighten(0.1, props.theme.alertColor)};
-  }
-  &:active {
-    color: ${(props) => darken(0.1, props.theme.alertColor)};
-  }
-`;
-
 const TodoContentWrapper = styled.div`
   margin-left: ${(props) => props.theme.space[2]};
   display: flex;
@@ -81,14 +65,7 @@ const Todo = (todoItem: Props) => {
     isSelected,
   } = todoItem;
 
-  const userState = useUserState();
-  const deleteTodo = useDeleteTodo();
-  const confirm = useConfirm();
   const selectedTodo = useSelectedTodo();
-
-  const onDeleteClick = () => {
-    confirm("Confirm delete", () => deleteTodo(id));
-  };
 
   const onSelect = () => {
     selectedTodo(todoItem);
@@ -97,9 +74,6 @@ const Todo = (todoItem: Props) => {
   // TODO: RegIcon hover icon change
   return (
     <TodoWrapper onClick={onSelect} $isSelected={isSelected}>
-      {/* {userId === userState.user?.uid && (
-        <DeleteIcon onClick={onDeleteClick} size="20" />
-      )} */}
       {done ? <RegCheckIcon size="20" /> : <RegIcon size="20" />}
       <TodoContentWrapper>
         <TodoTitle>{title}</TodoTitle>

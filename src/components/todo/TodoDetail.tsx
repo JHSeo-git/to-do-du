@@ -1,6 +1,11 @@
 import React from "react";
 import styled, { css } from "styled-components";
+import { lighten, darken } from "polished";
+import { FaMinusCircle } from "react-icons/fa";
 import useTodoState from "lib/hooks/redux/todos/useTodoState";
+import useUserState from "lib/hooks/redux/user/useUserState";
+import useDeleteTodo from "lib/hooks/redux/todos/useDeleteTodo";
+import useConfirm from "lib/hooks/common/useConfirm";
 
 const TodoDetailWrapper = styled.div`
   background: ${(props) => props.theme.grayLightColor};
@@ -44,10 +49,33 @@ const TodoValue = styled.span`
   font-size: ${(props) => props.theme.fontSizes[2]};
 `;
 
+const DeleteIcon = styled(FaMinusCircle)`
+  color: ${(props) => props.theme.alertColor};
+  margin-right: ${(props) => props.theme.space[0]};
+  cursor: pointer;
+  transition: all 0.2s linear;
+  &:hover {
+    color: ${(props) => lighten(0.1, props.theme.alertColor)};
+  }
+  &:active {
+    color: ${(props) => darken(0.1, props.theme.alertColor)};
+  }
+`;
+
 const TodoDetail = () => {
   const todoState = useTodoState();
+  const userState = useUserState();
+  const deleteTodo = useDeleteTodo();
+  const confirm = useConfirm();
+
+  const onDeleteClick = (id: string) => {
+    confirm("Confirm delete", () => deleteTodo(id));
+  };
   return (
     <>
+      {/* {userId === userState.user?.uid && (
+        <DeleteIcon onClick={onDeleteClick} size="20" />
+      )} */}
       {todoState?.selectedTodo && (
         <TodoDetailWrapper>
           <Inner>
