@@ -1,16 +1,12 @@
 import React from "react";
 import styled from "styled-components";
-import { FaRegCircle } from "react-icons/fa";
 import useToggleNewInput from "lib/hooks/redux/todos/useToggleNewInput";
 import useTodoState from "lib/hooks/redux/todos/useTodoState";
 import useChangeRegisterTodo from "lib/hooks/redux/todos/useChangeRegisterTodo";
 import useAddTodo from "lib/hooks/redux/todos/useAddTodo";
 import Spinner from "components/common/Spinner";
 import TodoInput from "components/todo/TodoInput";
-
-const RegIcon = styled(FaRegCircle)`
-  color: ${(props) => props.theme.grayDarkColor};
-`;
+import { RegIcon } from "styles/lib/Icon";
 
 const NewTodoInputWrapper = styled.form`
   display: flex;

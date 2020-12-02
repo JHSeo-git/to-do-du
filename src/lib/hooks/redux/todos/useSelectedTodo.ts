@@ -6,7 +6,10 @@ const useSelectedTodo = () => {
   const dispatch = useDispatch();
 
   return useCallback(
-    (payload: Todo) => dispatch(actions.showTodoDetail(payload)),
+    (payload?: Todo) =>
+      payload
+        ? dispatch(actions.showTodoDetail(payload))
+        : dispatch(actions.hideTodoDetail()),
     [dispatch]
   );
 };

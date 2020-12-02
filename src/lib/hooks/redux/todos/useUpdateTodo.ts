@@ -2,14 +2,14 @@ import { useCallback } from "react";
 import { useDispatch } from "react-redux";
 import { actions } from "store/modules/todos";
 
-const useChangeRegisterTodo = () => {
+const useUpdateTodo = () => {
   const dispatch = useDispatch();
 
   return useCallback(
-    ({ name, value }: { name: string; value: any }) =>
-      dispatch(actions.changeRegisterTodo({ name, value })),
+    ({ id, name, value }: { id: string; name: string; value: any }) =>
+      dispatch(actions.updateTodoDetail({ id, name, value })),
     [dispatch]
   );
 };
 
-export default useChangeRegisterTodo;
+export default useUpdateTodo;

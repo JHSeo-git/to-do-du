@@ -4,7 +4,11 @@ import { all } from "redux-saga/effects";
 import { reducer as authReducer, saga as authSaga } from "./auth";
 import { reducer as baseReducer } from "./base";
 import { reducer as todosReducer, saga as todoSaga } from "./todos";
-import { reducer as userReducer, saga as userSaga } from "./user";
+import {
+  ASYNC_LOG_OUT,
+  reducer as userReducer,
+  saga as userSaga,
+} from "./user";
 
 // interface ModuleType {
 //   [moduleName: string]: any;
@@ -17,12 +21,19 @@ import { reducer as userReducer, saga as userSaga } from "./user";
 // modules["todos"] = todosReducer;
 // modules["user"] = userReducer;
 
-const rootReducer = combineReducers({
+const appReducer = combineReducers({
   auth: authReducer,
   base: baseReducer,
   todos: todosReducer,
   user: userReducer,
 });
+
+const rootReducer = (state: any, action: any) => {
+  if (action.type === ASYNC_LOG_OUT.SUCCESS) {
+    state = undefined;
+  }
+  return appReducer(state, action);
+};
 
 export default rootReducer;
 

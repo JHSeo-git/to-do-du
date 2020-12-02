@@ -1,18 +1,14 @@
 import React from "react";
 import styled from "styled-components";
 import { lighten, darken } from "polished";
-import { FaPlus } from "react-icons/fa";
 import useToggleNewInput from "lib/hooks/redux/todos/useToggleNewInput";
+import { PlusIcon } from "styles/lib/Icon";
 
 const NewTodoText = styled.span`
   color: ${(props) => props.theme.primaryColor};
   font-size: ${(props) => props.theme.fontSizes[3]};
   font-weight: 700;
   margin-left: ${(props) => props.theme.space[2]};
-`;
-
-const PlusIcon = styled(FaPlus)`
-  color: ${(props) => props.theme.primaryColor};
 `;
 
 const NewTodoButtonWrapper = styled.div`

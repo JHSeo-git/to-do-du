@@ -23,7 +23,9 @@ import { ASYNC_LOG_OUT } from "store/modules/user";
 const OPEN_NEW_TODO = "@@todos/OPEN_NEW_TODO";
 const CLOSE_NEW_TODO = "@@todos/CLOSE_NEW_TODO";
 const CHANGE_REGISTER_TODO = "@@todos/CHANGE_REGISTER_TODO";
+const UPDATE_TODO_DETAIL = "@@todos/UPDATE_TODO_DETAIL";
 const SHOW_TODO_DETAIL = "@@todos/SHOW_TODO_DETAIL";
+const HIDE_TODO_DETAIL = "@@todos/HIDE_TODO_DETAIL";
 const ASYNC_GET_TODOS = {
   REQUEST: "@@todos/ASYNC_GET_TODOS_REQUEST",
   SUCCESS: "@@todos/ASYNC_GET_TODOS_SUCCESS",
@@ -50,14 +52,22 @@ const openNewTodo = createAction(OPEN_NEW_TODO)();
 const closeNewTodo = createAction(CLOSE_NEW_TODO)();
 const changeRegisterTodo = createAction(
   CHANGE_REGISTER_TODO,
-  ({ name, value }: { name: string; value: string }) => {
+  ({ name, value }: { name: string; value: any }) => {
     return { name, value };
+  }
+)();
+const updateTodoDetail = createAction(
+  UPDATE_TODO_DETAIL,
+  ({ id, name, value }: { id: string; name: string; value: any }) => {
+    return { id, name, value };
   }
 )();
 const showTodoDetail = createAction(
   SHOW_TODO_DETAIL,
   (payload: Todo) => payload
 )();
+const hideTodoDetail = createAction(HIDE_TODO_DETAIL)();
+
 const asyncGetTodos = createAsyncAction(
   ASYNC_GET_TODOS.REQUEST,
   ASYNC_GET_TODOS.SUCCESS,
@@ -83,7 +93,9 @@ export const actions = {
   openNewTodo,
   closeNewTodo,
   changeRegisterTodo,
+  updateTodoDetail,
   showTodoDetail,
+  hideTodoDetail,
   asyncGetTodos,
   asyncSyncTodos,
   asyncAddTodo,
@@ -98,7 +110,7 @@ export type RegisterTodo = {
   done: boolean;
   userId: string | null;
   createdAt: number | null;
-  [name: string]: string | boolean | number | null;
+  [name: string]: string | boolean | number | null | undefined;
 };
 
 export type Todo = {
@@ -110,6 +122,7 @@ export type Todo = {
   userId: string;
   targetDate: string;
   createdAt: number;
+  [name: string]: string | boolean | number | null | undefined;
 };
 
 export type TodosState = {
@@ -157,11 +170,30 @@ export const reducer = createReducer<TodosState>(initialState, {
       draft.registerForm[registerForm.name] = registerForm.value;
     });
   },
+  [UPDATE_TODO_DETAIL]: (
+    state,
+    action: ActionType<typeof updateTodoDetail>
+  ) => {
+    return produce(state, (draft) => {
+      if (!action) return;
+      const { payload: info } = action;
+      // draft.todos
+      //   .filter((todo) => todo.id === info.id)
+      //   .map((todo) => (todo[info.name] = info.value));
+      if (!draft.selectedTodo) return;
+      draft.selectedTodo[info.name] = info.value;
+    });
+  },
   [SHOW_TODO_DETAIL]: (state, action: ActionType<typeof showTodoDetail>) =>
     produce(state, (draft) => {
       if (!action) return;
       const { payload: todo } = action;
       draft.selectedTodo = todo;
+    }),
+  [HIDE_TODO_DETAIL]: (state, action: ActionType<typeof hideTodoDetail>) =>
+    produce(state, (draft) => {
+      if (!action) return;
+      draft.selectedTodo = undefined;
     }),
   [ASYNC_GET_TODOS.REQUEST]: (
     state,

@@ -55,11 +55,11 @@ const TodoContent = styled.span`
 
 const Todo = (todoItem: Props) => {
   const {
-    id,
+    //id,
+    //content,
+    //userId,
     title,
-    content,
     done,
-    userId,
     targetDate,
     createdAt,
     isSelected,
