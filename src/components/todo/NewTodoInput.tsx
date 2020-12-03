@@ -9,9 +9,20 @@ import TodoInput from "components/todo/TodoInput";
 import { RegIcon } from "styles/lib/Icon";
 
 const NewTodoInputWrapper = styled.form`
+  width: 100%;
   display: flex;
   align-items: center;
   padding: ${(props) => props.theme.space[1]} 0;
+  position: relative;
+`;
+
+const Loader = styled.div`
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform: translateX(-25%);
+  color: ${(props) => props.theme.primaryColor};
+  border-radius: 50%;
 `;
 
 const NewTodoInput = () => {
@@ -43,7 +54,11 @@ const NewTodoInput = () => {
         required={true}
         placeholder="할 일을 작성해보세요"
       />
-      {todoState.loading && <Spinner />}
+      {todoState.loading && (
+        <Loader>
+          <Spinner size="40" />
+        </Loader>
+      )}
     </NewTodoInputWrapper>
   );
 };

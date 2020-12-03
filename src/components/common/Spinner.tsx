@@ -1,7 +1,8 @@
 import React from "react";
 import { IconBase } from "react-icons";
+import { IconBaseProps } from "react-icons/lib";
 
-type Props = any;
+type Props = IconBaseProps;
 
 const Spinner = (props: Props) => {
   return (

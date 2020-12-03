@@ -16,6 +16,7 @@ const FullscreenLoaderWrapper = styled.div`
   justify-content: center;
   align-items: center;
   font-size: ${(props) => props.theme.fontSizes[11]};
+  color: ${(props) => props.theme.primaryColor};
 `;
 
 const LogoImg = styled.img`
