@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled, { css } from "styled-components";
 import { rgba } from "polished";
 import { FaRegCircle, FaRegCheckCircle } from "react-icons/fa";
@@ -66,6 +66,13 @@ const Todo = (todoItem: Props) => {
   } = todoItem;
 
   const selectedTodo = useSelectedTodo();
+
+  useEffect(() => {
+    return () => {
+      // when exit, deSelect
+      selectedTodo();
+    };
+  }, [selectedTodo]);
 
   const onSelect = () => {
     selectedTodo(todoItem);
