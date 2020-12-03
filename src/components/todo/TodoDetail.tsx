@@ -1,6 +1,7 @@
 import React from "react";
 import moment from "moment";
 import styled, { css } from "styled-components";
+import _ from "lodash";
 import useTodoState from "lib/hooks/redux/todos/useTodoState";
 import useDeleteTodo from "lib/hooks/redux/todos/useDeleteTodo";
 import useConfirm from "lib/hooks/common/useConfirm";
@@ -89,6 +90,10 @@ const CreateDate = styled.span`
   color: ${(props) => props.theme.grayDarkColor};
 `;
 
+const debounceSave = _.debounce((name: string, value: any) => {
+  console.log(name, value);
+}, 2000);
+
 const TodoDetail = () => {
   const todoState = useTodoState();
   const deleteTodo = useDeleteTodo();
@@ -101,15 +106,15 @@ const TodoDetail = () => {
     confirm("Confirm delete", () => deleteTodo(id));
   };
 
-  const onChange = (
-    e: React.ChangeEvent<HTMLTextAreaElement>,
-    id: string | undefined
-  ) => {
-    if (!id) return;
+  const onChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const { selectedTodo } = todoState;
+    if (!selectedTodo) return;
+    const id = selectedTodo.id;
     const {
       target: { name, value },
     } = e;
     updateTodo({ id, name, value });
+    debounceSave(name, value);
   };
 
   return (
@@ -125,7 +130,7 @@ const TodoDetail = () => {
               <TodoContent
                 name="content"
                 value={todoState.selectedTodo.content}
-                onChange={(e) => onChange(e, todoState.selectedTodo?.id)}
+                onChange={onChange}
               />
             </TodoRow>
             <TodoRow>
