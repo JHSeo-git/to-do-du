@@ -29,6 +29,7 @@ const TodoTitle = styled.h3`
   top: 0;
   margin-bottom: ${(props) => props.theme.space[2]};
   ${whiteBox};
+  border: 1px solid ${(props) => props.theme.grayLightColor};
 `;
 
 const TodoRow = styled.div<{ $hoverType?: boolean }>`
