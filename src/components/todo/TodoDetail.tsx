@@ -2,11 +2,13 @@ import React from "react";
 import moment from "moment";
 import styled, { css } from "styled-components";
 import _ from "lodash";
+import useFocus from "lib/hooks/common/useFocus";
+import useConfirm from "lib/hooks/common/useConfirm";
 import useTodoState from "lib/hooks/redux/todos/useTodoState";
 import useDeleteTodo from "lib/hooks/redux/todos/useDeleteTodo";
-import useConfirm from "lib/hooks/common/useConfirm";
 import useSelectedTodo from "lib/hooks/redux/todos/useSelectedTodo";
-import useUpdateTodo from "lib/hooks/redux/todos/useUpdateTodo";
+import useUpdateTodoDetail from "lib/hooks/redux/todos/useUpdateTodoDetail";
+import useUpdateTodoItem from "lib/hooks/redux/todos/useUpdateTodoItem";
 import { whiteBox } from "styles/lib/common";
 import { CloseIcon, DeleteIcon } from "styles/lib/Icon";
 
@@ -33,7 +35,7 @@ const TodoTitle = styled.h3`
   border: 1px solid ${(props) => props.theme.grayLightColor};
 `;
 
-const TodoRow = styled.div<{ $hoverType?: boolean }>`
+const TodoRow = styled.div<{ $hoverType?: boolean; $isFocus?: boolean }>`
   padding: ${(props) => props.theme.space[2]};
   display: flex;
   margin-bottom: ${(props) => props.theme.space[2]};
@@ -46,6 +48,11 @@ const TodoRow = styled.div<{ $hoverType?: boolean }>`
       &:hover {
         border: 1px solid ${(props) => props.theme.grayColor};
       }
+    `}
+  ${(props) =>
+    props.$isFocus &&
+    css`
+      border: 1px solid ${(props) => props.theme.grayColor};
     `}
 `;
 
@@ -90,8 +97,8 @@ const CreateDate = styled.span`
   color: ${(props) => props.theme.grayDarkColor};
 `;
 
-const debounceSave = _.debounce((name: string, value: any) => {
-  console.log(name, value);
+const debounceSave = _.debounce((func: any) => {
+  func();
 }, 2000);
 
 const TodoDetail = () => {
@@ -99,7 +106,9 @@ const TodoDetail = () => {
   const deleteTodo = useDeleteTodo();
   const confirm = useConfirm();
   const hideDetail = useSelectedTodo();
-  const updateTodo = useUpdateTodo();
+  const updateTodoItem = useUpdateTodoItem();
+  const updateTodoDetail = useUpdateTodoDetail();
+  const [focus, onFocus, onBlur] = useFocus();
 
   const onDeleteClick = (id: string | undefined) => {
     if (!id) return;
@@ -113,8 +122,20 @@ const TodoDetail = () => {
     const {
       target: { name, value },
     } = e;
-    updateTodo({ id, name, value });
-    debounceSave(name, value);
+    updateTodoDetail({ id, name, value });
+    debounceSave(() => updateTodoItem({ id, name, value }));
+  };
+
+  const onItemChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const { selectedTodo } = todoState;
+    if (!selectedTodo) return;
+    const id = selectedTodo.id;
+    const {
+      target: { name, value },
+    } = e;
+
+    updateTodoDetail({ id, name, value });
+    debounceSave(() => updateTodoItem({ id, name, value }));
   };
 
   return (
@@ -126,11 +147,13 @@ const TodoDetail = () => {
         <TodoDetailWrapper>
           <Inner>
             <TodoTitle>{todoState.selectedTodo.title}</TodoTitle>
-            <TodoRow $hoverType={true}>
+            <TodoRow $hoverType={true} $isFocus={focus}>
               <TodoContent
                 name="content"
-                value={todoState.selectedTodo.content}
-                onChange={onChange}
+                value={todoState.selectedTodo.content?.value}
+                onChange={onItemChange}
+                onFocus={onFocus}
+                onBlur={onBlur}
               />
             </TodoRow>
             <TodoRow>
@@ -149,8 +172,10 @@ const TodoDetail = () => {
             </FooterCol>
             <FooterCol>
               <CreateDate>
-                {moment(todoState.selectedTodo.createdAt).format("MM월DD일")} 에
-                생성됨
+                {moment(todoState.selectedTodo.createdAt).format(
+                  "MM월DD일 HH시"
+                )}{" "}
+                에 생성됨
               </CreateDate>
             </FooterCol>
             <FooterCol>
