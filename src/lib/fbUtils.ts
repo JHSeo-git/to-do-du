@@ -16,7 +16,7 @@ export const getStringToAuthProvider = (provider: string) => {
 };
 
 export function makeChannel(
-  collection: firebase.firestore.CollectionReference,
+  collection: firebase.firestore.CollectionReference | firebase.firestore.Query,
   buffer = buffers.none(),
   snapshotListenOptions: firebase.firestore.SnapshotListenOptions | undefined
 ) {
