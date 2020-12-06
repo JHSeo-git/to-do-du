@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
 import Home from "pages/Home";
 import Todos from "pages/Todos";
 import { authService } from "fBase";
@@ -41,6 +41,7 @@ const AppRouter = () => {
                 <div>abc</div>
               </Route>
             </Route>
+            <Redirect to="/" />
           </Switch>
         </BrowserRouter>
       ) : (
