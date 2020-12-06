@@ -78,7 +78,7 @@ const Todo = (todoItem: Props) => {
     selectedTodo(todoItem);
   };
 
-  // TODO: RegIcon hover icon change
+  // TODO: New Item Transition
   return (
     <TodoWrapper onClick={onSelect} $isSelected={isSelected}>
       {done ? <RegCheckIcon size="20" /> : <RegIcon size="20" />}
