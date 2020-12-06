@@ -40,6 +40,7 @@ const NewTodoInput = () => {
     e.preventDefault();
 
     addNewTodo(todoState.registerForm);
+    toggleShowInput();
   };
 
   // TODO: useOnClickOutside
