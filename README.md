@@ -15,7 +15,7 @@ To Do App with firebase
 - redux-saga
 - styled-components
 
-## react-redux
+## Tools
 
 - typescript: typesafe-actions and @types
 - pattern : ducks
@@ -23,9 +23,3 @@ To Do App with firebase
 - sync : typesafe-actions > reducer
 - async : redux-saga, generator
 - immutability: immer.js
-
-#### and so
-
-- react-redux, redux-saga, typesafe-actions, immer
-- styled-components, styled-reset
-- react-helmet-async
