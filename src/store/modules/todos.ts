@@ -46,6 +46,11 @@ const ASYNC_DELETE_TODO = {
   SUCCESS: "@@todos/ASYNC_DELETE_TODO_SUCCESS",
   FAILURE: "@@todos/ASYNC_DELETE_TODO_FAILURE",
 };
+const ASYNC_UPDATE_TODO_ITEM = {
+  REQUEST: "@@todos/ASYNC_UPDATE_TODO_ITEM_REQUEST",
+  SUCCESS: "@@todos/ASYNC_UPDATE_TODO_ITEM_SUCCESS",
+  FAILURE: "@@todos/ASYNC_UPDATE_TODO_ITEM_FAILURE",
+};
 //const COMPLETE_TODO = "todos/COMPLETE_TODO";
 
 const openNewTodo = createAction(OPEN_NEW_TODO)();
@@ -77,7 +82,7 @@ const asyncSyncTodos = createAsyncAction(
   ASYNC_SYNC_TODOS.REQUEST,
   ASYNC_SYNC_TODOS.SUCCESS,
   ASYNC_SYNC_TODOS.FAILURE
-)<undefined, Todo[], string>();
+)<string, Todo[], string>();
 const asyncAddTodo = createAsyncAction(
   ASYNC_ADD_TODO.REQUEST,
   ASYNC_ADD_TODO.SUCCESS,
@@ -88,6 +93,17 @@ const asyncDeleteTodo = createAsyncAction(
   ASYNC_DELETE_TODO.SUCCESS,
   ASYNC_DELETE_TODO.FAILURE
 )<string, undefined, string>();
+
+interface UpdateProps {
+  id: string;
+  name: string;
+  value: string;
+}
+const asyncUpdateTodoItem = createAsyncAction(
+  ASYNC_UPDATE_TODO_ITEM.REQUEST,
+  ASYNC_UPDATE_TODO_ITEM.SUCCESS,
+  ASYNC_UPDATE_TODO_ITEM.FAILURE
+)<UpdateProps, undefined, string>();
 
 export const actions = {
   openNewTodo,
@@ -100,29 +116,37 @@ export const actions = {
   asyncSyncTodos,
   asyncAddTodo,
   asyncDeleteTodo,
+  asyncUpdateTodoItem,
 };
 
 export type TodosAction = ActionType<typeof actions>;
 
 export type RegisterTodo = {
   title: string;
-  content: string;
+  content?: UpdatableItem;
   done: boolean;
   userId: string | null;
   createdAt: number | null;
-  [name: string]: string | boolean | number | null | undefined;
+  [name: string]: any;
+};
+
+export type UpdatableItem = {
+  value: any;
+  updatedAt: number;
 };
 
 export type Todo = {
   id: string;
   title: string;
-  content?: string;
+  content?: UpdatableItem;
   // TODO: add Date and think Date format
   done: boolean;
   userId: string;
   targetDate: string;
   createdAt: number;
-  [name: string]: string | boolean | number | null | undefined;
+  isNew?: boolean;
+  updateFlag?: boolean;
+  [name: string]: any;
 };
 
 export type TodosState = {
@@ -139,7 +163,7 @@ const initialState: TodosState = {
   showTodoInput: false,
   registerForm: {
     title: "",
-    content: "",
+    content: undefined,
     done: false,
     userId: null,
     createdAt: null,
@@ -239,7 +263,25 @@ export const reducer = createReducer<TodosState>(initialState, {
       if (!action) return;
       const { payload: todos } = action;
       draft.loading = false;
-      draft.todos = todos;
+
+      const newTodos = [
+        ...todos
+          .filter(
+            (todo) => !draft.todos.map((dTodo) => dTodo.id).includes(todo.id)
+          )
+          .map((todo) => {
+            return { ...todo, isNew: true };
+          }),
+        ...todos
+          .filter((todo) =>
+            draft.todos.map((dTodo) => dTodo.id).includes(todo.id)
+          )
+          .map((todo) => {
+            return { ...todo, isNew: false };
+          }),
+      ];
+
+      draft.todos = newTodos;
     }),
   [ASYNC_SYNC_TODOS.FAILURE]: (
     state,
@@ -266,11 +308,11 @@ export const reducer = createReducer<TodosState>(initialState, {
     produce(state, (draft) => {
       if (!action) return;
       draft.loading = false;
-      draft.error = "";
       draft.showTodoInput = false;
+      draft.error = "";
       draft.registerForm = {
         title: "",
-        content: "",
+        content: undefined,
         done: false,
         userId: null,
         createdAt: null,
@@ -314,6 +356,32 @@ export const reducer = createReducer<TodosState>(initialState, {
       const { payload: message } = action;
       draft.error = message;
     }),
+  [ASYNC_UPDATE_TODO_ITEM.REQUEST]: (
+    state,
+    action: ActionType<typeof asyncUpdateTodoItem.request>
+  ) =>
+    produce(state, (draft) => {
+      if (!action) return;
+      draft.loading = true;
+    }),
+  [ASYNC_UPDATE_TODO_ITEM.SUCCESS]: (
+    state,
+    action: ActionType<typeof asyncUpdateTodoItem.success>
+  ) =>
+    produce(state, (draft) => {
+      if (!action) return;
+      draft.loading = false;
+    }),
+  [ASYNC_UPDATE_TODO_ITEM.FAILURE]: (
+    state,
+    action: ActionType<typeof asyncUpdateTodoItem.failure>
+  ) =>
+    produce(state, (draft) => {
+      if (!action) return;
+      draft.loading = false;
+      const { payload: message } = action;
+      draft.error = message;
+    }),
 });
 
 function* addTodoSaga(action: ReturnType<typeof asyncAddTodo.request>) {
@@ -341,9 +409,9 @@ export interface SyncTodosOptions {
   transform: any;
 }
 
-function* syncTodosSaga() {
+function* syncTodosSaga(action: ReturnType<typeof asyncSyncTodos.request>) {
   try {
-    const channel = yield call(TodoAPI.syncGetTodos, undefined);
+    const channel = yield call(TodoAPI.syncGetTodos, action.payload, undefined);
     const options: SyncTodosOptions = {
       onSuccess: asyncSyncTodos.success,
       onFailure: asyncSyncTodos.failure,
@@ -367,12 +435,18 @@ function* syncTodosSaga() {
   }
 }
 
-function* syncTodosSagaWithLogInfo() {
-  let task = yield fork(syncTodosSaga);
+function* syncTodosSagaWithLogInfo(
+  action: ReturnType<typeof asyncSyncTodos.request>
+) {
+  try {
+    let task = yield fork(syncTodosSaga, action);
 
-  // watching LOGOUT SUCESS or FAILURE
-  yield take(ASYNC_LOG_OUT.SUCCESS || ASYNC_LOG_OUT.FAILURE);
-  yield cancel(task);
+    // watching LOGOUT SUCESS or FAILURE
+    yield take(ASYNC_LOG_OUT.SUCCESS || ASYNC_LOG_OUT.FAILURE);
+    yield cancel(task);
+  } catch (e) {
+    yield put(asyncSyncTodos.failure(e.message));
+  }
 }
 
 function* deleteTodoSaga(action: ReturnType<typeof asyncDeleteTodo.request>) {
@@ -384,11 +458,26 @@ function* deleteTodoSaga(action: ReturnType<typeof asyncDeleteTodo.request>) {
   }
 }
 
+function* updateTodoItemSaga(
+  action: ReturnType<typeof asyncUpdateTodoItem.request>
+) {
+  try {
+    const {
+      payload: { id, name, value },
+    } = action;
+    yield call(TodoAPI.updateTodo, id, name, value);
+    yield put(asyncUpdateTodoItem.success());
+  } catch (e) {
+    yield put(asyncUpdateTodoItem.failure(e.message));
+  }
+}
+
 export function* saga() {
   yield all([
     takeEvery(ASYNC_ADD_TODO.REQUEST, addTodoSaga),
     takeEvery(ASYNC_GET_TODOS.REQUEST, getTodosSaga),
     takeEvery(ASYNC_DELETE_TODO.REQUEST, deleteTodoSaga),
+    takeEvery(ASYNC_UPDATE_TODO_ITEM.REQUEST, updateTodoItemSaga),
     takeLatest(ASYNC_SYNC_TODOS.REQUEST, syncTodosSagaWithLogInfo),
   ]);
 }

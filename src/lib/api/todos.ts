@@ -11,6 +11,16 @@ export function* addNewTodo(newTodo: RegisterTodo) {
   return yield call([collection, collection.add], newTodo);
 }
 
+export function* deleteTodos(id: string) {
+  const document = dbService.collection(TODO_DOC_NAME).doc(id);
+  return yield call([document, document.delete]);
+}
+
+export function* updateTodo(id: string, name: string, value: string) {
+  const document = dbService.collection(TODO_DOC_NAME).doc(id);
+  return yield call([document, document.update], name, value);
+}
+
 export function* getTodos() {
   const collection = dbService.collection(TODO_DOC_NAME);
   const snapshot: firebase.firestore.QuerySnapshot<Todo> = yield call([
@@ -30,9 +40,13 @@ export function* getTodos() {
 }
 
 export function* syncGetTodos(
+  userId: string,
   snapshotListenOptions: firebase.firestore.SnapshotListenOptions | undefined
 ) {
-  const collection = dbService.collection(TODO_DOC_NAME);
+  const collection = dbService
+    .collection(TODO_DOC_NAME)
+    .where("userId", "==", userId)
+    .orderBy("createdAt", "desc");
 
   const channel = yield call(
     makeChannel,
@@ -42,9 +56,4 @@ export function* syncGetTodos(
   );
 
   return channel;
-}
-
-export function* deleteTodos(id: string) {
-  const document = dbService.collection(TODO_DOC_NAME).doc(id);
-  return yield call([document, document.delete]);
 }
