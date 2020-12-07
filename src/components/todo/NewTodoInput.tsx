@@ -1,7 +1,6 @@
 import React from "react";
 import styled from "styled-components";
 import useToggleNewInput from "lib/hooks/redux/todos/useToggleNewInput";
-import useTodoState from "lib/hooks/redux/todos/useTodoState";
 import useChangeRegisterTodo from "lib/hooks/redux/todos/useChangeRegisterTodo";
 import useAddTodo from "lib/hooks/redux/todos/useAddTodo";
 import Spinner from "components/common/Spinner";
