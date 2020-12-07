@@ -7,6 +7,7 @@ import useAddTodo from "lib/hooks/redux/todos/useAddTodo";
 import Spinner from "components/common/Spinner";
 import TodoInput from "components/todo/TodoInput";
 import { RegIcon } from "styles/lib/Icon";
+import { TodosState } from "store/modules/todos";
 
 const NewTodoInputWrapper = styled.form`
   width: 100%;
@@ -25,8 +26,11 @@ const Loader = styled.div`
   border-radius: 50%;
 `;
 
-const NewTodoInput = () => {
-  const todoState = useTodoState();
+interface Props {
+  todoState: TodosState;
+}
+
+const NewTodoInput = ({ todoState }: Props) => {
   const toggleShowInput = useToggleNewInput();
   const changeRegisterTodo = useChangeRegisterTodo();
   const addNewTodo = useAddTodo();

@@ -104,10 +104,11 @@ const debounceSave = _.debounce((func: any) => {
 const TodoDetail = () => {
   const todoState = useTodoState();
   const deleteTodo = useDeleteTodo();
-  const confirm = useConfirm();
-  const hideDetail = useSelectedTodo();
+  const setDetail = useSelectedTodo();
   const updateTodoItem = useUpdateTodoItem();
   const updateTodoDetail = useUpdateTodoDetail();
+
+  const confirm = useConfirm();
   const [focus, onFocus, onBlur] = useFocus();
 
   const onDeleteClick = (id: string | undefined) => {
@@ -126,18 +127,6 @@ const TodoDetail = () => {
     debounceSave(() => updateTodoItem({ id, name, value }));
   };
 
-  const onItemChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    const { selectedTodo } = todoState;
-    if (!selectedTodo) return;
-    const id = selectedTodo.id;
-    const {
-      target: { name, value },
-    } = e;
-
-    updateTodoDetail({ id, name, value });
-    debounceSave(() => updateTodoItem({ id, name, value }));
-  };
-
   return (
     <>
       {/* {userId === userState.user?.uid && (
@@ -150,11 +139,17 @@ const TodoDetail = () => {
             <TodoRow $hoverType={true} $isFocus={focus}>
               <TodoContent
                 name="content"
-                value={todoState.selectedTodo.content?.value}
-                onChange={onItemChange}
+                value={
+                  todoState.selectedTodo.content
+                    ? todoState.selectedTodo.content.value
+                    : ""
+                }
+                onChange={onChange}
                 onFocus={onFocus}
                 onBlur={onBlur}
               />
+              {todoState.selectedTodo.content &&
+                todoState.selectedTodo.content.updatedAt}
             </TodoRow>
             <TodoRow>
               <TodoValue>{todoState.selectedTodo.userId}</TodoValue>
@@ -168,7 +163,7 @@ const TodoDetail = () => {
           </Inner>
           <FixedFooter>
             <FooterCol>
-              <CloseIcon size="20" onClick={() => hideDetail()} />
+              <CloseIcon size="20" onClick={() => setDetail()} />
             </FooterCol>
             <FooterCol>
               <CreateDate>

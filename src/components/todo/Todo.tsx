@@ -72,17 +72,17 @@ const Todo = (todoItem: Props) => {
     isNew,
   } = todoItem;
 
-  const selectedTodo = useSelectedTodo();
+  const setSelect = useSelectedTodo();
 
   useEffect(() => {
     return () => {
       // when exit, deSelect
-      selectedTodo();
+      setSelect();
     };
-  }, [selectedTodo]);
+  }, [setSelect]);
 
   const onSelect = () => {
-    selectedTodo(todoItem);
+    setSelect(todoItem);
   };
 
   // TODO: New Item Transition

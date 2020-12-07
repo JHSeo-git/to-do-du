@@ -24,6 +24,7 @@ const OPEN_NEW_TODO = "@@todos/OPEN_NEW_TODO";
 const CLOSE_NEW_TODO = "@@todos/CLOSE_NEW_TODO";
 const CHANGE_REGISTER_TODO = "@@todos/CHANGE_REGISTER_TODO";
 const UPDATE_TODO_DETAIL = "@@todos/UPDATE_TODO_DETAIL";
+const SELECT_TODO_BY_ID = "@@todos/SELECT_TODO_BY_ID";
 const SHOW_TODO_DETAIL = "@@todos/SHOW_TODO_DETAIL";
 const HIDE_TODO_DETAIL = "@@todos/HIDE_TODO_DETAIL";
 const ASYNC_GET_TODOS = {
@@ -67,6 +68,10 @@ const updateTodoDetail = createAction(
     return { id, name, value };
   }
 )();
+const selectTodoById = createAction(
+  SELECT_TODO_BY_ID,
+  ({ id }: { id: string }) => id
+)();
 const showTodoDetail = createAction(
   SHOW_TODO_DETAIL,
   (payload: Todo) => payload
@@ -97,7 +102,7 @@ const asyncDeleteTodo = createAsyncAction(
 interface UpdateProps {
   id: string;
   name: string;
-  value: string;
+  value: any;
 }
 const asyncUpdateTodoItem = createAsyncAction(
   ASYNC_UPDATE_TODO_ITEM.REQUEST,
@@ -110,6 +115,7 @@ export const actions = {
   closeNewTodo,
   changeRegisterTodo,
   updateTodoDetail,
+  selectTodoById,
   showTodoDetail,
   hideTodoDetail,
   asyncGetTodos,
@@ -205,6 +211,14 @@ export const reducer = createReducer<TodosState>(initialState, {
       draft.selectedTodo[info.name] = info.value;
     });
   },
+  [SELECT_TODO_BY_ID]: (state, action: ActionType<typeof selectTodoById>) =>
+    produce(state, (draft) => {
+      if (!action) return;
+      const { payload: id } = action;
+      const selectedTodo = draft.todos.find((todo) => todo.id === id);
+      if (!selectedTodo) return;
+      draft.selectedTodo = selectedTodo;
+    }),
   [SHOW_TODO_DETAIL]: (state, action: ActionType<typeof showTodoDetail>) =>
     produce(state, (draft) => {
       if (!action) return;
@@ -464,6 +478,7 @@ function* updateTodoItemSaga(
     } = action;
     yield call(TodoAPI.updateTodo, id, name, value);
     yield put(asyncUpdateTodoItem.success());
+    yield put(selectTodoById({ id }));
   } catch (e) {
     yield put(asyncUpdateTodoItem.failure(e.message));
   }

@@ -5,6 +5,7 @@ const useTodoState = () => {
   const todos = useSelector(({ todos }: RootState) => {
     return todos;
   });
+
   return todos;
 };
 

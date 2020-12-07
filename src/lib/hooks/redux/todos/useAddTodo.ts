@@ -8,7 +8,7 @@ const useAddTodo = () => {
   const dispatch = useDispatch();
   return useCallback(
     (todo: RegisterTodo) => {
-      if (!userState.user) return;
+      if (!userState.user || !userState.user.uid) return;
       const newTodo: RegisterTodo = {
         ...todo,
         userId: userState.user.uid,
