@@ -123,7 +123,7 @@ export type TodosAction = ActionType<typeof actions>;
 
 export type RegisterTodo = {
   title: string;
-  content?: UpdatableItem;
+  content: UpdatableItem | null;
   done: boolean;
   userId: string | null;
   createdAt: number | null;
@@ -163,7 +163,7 @@ const initialState: TodosState = {
   showTodoInput: false,
   registerForm: {
     title: "",
-    content: undefined,
+    content: null,
     done: false,
     userId: null,
     createdAt: null,
@@ -201,9 +201,6 @@ export const reducer = createReducer<TodosState>(initialState, {
     return produce(state, (draft) => {
       if (!action) return;
       const { payload: info } = action;
-      // draft.todos
-      //   .filter((todo) => todo.id === info.id)
-      //   .map((todo) => (todo[info.name] = info.value));
       if (!draft.selectedTodo) return;
       draft.selectedTodo[info.name] = info.value;
     });
@@ -312,7 +309,7 @@ export const reducer = createReducer<TodosState>(initialState, {
       draft.error = "";
       draft.registerForm = {
         title: "",
-        content: undefined,
+        content: null,
         done: false,
         userId: null,
         createdAt: null,

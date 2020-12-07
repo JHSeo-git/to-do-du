@@ -9,6 +9,7 @@ const fadeInKeyframes = keyframes`
     }
 `;
 
-export const fadeIn = css`
+export const fadeInWithDelay = (delay: number = 0) => css`
   animation: ${fadeInKeyframes} 0.5s linear forwards;
+  animation-delay: ${delay};
 `;

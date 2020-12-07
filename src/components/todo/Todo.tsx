@@ -5,12 +5,13 @@ import { FaRegCircle, FaRegCheckCircle } from "react-icons/fa";
 import moment from "moment";
 import useSelectedTodo from "lib/hooks/redux/todos/useSelectedTodo";
 import { Todo as TodoProps } from "store/modules/todos";
+import { fadeInWithDelay } from "styles/lib/animation";
 
 interface Props extends TodoProps {
   isSelected: boolean;
 }
 
-const TodoWrapper = styled.div<{ $isSelected: boolean }>`
+const TodoWrapper = styled.div<{ $isSelected: boolean; $isNew: boolean }>`
   padding: ${(props) => props.theme.space[2]} 0;
   padding-left: ${(props) => props.theme.space[1]};
   display: flex;
@@ -28,6 +29,11 @@ const TodoWrapper = styled.div<{ $isSelected: boolean }>`
         background: ${(props) => rgba(props.theme.primaryColor, 0.2)};
       }
     `};
+  ${(props) =>
+    props.$isNew &&
+    css`
+      ${fadeInWithDelay()}
+    `}
 `;
 
 const RegIcon = styled(FaRegCircle)`
@@ -63,6 +69,7 @@ const Todo = (todoItem: Props) => {
     targetDate,
     createdAt,
     isSelected,
+    isNew,
   } = todoItem;
 
   const selectedTodo = useSelectedTodo();
@@ -80,7 +87,11 @@ const Todo = (todoItem: Props) => {
 
   // TODO: New Item Transition
   return (
-    <TodoWrapper onClick={onSelect} $isSelected={isSelected}>
+    <TodoWrapper
+      onClick={onSelect}
+      $isSelected={isSelected}
+      $isNew={isNew ? true : false}
+    >
       {done ? <RegCheckIcon size="20" /> : <RegIcon size="20" />}
       <TodoContentWrapper>
         <TodoTitle>{title}</TodoTitle>
