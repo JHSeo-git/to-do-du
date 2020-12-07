@@ -138,7 +138,7 @@ export type RegisterTodo = {
 
 export type UpdatableItem = {
   value: any;
-  updatedAt: number;
+  updatedAt?: number;
 };
 
 export type Todo = {

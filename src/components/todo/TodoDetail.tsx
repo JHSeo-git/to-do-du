@@ -11,6 +11,7 @@ import useUpdateTodoDetail from "lib/hooks/redux/todos/useUpdateTodoDetail";
 import useUpdateTodoItem from "lib/hooks/redux/todos/useUpdateTodoItem";
 import { whiteBox } from "styles/lib/common";
 import { CloseIcon, DeleteIcon } from "styles/lib/Icon";
+import { fadeInWithDelay } from "styles/lib/animation";
 
 const TodoDetailWrapper = styled.div`
   height: 100%;
@@ -56,16 +57,26 @@ const TodoRow = styled.div<{ $hoverType?: boolean; $isFocus?: boolean }>`
     `}
 `;
 
+const TodoRowFlexCol = styled(TodoRow)`
+  flex-direction: column;
+`;
+
 const TodoContent = styled.textarea`
   flex: 1;
+  height: auto;
   min-height: ${(props) => props.theme.space[8]};
   font-size: ${(props) => props.theme.fontSizes[2]};
   line-height: 1.5;
-  overflow-y: auto;
   tab-size: 4;
   text-align: left;
   white-space: pre-wrap;
   height: 100%;
+`;
+
+const TodoUpdatedAt = styled.span`
+  font-size: ${(props) => props.theme.fontSizes[2]};
+  color: ${(props) => props.theme.primaryDarkColor};
+  ${fadeInWithDelay(500)}
 `;
 
 const TodoValue = styled.span`
@@ -136,7 +147,7 @@ const TodoDetail = () => {
         <TodoDetailWrapper>
           <Inner>
             <TodoTitle>{todoState.selectedTodo.title}</TodoTitle>
-            <TodoRow $hoverType={true} $isFocus={focus}>
+            <TodoRowFlexCol $hoverType={true} $isFocus={focus}>
               <TodoContent
                 name="content"
                 value={
@@ -148,17 +159,19 @@ const TodoDetail = () => {
                 onFocus={onFocus}
                 onBlur={onBlur}
               />
-              {todoState.selectedTodo.content &&
-                todoState.selectedTodo.content.updatedAt}
-            </TodoRow>
+              {todoState.selectedTodo.content?.updatedAt && (
+                <TodoUpdatedAt>
+                  업데이트:
+                  {moment(todoState.selectedTodo.content.updatedAt).format(
+                    " MM월DD일 HH시mm분"
+                  )}
+                </TodoUpdatedAt>
+              )}
+            </TodoRowFlexCol>
             <TodoRow>
-              <TodoValue>{todoState.selectedTodo.userId}</TodoValue>
-            </TodoRow>
-            <TodoRow>
-              <TodoValue>{todoState.selectedTodo.targetDate}</TodoValue>
-            </TodoRow>
-            <TodoRow>
-              <TodoValue>{todoState.selectedTodo.createdAt}</TodoValue>
+              <TodoValue>
+                타겟 Date{todoState.selectedTodo.targetDate}
+              </TodoValue>
             </TodoRow>
           </Inner>
           <FixedFooter>
