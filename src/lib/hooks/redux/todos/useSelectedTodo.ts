@@ -1,6 +1,6 @@
-import { useCallback } from "react";
-import { useDispatch } from "react-redux";
-import { actions, Todo } from "store/modules/todos";
+import { useCallback } from 'react';
+import { useDispatch } from 'react-redux';
+import { actions, Todo } from 'store/modules/todos';
 
 const useSelectedTodo = () => {
   const dispatch = useDispatch();

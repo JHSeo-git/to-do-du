@@ -1,8 +1,8 @@
-import React from "react";
-import styled, { keyframes } from "styled-components";
-import UserMenuItem from "components/base/UserMenuItem";
-import useBaseState from "lib/hooks/redux/base/useBaseState";
-import useLogout from "lib/hooks/redux/user/useLogout";
+import React from 'react';
+import styled, { keyframes } from 'styled-components';
+import UserMenuItem from 'components/base/UserMenuItem';
+import useBaseState from 'lib/hooks/redux/base/useBaseState';
+import useLogout from 'lib/hooks/redux/user/useLogout';
 
 const animation = keyframes`
   0%{

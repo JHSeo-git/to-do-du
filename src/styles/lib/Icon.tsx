@@ -1,7 +1,7 @@
-import styled from "styled-components";
-import { lighten, darken } from "polished";
-import { FaRegCircle, FaPlus, FaMinusCircle } from "react-icons/fa";
-import { BiArrowFromLeft } from "react-icons/bi";
+import styled from 'styled-components';
+import { lighten, darken } from 'polished';
+import { FaRegCircle, FaPlus, FaMinusCircle } from 'react-icons/fa';
+import { BiArrowFromLeft } from 'react-icons/bi';
 
 export const PlusIcon = styled(FaPlus)`
   cursor: pointer;

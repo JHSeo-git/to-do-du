@@ -74,4 +74,4 @@
 // export function* saga() {
 //   yield all([socialLoginSaga]);
 // }
-export default console.log("tt");
+export default console.log('tt');

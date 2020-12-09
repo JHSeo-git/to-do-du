@@ -1,8 +1,8 @@
-import React from "react";
-import styled, { css } from "styled-components";
-import { Link, useLocation } from "react-router-dom";
-import { FaTasks, FaRegLightbulb } from "react-icons/fa";
-import useTodoState from "lib/hooks/redux/todos/useTodoState";
+import React from 'react';
+import styled, { css } from 'styled-components';
+import { Link, useLocation } from 'react-router-dom';
+import { FaTasks, FaRegLightbulb } from 'react-icons/fa';
+import useTodoState from 'lib/hooks/redux/todos/useTodoState';
 
 const MenuNav = styled.nav``;
 
@@ -58,7 +58,7 @@ const SidebarMenu = () => {
     <MenuNav>
       <MenuItems>
         <MenuItem>
-          <MenuLink to="/todos" $current={location.pathname === "/todos"}>
+          <MenuLink to="/todos" $current={location.pathname === '/todos'}>
             <MenuIcon>
               <FaTasks />
             </MenuIcon>
@@ -71,7 +71,7 @@ const SidebarMenu = () => {
         <MenuItem>
           <MenuLink
             to="/todos/today"
-            $current={location.pathname === "/todos/today"}
+            $current={location.pathname === '/todos/today'}
           >
             <MenuIcon>
               <FaRegLightbulb />

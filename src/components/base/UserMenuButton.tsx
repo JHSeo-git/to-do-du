@@ -1,10 +1,10 @@
-import React, { useRef } from "react";
-import styled from "styled-components";
-import { FaCaretDown } from "react-icons/fa";
-import useUserState from "lib/hooks/redux/user/useUserState";
-import useBaseState from "lib/hooks/redux/base/useBaseState";
-import useUserMenu from "lib/hooks/redux/base/useUserMenu";
-import useOnClickOutside from "lib/hooks/common/useOnClickOutside";
+import React, { useRef } from 'react';
+import styled from 'styled-components';
+import { FaCaretDown } from 'react-icons/fa';
+import useUserState from 'lib/hooks/redux/user/useUserState';
+import useBaseState from 'lib/hooks/redux/base/useBaseState';
+import useUserMenu from 'lib/hooks/redux/base/useUserMenu';
+import useOnClickOutside from 'lib/hooks/common/useOnClickOutside';
 
 const UserMenuButtonWrapper = styled.div`
   display: flex;

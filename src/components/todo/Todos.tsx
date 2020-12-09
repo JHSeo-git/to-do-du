@@ -1,10 +1,10 @@
-import React, { useEffect } from "react";
-import styled from "styled-components";
-import useTodoState from "lib/hooks/redux/todos/useTodoState";
-import Todo from "components/todo/Todo";
-import NewTodo from "components/todo/NewTodo";
-import useSyncTodos from "lib/hooks/redux/todos/useSyncTodos";
-import useUserState from "lib/hooks/redux/user/useUserState";
+import React, { useEffect } from 'react';
+import styled from 'styled-components';
+import useTodoState from 'lib/hooks/redux/todos/useTodoState';
+import Todo from 'components/todo/Todo';
+import NewTodo from 'components/todo/NewTodo';
+import useSyncTodos from 'lib/hooks/redux/todos/useSyncTodos';
+import useUserState from 'lib/hooks/redux/user/useUserState';
 
 const TodosWrapper = styled.div`
   background: ${(props) => props.theme.whiteColor};

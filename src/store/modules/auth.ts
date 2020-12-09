@@ -1,15 +1,15 @@
-import firebase from "firebase/app";
-import { put, call, takeEvery } from "redux-saga/effects";
-import { ActionType, createAsyncAction, createReducer } from "typesafe-actions";
-import produce from "immer";
-import * as AuthAPI from "lib/api/auth";
-import * as FbUtils from "lib/fbUtils";
+import firebase from 'firebase/app';
+import { put, call, takeEvery } from 'redux-saga/effects';
+import { ActionType, createAsyncAction, createReducer } from 'typesafe-actions';
+import produce from 'immer';
+import * as AuthAPI from 'lib/api/auth';
+import * as FbUtils from 'lib/fbUtils';
 
 // Action Type
 const ASYNC_SOCIAL_LOGIN = {
-  REQEUST: "@@auth/ASYNC_SOCIAL_LOGIN_REQUEST",
-  SUCCESS: "@@auth/ASYNC_SOCIAL_LOGIN_SUCCESS",
-  FAILURE: "@@auth/ASYNC_SOCIAL_LOGIN_FAILURE",
+  REQEUST: '@@auth/ASYNC_SOCIAL_LOGIN_REQUEST',
+  SUCCESS: '@@auth/ASYNC_SOCIAL_LOGIN_SUCCESS',
+  FAILURE: '@@auth/ASYNC_SOCIAL_LOGIN_FAILURE',
 };
 type AuthResult = firebase.auth.AuthCredential;
 

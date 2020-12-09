@@ -1,17 +1,17 @@
-import React from "react";
-import moment from "moment";
-import styled, { css } from "styled-components";
-import _ from "lodash";
-import useFocus from "lib/hooks/common/useFocus";
-import useConfirm from "lib/hooks/common/useConfirm";
-import useTodoState from "lib/hooks/redux/todos/useTodoState";
-import useDeleteTodo from "lib/hooks/redux/todos/useDeleteTodo";
-import useSelectedTodo from "lib/hooks/redux/todos/useSelectedTodo";
-import useUpdateTodoDetail from "lib/hooks/redux/todos/useUpdateTodoDetail";
-import useUpdateTodoItem from "lib/hooks/redux/todos/useUpdateTodoItem";
-import { whiteBox } from "styles/lib/common";
-import { CloseIcon, DeleteIcon } from "styles/lib/Icon";
-import { fadeInWithDelay } from "styles/lib/animation";
+import React from 'react';
+import moment from 'moment';
+import styled, { css } from 'styled-components';
+import _ from 'lodash';
+import useFocus from 'lib/hooks/common/useFocus';
+import useConfirm from 'lib/hooks/common/useConfirm';
+import useTodoState from 'lib/hooks/redux/todos/useTodoState';
+import useDeleteTodo from 'lib/hooks/redux/todos/useDeleteTodo';
+import useSelectedTodo from 'lib/hooks/redux/todos/useSelectedTodo';
+import useUpdateTodoDetail from 'lib/hooks/redux/todos/useUpdateTodoDetail';
+import useUpdateTodoItem from 'lib/hooks/redux/todos/useUpdateTodoItem';
+import { whiteBox } from 'styles/lib/common';
+import { CloseIcon, DeleteIcon } from 'styles/lib/Icon';
+import { fadeInWithDelay } from 'styles/lib/animation';
 
 const TodoDetailWrapper = styled.div`
   height: 100%;
@@ -124,7 +124,7 @@ const TodoDetail = () => {
 
   const onDeleteClick = (id: string | undefined) => {
     if (!id) return;
-    confirm("Confirm delete", () => deleteTodo(id));
+    confirm('Confirm delete', () => deleteTodo(id));
   };
 
   const onChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -153,7 +153,7 @@ const TodoDetail = () => {
                 value={
                   todoState.selectedTodo.content
                     ? todoState.selectedTodo.content.value
-                    : ""
+                    : ''
                 }
                 onChange={onChange}
                 onFocus={onFocus}
@@ -163,7 +163,7 @@ const TodoDetail = () => {
                 <TodoUpdatedAt>
                   업데이트:
                   {moment(todoState.selectedTodo.content.updatedAt).format(
-                    " MM월DD일 HH시mm분"
+                    ' MM월DD일 HH시mm분'
                   )}
                 </TodoUpdatedAt>
               )}
@@ -181,8 +181,8 @@ const TodoDetail = () => {
             <FooterCol>
               <CreateDate>
                 {moment(todoState.selectedTodo.createdAt).format(
-                  "MM월DD일 HH시"
-                )}{" "}
+                  'MM월DD일 HH시'
+                )}{' '}
                 에 생성됨
               </CreateDate>
             </FooterCol>

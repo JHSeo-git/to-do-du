@@ -1,6 +1,6 @@
-import "styled-components";
+import 'styled-components';
 
-declare module "styled-components" {
+declare module 'styled-components' {
   interface MajorSize {
     sidebarOpenWidth: string;
     sidebarCloseWidth: string;

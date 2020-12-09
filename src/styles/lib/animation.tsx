@@ -1,4 +1,4 @@
-import { css, keyframes } from "styled-components";
+import { css, keyframes } from 'styled-components';
 
 const fadeInKeyframes = keyframes`
     0%{
@@ -9,7 +9,7 @@ const fadeInKeyframes = keyframes`
     }
 `;
 
-export const fadeInWithDelay = (delay: number = 0) => css`
+export const fadeInWithDelay = (delay = 0) => css`
   animation: ${fadeInKeyframes} 0.5s linear forwards;
   animation-delay: ${delay};
 `;

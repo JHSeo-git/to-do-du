@@ -1,11 +1,11 @@
-import React, { useEffect } from "react";
-import styled, { css } from "styled-components";
-import { rgba } from "polished";
-import { FaRegCircle, FaRegCheckCircle } from "react-icons/fa";
-import moment from "moment";
-import useSelectedTodo from "lib/hooks/redux/todos/useSelectedTodo";
-import { Todo as TodoProps } from "store/modules/todos";
-import { fadeInWithDelay } from "styles/lib/animation";
+import React, { useEffect } from 'react';
+import styled, { css } from 'styled-components';
+import { rgba } from 'polished';
+import { FaRegCircle, FaRegCheckCircle } from 'react-icons/fa';
+import moment from 'moment';
+import useSelectedTodo from 'lib/hooks/redux/todos/useSelectedTodo';
+import { Todo as TodoProps } from 'store/modules/todos';
+import { fadeInWithDelay } from 'styles/lib/animation';
 
 interface Props extends TodoProps {
   isSelected: boolean;
@@ -96,7 +96,7 @@ const Todo = (todoItem: Props) => {
       <TodoContentWrapper>
         <TodoTitle>{title}</TodoTitle>
         <TodoContent>
-          {moment(createdAt).format("yyyy.MM.DD HH:mm:ss.SSS")}
+          {moment(createdAt).format('yyyy.MM.DD HH:mm:ss.SSS')}
         </TodoContent>
         {targetDate && <TodoContent>{targetDate}</TodoContent>}
       </TodoContentWrapper>

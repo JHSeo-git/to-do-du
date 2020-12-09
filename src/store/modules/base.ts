@@ -1,10 +1,10 @@
-import { ActionType, createAction, createReducer } from "typesafe-actions";
-import produce from "immer";
+import { ActionType, createAction, createReducer } from 'typesafe-actions';
+import produce from 'immer';
 
-const OPEN_SIDEBAR = "@@base/OPEN_SIDEBAR";
-const CLOSE_SIDEBAR = "@@base/OPEN)SIDEBAR";
-const SHOW_USER_MENU = "@@base/SHOW_USER_MENU";
-const HIDE_USER_MENU = "@@base/HIDE_USER_MENU";
+const OPEN_SIDEBAR = '@@base/OPEN_SIDEBAR';
+const CLOSE_SIDEBAR = '@@base/OPEN)SIDEBAR';
+const SHOW_USER_MENU = '@@base/SHOW_USER_MENU';
+const HIDE_USER_MENU = '@@base/HIDE_USER_MENU';
 
 // TODO: call firebase db insert
 const openSidebar = createAction(OPEN_SIDEBAR)();

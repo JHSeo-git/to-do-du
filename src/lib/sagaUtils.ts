@@ -1,5 +1,5 @@
-import { AsyncActionCreatorBuilder, createAsyncAction } from "typesafe-actions";
-import { put, call } from "redux-saga/effects";
+import { AsyncActionCreatorBuilder, createAsyncAction } from 'typesafe-actions';
+import { put, call } from 'redux-saga/effects';
 
 interface AsyncAction {
   REQUEST: string;
@@ -8,7 +8,7 @@ interface AsyncAction {
 }
 
 export const asyncActionCreator = (actionName: string): AsyncAction => {
-  const asyncTypeAction: string[] = ["_REQUEST", "_SUCCESS", "_FAILURE"];
+  const asyncTypeAction: string[] = ['_REQUEST', '_SUCCESS', '_FAILURE'];
 
   return {
     REQUEST: actionName + asyncTypeAction[0],

@@ -1,6 +1,6 @@
-import React from "react";
-import { IconBase } from "react-icons";
-import { IconBaseProps } from "react-icons/lib";
+import React from 'react';
+import { IconBase } from 'react-icons';
+import { IconBaseProps } from 'react-icons/lib';
 
 type Props = IconBaseProps;
 

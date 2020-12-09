@@ -1,7 +1,7 @@
-import React from "react";
-import styled from "styled-components";
-import Spinner from "components/common/Spinner";
-import logo from "static/images/logo.svg";
+import React from 'react';
+import styled from 'styled-components';
+import Spinner from 'components/common/Spinner';
+import logo from 'static/images/logo.svg';
 
 const FullscreenLoaderWrapper = styled.div`
   position: fixed;

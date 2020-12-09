@@ -1,5 +1,5 @@
-import { useSelector } from "react-redux";
-import { RootState } from "typesafe-actions";
+import { useSelector } from 'react-redux';
+import { RootState } from 'typesafe-actions';
 
 const useBaseState = () => {
   const baseState = useSelector(({ base }: RootState) => base);

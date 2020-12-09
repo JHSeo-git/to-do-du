@@ -3,9 +3,9 @@ import {
   createAction,
   createAsyncAction,
   createReducer,
-} from "typesafe-actions";
-import firebase from "firebase/app";
-import produce from "immer";
+} from 'typesafe-actions';
+import firebase from 'firebase/app';
+import produce from 'immer';
 import {
   put,
   call,
@@ -15,42 +15,42 @@ import {
   take,
   cancel,
   takeLatest,
-} from "redux-saga/effects";
-import * as TodoAPI from "lib/api/todos";
-import { syncChannel } from "lib/fbUtils";
-import { ASYNC_LOG_OUT } from "store/modules/user";
+} from 'redux-saga/effects';
+import * as TodoAPI from 'lib/api/todos';
+import { syncChannel } from 'lib/fbUtils';
+import { ASYNC_LOG_OUT } from 'store/modules/user';
 
-const OPEN_NEW_TODO = "@@todos/OPEN_NEW_TODO";
-const CLOSE_NEW_TODO = "@@todos/CLOSE_NEW_TODO";
-const CHANGE_REGISTER_TODO = "@@todos/CHANGE_REGISTER_TODO";
-const UPDATE_TODO_DETAIL = "@@todos/UPDATE_TODO_DETAIL";
-const SELECT_TODO_BY_ID = "@@todos/SELECT_TODO_BY_ID";
-const SHOW_TODO_DETAIL = "@@todos/SHOW_TODO_DETAIL";
-const HIDE_TODO_DETAIL = "@@todos/HIDE_TODO_DETAIL";
+const OPEN_NEW_TODO = '@@todos/OPEN_NEW_TODO';
+const CLOSE_NEW_TODO = '@@todos/CLOSE_NEW_TODO';
+const CHANGE_REGISTER_TODO = '@@todos/CHANGE_REGISTER_TODO';
+const UPDATE_TODO_DETAIL = '@@todos/UPDATE_TODO_DETAIL';
+const SELECT_TODO_BY_ID = '@@todos/SELECT_TODO_BY_ID';
+const SHOW_TODO_DETAIL = '@@todos/SHOW_TODO_DETAIL';
+const HIDE_TODO_DETAIL = '@@todos/HIDE_TODO_DETAIL';
 const ASYNC_GET_TODOS = {
-  REQUEST: "@@todos/ASYNC_GET_TODOS_REQUEST",
-  SUCCESS: "@@todos/ASYNC_GET_TODOS_SUCCESS",
-  FAILURE: "@@todos/ASYNC_GET_TODOS_FAILURE",
+  REQUEST: '@@todos/ASYNC_GET_TODOS_REQUEST',
+  SUCCESS: '@@todos/ASYNC_GET_TODOS_SUCCESS',
+  FAILURE: '@@todos/ASYNC_GET_TODOS_FAILURE',
 };
 const ASYNC_SYNC_TODOS = {
-  REQUEST: "@@todos/ASYNC_SYNC_TODOS_REQUEST",
-  SUCCESS: "@@todos/ASYNC_SYNC_TODOS_SUCCESS",
-  FAILURE: "@@todos/ASYNC_SYNC_TODOS_FAILURE",
+  REQUEST: '@@todos/ASYNC_SYNC_TODOS_REQUEST',
+  SUCCESS: '@@todos/ASYNC_SYNC_TODOS_SUCCESS',
+  FAILURE: '@@todos/ASYNC_SYNC_TODOS_FAILURE',
 };
 const ASYNC_ADD_TODO = {
-  REQUEST: "@@todos/ASYNC_ADD_TODO_REQUEST",
-  SUCCESS: "@@todos/ASYNC_ADD_TODO_SUCCESS",
-  FAILURE: "@@todos/ASYNC_ADD_TODO_FAILURE",
+  REQUEST: '@@todos/ASYNC_ADD_TODO_REQUEST',
+  SUCCESS: '@@todos/ASYNC_ADD_TODO_SUCCESS',
+  FAILURE: '@@todos/ASYNC_ADD_TODO_FAILURE',
 };
 const ASYNC_DELETE_TODO = {
-  REQUEST: "@@todos/ASYNC_DELETE_TODO_REQUEST",
-  SUCCESS: "@@todos/ASYNC_DELETE_TODO_SUCCESS",
-  FAILURE: "@@todos/ASYNC_DELETE_TODO_FAILURE",
+  REQUEST: '@@todos/ASYNC_DELETE_TODO_REQUEST',
+  SUCCESS: '@@todos/ASYNC_DELETE_TODO_SUCCESS',
+  FAILURE: '@@todos/ASYNC_DELETE_TODO_FAILURE',
 };
 const ASYNC_UPDATE_TODO_ITEM = {
-  REQUEST: "@@todos/ASYNC_UPDATE_TODO_ITEM_REQUEST",
-  SUCCESS: "@@todos/ASYNC_UPDATE_TODO_ITEM_SUCCESS",
-  FAILURE: "@@todos/ASYNC_UPDATE_TODO_ITEM_FAILURE",
+  REQUEST: '@@todos/ASYNC_UPDATE_TODO_ITEM_REQUEST',
+  SUCCESS: '@@todos/ASYNC_UPDATE_TODO_ITEM_SUCCESS',
+  FAILURE: '@@todos/ASYNC_UPDATE_TODO_ITEM_FAILURE',
 };
 //const COMPLETE_TODO = "todos/COMPLETE_TODO";
 
@@ -168,7 +168,7 @@ export type TodosState = {
 const initialState: TodosState = {
   showTodoInput: false,
   registerForm: {
-    title: "",
+    title: '',
     content: null,
     done: false,
     userId: null,
@@ -320,9 +320,9 @@ export const reducer = createReducer<TodosState>(initialState, {
       if (!action) return;
       draft.loading = false;
       draft.showTodoInput = false;
-      draft.error = "";
+      draft.error = '';
       draft.registerForm = {
-        title: "",
+        title: '',
         content: null,
         done: false,
         userId: null,
@@ -404,7 +404,8 @@ function* addTodoSaga(action: ReturnType<typeof asyncAddTodo.request>) {
   }
 }
 
-function* getTodosSaga(action: ReturnType<typeof asyncGetTodos.request>) {
+//action: ReturnType<typeof asyncGetTodos.request>
+function* getTodosSaga() {
   try {
     const todos = yield call(TodoAPI.getTodos);
     yield put(asyncGetTodos.success(todos));
@@ -450,7 +451,7 @@ function* syncTodosSagaWithLogInfo(
   action: ReturnType<typeof asyncSyncTodos.request>
 ) {
   try {
-    let task = yield fork(syncTodosSaga, action);
+    const task = yield fork(syncTodosSaga, action);
 
     // watching LOGOUT SUCESS or FAILURE
     yield take(ASYNC_LOG_OUT.SUCCESS || ASYNC_LOG_OUT.FAILURE);

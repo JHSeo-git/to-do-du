@@ -1,6 +1,6 @@
-import firebase from "firebase/app";
-import { authService } from "fBase";
-import { call } from "redux-saga/effects";
+import firebase from 'firebase/app';
+import { authService } from 'fBase';
+import { call } from 'redux-saga/effects';
 
 export function* signInWithPopup(authProvider: firebase.auth.AuthProvider) {
   const auth = authService;

@@ -1,8 +1,8 @@
-import React from "react";
-import styled from "styled-components";
-import { lighten, darken } from "polished";
-import useToggleNewInput from "lib/hooks/redux/todos/useToggleNewInput";
-import { PlusIcon } from "styles/lib/Icon";
+import React from 'react';
+import styled from 'styled-components';
+import { lighten, darken } from 'polished';
+import useToggleNewInput from 'lib/hooks/redux/todos/useToggleNewInput';
+import { PlusIcon } from 'styles/lib/Icon';
 
 const NewTodoText = styled.span`
   color: ${(props) => props.theme.primaryColor};

@@ -1,9 +1,9 @@
-import React from "react";
-import styled from "styled-components";
-import { Link } from "react-router-dom";
-import UserMenu from "components/base/UserMenu";
-import UserMenuButton from "components/base/UserMenuButton";
-import logo from "static/images/logo.svg";
+import React from 'react';
+import styled from 'styled-components';
+import { Link } from 'react-router-dom';
+import UserMenu from 'components/base/UserMenu';
+import UserMenuButton from 'components/base/UserMenuButton';
+import logo from 'static/images/logo.svg';
 
 const HeaderWrapper = styled.header`
   height: 4rem;

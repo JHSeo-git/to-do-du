@@ -1,6 +1,6 @@
-import { useCallback } from "react";
-import { useDispatch } from "react-redux";
-import { actions } from "store/modules/auth";
+import { useCallback } from 'react';
+import { useDispatch } from 'react-redux';
+import { actions } from 'store/modules/auth';
 
 const useSocialLogin = () => {
   const dispatch = useDispatch();

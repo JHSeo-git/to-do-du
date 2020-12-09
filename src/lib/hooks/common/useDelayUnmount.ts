@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect } from 'react';
 
 //isMounted: boolean, delayTime: number
 const useDelayUnmount = (isMounted: boolean, delayTime: number) => {

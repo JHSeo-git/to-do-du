@@ -1,11 +1,11 @@
-import React, { useEffect } from "react";
-import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
-import Home from "pages/Home";
-import Todos from "pages/Todos";
-import { authService } from "fBase";
-import useUserState from "lib/hooks/redux/user/useUserState";
-import useSetUser from "lib/hooks/redux/user/useSetUser";
-import FullscreenLoader from "./base/FullscreenLoader";
+import React, { useEffect } from 'react';
+import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
+import Home from 'pages/Home';
+import Todos from 'pages/Todos';
+import { authService } from 'fBase';
+import useUserState from 'lib/hooks/redux/user/useUserState';
+import useSetUser from 'lib/hooks/redux/user/useSetUser';
+import FullscreenLoader from './base/FullscreenLoader';
 
 const AppRouter = () => {
   const userState = useUserState();

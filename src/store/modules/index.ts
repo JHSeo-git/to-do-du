@@ -1,14 +1,14 @@
-import { combineReducers } from "redux";
-import { StateType } from "typesafe-actions";
-import { all } from "redux-saga/effects";
-import { reducer as authReducer, saga as authSaga } from "./auth";
-import { reducer as baseReducer } from "./base";
-import { reducer as todosReducer, saga as todoSaga } from "./todos";
+import { combineReducers } from 'redux';
+import { StateType } from 'typesafe-actions';
+import { all } from 'redux-saga/effects';
+import { reducer as authReducer, saga as authSaga } from './auth';
+import { reducer as baseReducer } from './base';
+import { reducer as todosReducer, saga as todoSaga } from './todos';
 import {
   ASYNC_LOG_OUT,
   reducer as userReducer,
   saga as userSaga,
-} from "./user";
+} from './user';
 
 // interface ModuleType {
 //   [moduleName: string]: any;
@@ -41,6 +41,6 @@ export function* rootSaga() {
   yield all([authSaga(), userSaga(), todoSaga()]);
 }
 
-declare module "typesafe-actions" {
+declare module 'typesafe-actions' {
   export type RootState = StateType<typeof rootReducer>;
 }

@@ -1,5 +1,5 @@
 export const pressedKey = (fn: () => void) => (e: React.KeyboardEvent) => {
-  if (e.key === "Enter") {
+  if (e.key === 'Enter') {
     fn();
   }
 

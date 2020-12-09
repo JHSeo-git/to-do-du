@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState } from 'react';
 
 const useFocus = (): [boolean, () => void, () => void] => {
   const [focus, setFocus] = useState(false);

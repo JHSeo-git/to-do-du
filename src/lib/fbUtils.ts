@@ -1,15 +1,15 @@
-import firebase from "firebase/app";
-import { firebaseInstance } from "fBase";
-import { cancelled, take, put } from "redux-saga/effects";
-import { EventChannel, eventChannel, buffers } from "redux-saga";
+import firebase from 'firebase/app';
+import { firebaseInstance } from 'fBase';
+import { cancelled, take, put } from 'redux-saga/effects';
+import { EventChannel, eventChannel, buffers } from 'redux-saga';
 
 export const getStringToAuthProvider = (provider: string) => {
   let authProvider: firebase.auth.AuthProvider | null = null;
-  if (provider === "Github") {
+  if (provider === 'Github') {
     authProvider = new firebaseInstance.auth.GithubAuthProvider();
-  } else if (provider === "Google") {
+  } else if (provider === 'Google') {
     authProvider = new firebaseInstance.auth.GoogleAuthProvider();
-  } else if (provider === "Facebook") {
+  } else if (provider === 'Facebook') {
     authProvider = new firebaseInstance.auth.FacebookAuthProvider();
   }
   return authProvider;
@@ -55,7 +55,7 @@ export function* syncChannel(channel: EventChannel<any>, options: any) {
     if (onFailure) yield put(onFailure(err.message));
     else
       console.error(
-        "The following error has been ignored because no `failureActionCreator` has been set:",
+        'The following error has been ignored because no `failureActionCreator` has been set:',
         err
       );
   } finally {

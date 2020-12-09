@@ -3,17 +3,17 @@ import {
   createAction,
   createAsyncAction,
   createReducer,
-} from "typesafe-actions";
-import produce from "immer";
-import * as AuthAPI from "lib/api/auth";
-import { call, put, takeLatest, getContext } from "redux-saga/effects";
+} from 'typesafe-actions';
+import produce from 'immer';
+import * as AuthAPI from 'lib/api/auth';
+import { call, put, takeLatest, getContext } from 'redux-saga/effects';
 
 // Action type
-const SET_USER = "@@user/SET_USER";
+const SET_USER = '@@user/SET_USER';
 export const ASYNC_LOG_OUT = {
-  REQUEST: "@@user/LOG_OUT_REQUEST",
-  SUCCESS: "@@user/LOG_OUT_SUCCESS",
-  FAILURE: "@@user/LOG_OUT_FAILURE",
+  REQUEST: '@@user/LOG_OUT_REQUEST',
+  SUCCESS: '@@user/LOG_OUT_SUCCESS',
+  FAILURE: '@@user/LOG_OUT_FAILURE',
 };
 
 export interface User {
@@ -75,8 +75,8 @@ function* logout() {
     yield call(AuthAPI.logout);
     yield put(asyncLogOut.success());
 
-    const history = yield getContext("history");
-    history.push("/");
+    const history = yield getContext('history');
+    history.push('/');
   } catch (e) {
     yield call(() => console.log(e.message));
   }

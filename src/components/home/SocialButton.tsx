@@ -1,9 +1,9 @@
-import React from "react";
-import useSocialLogin from "lib/hooks/redux/auth/useSocialLogin";
-import styled, { css } from "styled-components";
-import { lighten, darken } from "polished";
-import { FcGoogle } from "react-icons/fc";
-import { FaFacebookF, FaGithub } from "react-icons/fa";
+import React from 'react';
+import useSocialLogin from 'lib/hooks/redux/auth/useSocialLogin';
+import styled, { css } from 'styled-components';
+import { lighten, darken } from 'polished';
+import { FcGoogle } from 'react-icons/fc';
+import { FaFacebookF, FaGithub } from 'react-icons/fa';
 
 interface ButtonProps {
   provider: string;
@@ -26,7 +26,7 @@ const IconWrapper = styled.button`
   transition: all 0.2s ease-in-out;
   border-radius: 3px;
   ${(props: ButtonProps) =>
-    props.provider === "Github" &&
+    props.provider === 'Github' &&
     css`
       background: ${(props) => props.theme.githubGray};
       color: ${(props) => props.theme.whiteColor};
@@ -39,7 +39,7 @@ const IconWrapper = styled.button`
       }
     `};
   ${(props: ButtonProps) =>
-    props.provider === "Facebook" &&
+    props.provider === 'Facebook' &&
     css`
       background: ${(props) => props.theme.facebookBlue};
       color: ${(props) => props.theme.whiteColor};
@@ -52,7 +52,7 @@ const IconWrapper = styled.button`
       }
     `};
   ${(props: ButtonProps) =>
-    props.provider === "Google" &&
+    props.provider === 'Google' &&
     css`
       background: ${(props) => props.theme.whiteColor};
       color: ${(props) => props.theme.blackColor};
@@ -89,9 +89,9 @@ const SocialButton = ({ provider }: ButtonProps) => {
   return (
     <SocialButtonWrapper>
       <IconWrapper provider={provider} onClick={onClick}>
-        {provider === "Google" && <FcGoogle size="20" />}
-        {provider === "Facebook" && <FaceBookIcon size="20" />}
-        {provider === "Github" && <GithubIcon size="20" />}
+        {provider === 'Google' && <FcGoogle size="20" />}
+        {provider === 'Facebook' && <FaceBookIcon size="20" />}
+        {provider === 'Github' && <GithubIcon size="20" />}
         <ButtonText>{provider}</ButtonText>
       </IconWrapper>
     </SocialButtonWrapper>

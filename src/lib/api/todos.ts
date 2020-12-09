@@ -1,10 +1,10 @@
-import firebase from "firebase/app";
-import { dbService } from "fBase";
-import { call } from "redux-saga/effects";
-import { RegisterTodo, Todo } from "store/modules/todos";
-import { makeChannel } from "lib/fbUtils";
+import firebase from 'firebase/app';
+import { dbService } from 'fBase';
+import { call } from 'redux-saga/effects';
+import { RegisterTodo, Todo } from 'store/modules/todos';
+import { makeChannel } from 'lib/fbUtils';
 
-const TODO_DOC_NAME = "todos";
+const TODO_DOC_NAME = 'todos';
 
 export function* addNewTodo(newTodo: RegisterTodo) {
   const collection = dbService.collection(TODO_DOC_NAME);
@@ -45,8 +45,8 @@ export function* syncGetTodos(
 ) {
   const collection = dbService
     .collection(TODO_DOC_NAME)
-    .where("userId", "==", userId)
-    .orderBy("createdAt", "desc");
+    .where('userId', '==', userId)
+    .orderBy('createdAt', 'desc');
 
   const channel = yield call(
     makeChannel,
