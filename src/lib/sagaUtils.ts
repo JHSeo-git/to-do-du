@@ -1,5 +1,21 @@
 import { AsyncActionCreatorBuilder, createAsyncAction } from 'typesafe-actions';
-import { put, call } from 'redux-saga/effects';
+import { put, call, Effect, SimpleEffect } from 'redux-saga/effects';
+
+type StripEffects<T> = T extends IterableIterator<infer E>
+  ? E extends Effect | SimpleEffect<any, any>
+    ? never
+    : E
+  : never;
+
+type DecideReturn<T> = T extends Promise<infer R>
+  ? R // If it's a promise, return the promised type.
+  : T extends IterableIterator<any>
+  ? StripEffects<T> // If it's a generator, strip any effects to get the return type.
+  : T; // Otherwise, it's a normal function and the return type is unaffected.
+
+export type CallReturnType<T extends (...args: any[]) => any> = DecideReturn<
+  ReturnType<T>
+>;
 
 interface AsyncAction {
   REQUEST: string;

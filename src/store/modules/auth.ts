@@ -5,6 +5,9 @@ import produce from 'immer';
 import * as AuthAPI from 'lib/api/auth';
 import * as FbUtils from 'lib/fbUtils';
 
+const AUTH_ACCOUNT_EXISTS_CODE =
+  'auth/account-exists-with-different-credential';
+
 // Action Type
 const ASYNC_SOCIAL_LOGIN = {
   REQEUST: '@@auth/ASYNC_SOCIAL_LOGIN_REQUEST',
@@ -53,6 +56,7 @@ export const reducer = createReducer<AuthState>(initialState, {
       const { payload: authResult } = action;
       draft.authResult = authResult;
       draft.loading = false;
+      draft.error = undefined;
     });
   },
   [ASYNC_SOCIAL_LOGIN.FAILURE]: (
@@ -62,21 +66,83 @@ export const reducer = createReducer<AuthState>(initialState, {
     return produce(state, (draft) => {
       if (!action) return;
       const { payload: message } = action;
-      draft.error = message;
       draft.loading = false;
+      draft.error = message;
     });
   },
 });
 
+const supportedProviders = [
+  {
+    providerName: 'Google',
+    providerId: firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+  },
+  {
+    providerName: 'Facebook',
+    providerId: firebase.auth.FacebookAuthProvider.PROVIDER_ID,
+  },
+  {
+    providerName: 'Github',
+    providerId: firebase.auth.GithubAuthProvider.PROVIDER_ID,
+  },
+];
+
+// TODO: call returntype typescript
 // saga
 function* socialLoginSaga(action: ReturnType<typeof asyncSocialLogin.request>) {
   try {
     const authProvider = FbUtils.getStringToAuthProvider(action.payload);
-    if (!authProvider) return;
+    if (!authProvider) {
+      yield put(asyncSocialLogin.failure('Not Exists Auth Provider'));
+      return;
+    }
     const authResult = yield call(AuthAPI.signInWithPopup, authProvider);
     yield put(asyncSocialLogin.success(authResult));
   } catch (e) {
-    yield put(asyncSocialLogin.failure(e.message));
+    if (e.code === AUTH_ACCOUNT_EXISTS_CODE) {
+      // auth/account-exists-with-different-credential
+      // 위 code가 오면 같은 계정으로 이미 등록되어 있단 뜻으로 link 시켜준다.
+      const providers = yield call(AuthAPI.fetchProvidersForEmail, e.email);
+      if (!providers || providers.length === 0) {
+        yield put(
+          asyncSocialLogin.failure('Not Exists Auth Account for your Email')
+        );
+        return;
+      }
+
+      // OAuth provider에 따라서 재 로그인을 하도록 한다.
+      // google..., facebook..., github...
+      const firstProvider = supportedProviders.find((provider) =>
+        providers.find((p: string) => p === provider.providerId)
+      );
+      if (!firstProvider) {
+        yield put(
+          asyncSocialLogin.failure('Not Exists Auth Provider for your Email')
+        );
+        return;
+      }
+
+      // 재 로그인
+      const linkProvider = FbUtils.getStringToAuthProvider(
+        firstProvider.providerName
+      );
+      if (!linkProvider) {
+        yield put(asyncSocialLogin.failure('Not Exists Link Provider'));
+        return;
+      }
+
+      // TODO: link
+      try {
+        const linkResult = yield call(AuthAPI.signInWithPopup, linkProvider);
+        // linkResult.user.linkWithCredential(e.credential);
+
+        yield put(asyncSocialLogin.success(linkResult));
+      } catch (linkError) {
+        yield put(asyncSocialLogin.failure(linkError.message));
+      }
+    } else {
+      yield put(asyncSocialLogin.failure(e.message));
+    }
   }
 }
 
