@@ -23,4 +23,21 @@ export function* fetchProvidersForEmail(email: string) {
   return result;
 }
 
+export function* signInWithCredential(
+  credential: firebase.auth.AuthCredential
+) {
+  const auth = authService;
+  const { user } = yield call([auth, auth.signInWithCredential], credential);
+
+  return user;
+}
+
+export function* linkWithCredential(
+  user: firebase.User,
+  credential: firebase.auth.AuthCredential
+) {
+  const result = yield call([user, user.linkWithCredential], credential);
+  return result;
+}
+
 export const logout = () => authService.signOut();

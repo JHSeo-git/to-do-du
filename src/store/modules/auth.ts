@@ -88,6 +88,7 @@ const supportedProviders = [
 ];
 
 // TODO: call returntype typescript
+// reference: https://firebase.google.com/docs/auth/web/google-signin
 // saga
 function* socialLoginSaga(action: ReturnType<typeof asyncSocialLogin.request>) {
   try {
@@ -131,15 +132,31 @@ function* socialLoginSaga(action: ReturnType<typeof asyncSocialLogin.request>) {
         return;
       }
 
-      // TODO: link
-      try {
-        const linkResult = yield call(AuthAPI.signInWithPopup, linkProvider);
-        // linkResult.user.linkWithCredential(e.credential);
-
-        yield put(asyncSocialLogin.success(linkResult));
-      } catch (linkError) {
-        yield put(asyncSocialLogin.failure(linkError.message));
+      const linkCredential = yield call(AuthAPI.signInWithPopup, linkProvider);
+      if (!linkCredential) {
+        yield put(asyncSocialLogin.failure('Not Exists Link Credential'));
+        return;
       }
+
+      const user = yield call(AuthAPI.signInWithCredential, linkCredential);
+
+      if (!user || !e.credential) {
+        yield put(asyncSocialLogin.failure('Not Find Linking User'));
+        return;
+      }
+
+      const linkResult = yield call(
+        AuthAPI.linkWithCredential,
+        user,
+        e.credential
+      );
+
+      if (!linkResult || !linkResult.credential) {
+        yield put(asyncSocialLogin.failure('Not Linked User'));
+        return;
+      }
+
+      yield put(asyncSocialLogin.success(linkResult.credential));
     } else {
       yield put(asyncSocialLogin.failure(e.message));
     }
