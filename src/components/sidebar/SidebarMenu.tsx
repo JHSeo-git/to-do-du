@@ -1,7 +1,7 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
 import { Link, useLocation } from 'react-router-dom';
-import { FaTasks, FaRegLightbulb } from 'react-icons/fa';
+import { FaTasks } from 'react-icons/fa';
 import useTodoState from 'lib/hooks/redux/todos/useTodoState';
 
 const MenuNav = styled.nav``;
@@ -68,7 +68,7 @@ const SidebarMenu = () => {
             </CountText>
           </MenuLink>
         </MenuItem>
-        <MenuItem>
+        {/* <MenuItem>
           <MenuLink
             to="/todos/today"
             $current={location.pathname === '/todos/today'}
@@ -78,7 +78,7 @@ const SidebarMenu = () => {
             </MenuIcon>
             <LinkText>오늘 할 일</LinkText>
           </MenuLink>
-        </MenuItem>
+        </MenuItem> */}
       </MenuItems>
     </MenuNav>
   );

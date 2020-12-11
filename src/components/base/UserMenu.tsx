@@ -51,9 +51,9 @@ const UserMenu = () => {
         <UserMenuWrapper>
           <Inner>
             <MenuItems>
-              <MenuItem>
+              {/* <MenuItem>
                 <UserMenuItem>설정</UserMenuItem>
-              </MenuItem>
+              </MenuItem> */}
               <MenuItem>
                 <UserMenuItem onClick={logout}>로그아웃</UserMenuItem>
               </MenuItem>

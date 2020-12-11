@@ -31,7 +31,8 @@ const Logo = styled(Link)`
 `;
 
 const LogoImg = styled.img`
-  height: 40px;
+  height: 2rem;
+  width: 2rem;
 `;
 
 const MenuNav = styled.nav`

@@ -1,7 +1,7 @@
 import React from 'react';
 import useSocialLogin from 'lib/hooks/redux/auth/useSocialLogin';
 import styled, { css } from 'styled-components';
-import { lighten, darken } from 'polished';
+import { darken } from 'polished';
 import { FcGoogle } from 'react-icons/fc';
 import { FaFacebookF, FaGithub } from 'react-icons/fa';
 
@@ -32,10 +32,10 @@ const IconWrapper = styled.button`
       color: ${(props) => props.theme.whiteColor};
       border: 1px solid transparent;
       &:hover {
-        background: ${(props) => lighten(0.1, props.theme.githubGray)};
+        background: ${(props) => darken(0.1, props.theme.githubGray)};
       }
       &:active {
-        background: ${(props) => darken(0.1, props.theme.githubGray)};
+        background: ${(props) => darken(0, props.theme.githubGray)};
       }
     `};
   ${(props: ButtonProps) =>
@@ -45,10 +45,10 @@ const IconWrapper = styled.button`
       color: ${(props) => props.theme.whiteColor};
       border: 1px solid transparent;
       &:hover {
-        background: ${(props) => lighten(0.1, props.theme.facebookBlue)};
+        background: ${(props) => darken(0.1, props.theme.facebookBlue)};
       }
       &:active {
-        background: ${(props) => darken(0.1, props.theme.facebookBlue)};
+        background: ${(props) => darken(0, props.theme.facebookBlue)};
       }
     `};
   ${(props: ButtonProps) =>

@@ -11,30 +11,34 @@ const UserMenuButtonWrapper = styled.div`
   align-items: center;
 `;
 
-const CaretDownIcon = styled(FaCaretDown)`
-  transition: opacity 0.2s ease-in-out;
-  opacity: 0.5;
-`;
-
-const ButtonText = styled.span`
-  font-size: ${(props) => props.theme.fontSizes[2]};
-  color: inherit;
-  margin-right: ${(props) => props.theme.space[1]};
-`;
-
 const Button = styled.button`
   color: ${(props) => props.theme.blackColor};
   display: flex;
   align-items: center;
-  &:hover ${CaretDownIcon} {
+`;
+
+const CaretDownIcon = styled(FaCaretDown)`
+  transition: opacity 0.2s ease-in-out;
+  opacity: 0.5;
+
+  ${Button}:hover & {
     opacity: 1;
   }
+`;
+
+const Avatar = styled.img`
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  margin-right: ${(props) => props.theme.space[1]};
 `;
 
 const UserMenuButton = () => {
   const userState = useUserState();
   const baseState = useBaseState();
   const setUserMenu = useUserMenu();
+
+  console.log(userState);
 
   const ref = useRef(null);
 
@@ -55,7 +59,9 @@ const UserMenuButton = () => {
     <UserMenuButtonWrapper>
       {userState?.user && (
         <Button onClick={onClick} ref={ref}>
-          <ButtonText>User Menu</ButtonText>
+          {userState.user.photoURL && (
+            <Avatar alt="User Avatar" src={userState.user.photoURL} />
+          )}
           <CaretDownIcon />
         </Button>
       )}

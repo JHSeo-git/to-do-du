@@ -1,22 +1,27 @@
 import React from 'react';
 import styled from 'styled-components';
 import SocialButton from 'components/home/SocialButton';
+import logo from 'static/images/logo.svg';
 
 const LoginFormWrapper = styled.div`
   width: 480px;
-  background: ${(props) => props.theme.primaryColor};
+  background: ${(props) => props.theme.whiteColor};
 `;
 
-const Title = styled.h1`
-  text-align: center;
-  font-size: ${(props) => props.theme.fontSizes[9]};
-  font-weight: 700;
-  color: ${(props) => props.theme.whiteColor};
-  padding: ${(props) => props.theme.space[6]} 0;
+const Title = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: ${(props) => props.theme.space[4]} 0;
+  border-bottom: 1px solid ${(props) => props.theme.grayLightColor};
+`;
+
+const LogoImg = styled.img`
+  height: 5rem;
+  width: 5rem;
 `;
 
 const ButtonItems = styled.ul`
-  background: ${(props) => props.theme.whiteColor};
   padding: ${(props) => props.theme.space[2]};
 `;
 
@@ -30,7 +35,9 @@ const ButtonItem = styled.li`
 const LoginForm = () => {
   return (
     <LoginFormWrapper>
-      <Title>Log In</Title>
+      <Title>
+        <LogoImg alt="Logo Image" src={logo} />
+      </Title>
       <ButtonItems>
         <ButtonItem>
           <SocialButton provider="Google" />
