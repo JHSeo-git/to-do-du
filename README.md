@@ -43,8 +43,6 @@ This project is ToDo App(v1) with firebase.
 ```
 src
 ├── components
-│   ├── App.tsx
-│   ├── AppRouter.tsx
 │   ├── base
 │   │   ├── FullscreenLoader.tsx
 │   │   ├── Header.tsx
@@ -62,24 +60,22 @@ src
 │   ├── sidebar
 │   │   ├── Sidebar.tsx
 │   │   └── SidebarMenu.tsx
-│   └── todo
-│       ├── NewTodo.tsx
-│       ├── NewTodoButton.tsx
-│       ├── NewTodoInput.tsx
-│       ├── Todo.tsx
-│       ├── TodoDetail.tsx
-│       ├── TodoInput.tsx
-│       ├── Todos.tsx
-│       ├── TodosRoute.tsx
-│       └── TodosTemplate.tsx
-├── fBase.ts
-├── index.tsx
+│   ├── todo
+│   │   ├── NewTodo.tsx
+│   │   ├── NewTodoButton.tsx
+│   │   ├── NewTodoInput.tsx
+│   │   ├── Todo.tsx
+│   │   ├── TodoDetail.tsx
+│   │   ├── TodoInput.tsx
+│   │   ├── Todos.tsx
+│   │   ├── TodosRoute.tsx
+│   │   └── TodosTemplate.tsx
+│   ├── App.tsx
+│   └── AppRouter.tsx
 ├── lib
 │   ├── api
 │   │   ├── auth.ts
 │   │   └── todos.ts
-│   ├── common.ts
-│   ├── fbUtils.ts
 │   ├── hooks
 │   │   ├── common
 │   │   │   ├── useConfirm.ts
@@ -109,32 +105,36 @@ src
 │   │           ├── useLogout.ts
 │   │           ├── useSetUser.ts
 │   │           └── useUserState.ts
+│   ├── common.ts
+│   ├── fbUtils.ts
 │   └── sagaUtils.ts
 ├── pages
 │   ├── Home.tsx
 │   └── Todos.tsx
-├── react-app-env.d.ts
 ├── static
 │   └── images
 │       └── logo.svg
 ├── store
+│   ├── modules
+│   │   ├── auth-back.ts
+│   │   ├── auth.ts
+│   │   ├── base.ts
+│   │   ├── index.ts
+│   │   ├── todos.ts
+│   │   └── user.ts
 │   ├── configure.ts
-│   ├── index.ts
-│   └── modules
-│       ├── auth-back.ts
-│       ├── auth.ts
-│       ├── base.ts
-│       ├── index.ts
-│       ├── todos.ts
-│       └── user.ts
-└── styles
-    ├── globalStyles.ts
-    ├── lib
-    │   ├── Icon.tsx
-    │   ├── animation.tsx
-    │   └── common.tsx
-    ├── styles.d.ts
-    └── theme.ts
+│   └── index.ts
+├── styles
+│   ├── lib
+│   │   ├── Icon.tsx
+│   │   ├── animation.tsx
+│   │   └── common.tsx
+│   ├── globalStyles.ts
+│   ├── styles.d.ts
+│   └── theme.ts
+├── fBase.ts
+├── index.tsx
+└── react-app-env.d.ts
 ```
 
 # TODO
