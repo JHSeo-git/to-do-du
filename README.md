@@ -145,3 +145,4 @@ src
 - [ ] Detail Target Date
 - [ ] micro interactive
 - [ ] add storybook
+- [ ] add test(jest)

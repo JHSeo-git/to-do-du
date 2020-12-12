@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import styled, { css } from 'styled-components';
 import { rgba } from 'polished';
-import { FaRegCircle, FaRegCheckCircle } from 'react-icons/fa';
+import { GoCheck } from 'react-icons/go';
 import moment from 'moment';
 import useSelectedTodo from 'lib/hooks/redux/todos/useSelectedTodo';
 import { Todo as TodoProps } from 'store/modules/todos';
@@ -36,12 +36,36 @@ const TodoWrapper = styled.div<{ $isSelected: boolean; $isNew: boolean }>`
     `}
 `;
 
-const RegIcon = styled(FaRegCircle)`
-  color: ${(props) => props.theme.primaryColor};
+const TodoIconWrapper = styled.div``;
+
+const CircleBox = styled.div<{ $isDone?: boolean }>`
+  width: 1.2rem;
+  height: 1.2rem;
+  display: flex;
+  align-items: center;
+  border-radius: 50%;
+  border: 0.1rem solid ${(props) => props.theme.primaryColor};
+  padding: 0.2rem;
+  ${(props) =>
+    props.$isDone &&
+    css`
+      background: ${(props) => props.theme.primaryColor};
+    `}
 `;
 
-const RegCheckIcon = styled(FaRegCheckCircle)`
-  color: ${(props) => props.theme.primaryDarkColor};
+const CheckIcon = styled(GoCheck)<{ $isDone?: boolean }>`
+  opacity: 0;
+  color: ${(props) => props.theme.primaryColor};
+  transition: opacity 0.1s linear;
+  ${CircleBox}:hover & {
+    opacity: 1;
+  }
+  ${(props) =>
+    props.$isDone &&
+    css`
+      opacity: 1;
+      color: ${(props) => props.theme.whiteColor};
+    `}
 `;
 
 const TodoContentWrapper = styled.div`
@@ -87,13 +111,13 @@ const Todo = (todoItem: Props) => {
 
   // TODO: New Item Transition
   return (
-    <TodoWrapper
-      onClick={onSelect}
-      $isSelected={isSelected}
-      $isNew={isNew ? true : false}
-    >
-      {done ? <RegCheckIcon size="20" /> : <RegIcon size="20" />}
-      <TodoContentWrapper>
+    <TodoWrapper $isSelected={isSelected} $isNew={isNew ? true : false}>
+      <TodoIconWrapper>
+        <CircleBox $isDone={done}>
+          <CheckIcon $isDone={done} />
+        </CircleBox>
+      </TodoIconWrapper>
+      <TodoContentWrapper onClick={onSelect}>
         <TodoTitle>{title}</TodoTitle>
         <TodoContent>
           {moment(createdAt).format('yyyy.MM.DD HH:mm:ss.SSS')}
