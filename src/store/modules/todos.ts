@@ -103,6 +103,7 @@ interface UpdateProps {
   id: string;
   name: string;
   value: any;
+  reload?: boolean;
 }
 const asyncUpdateTodoItem = createAsyncAction(
   ASYNC_UPDATE_TODO_ITEM.REQUEST,
@@ -475,11 +476,13 @@ function* updateTodoItemSaga(
 ) {
   try {
     const {
-      payload: { id, name, value },
+      payload: { id, name, value, reload },
     } = action;
     yield call(TodoAPI.updateTodo, id, name, value);
     yield put(asyncUpdateTodoItem.success());
-    yield put(selectTodoById({ id }));
+    if (reload) {
+      yield put(selectTodoById({ id }));
+    }
   } catch (e) {
     yield put(asyncUpdateTodoItem.failure(e.message));
   }

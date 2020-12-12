@@ -27,14 +27,13 @@ const ExpandableHeader = styled.div`
   display: flex;
   align-items: center;
   padding: ${(props) => props.theme.space[1]};
+  cursor: pointer;
 `;
 
 const AngleIcon = styled(FiChevronDown)<{ $isExpand: boolean }>`
   color: ${(props) => props.theme.grayColor};
   margin-right: ${(props) => props.theme.space[2]};
-  cursor: pointer;
   transition: transform 0.1s linear;
-
   ${(props) =>
     props.$isExpand === false &&
     css`
@@ -77,8 +76,8 @@ const Todos = () => {
           {todoState.todos.filter((todo) => todo.done?.value === true).length >
             0 && (
             <ExpandableWrapper>
-              <ExpandableHeader>
-                <AngleIcon size="20" $isExpand={expand} onClick={onToggle} />
+              <ExpandableHeader onClick={onToggle}>
+                <AngleIcon size="20" $isExpand={expand} />
                 <ExpandableTitle>완료됨</ExpandableTitle>
               </ExpandableHeader>
               {expand &&

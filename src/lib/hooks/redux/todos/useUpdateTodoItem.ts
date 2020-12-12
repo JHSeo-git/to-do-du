@@ -6,7 +6,17 @@ const useUpdateTodoItem = () => {
   const dispatch = useDispatch();
 
   return useCallback(
-    ({ id, name, value }: { id: string; name: string; value: any }) => {
+    ({
+      id,
+      name,
+      value,
+      reload,
+    }: {
+      id: string;
+      name: string;
+      value: any;
+      reload?: boolean;
+    }) => {
       const now = Date.now();
       const valueWithDate: UpdatableItem<typeof value> = {
         value,
@@ -14,7 +24,12 @@ const useUpdateTodoItem = () => {
       };
 
       return dispatch(
-        actions.asyncUpdateTodoItem.request({ id, name, value: valueWithDate })
+        actions.asyncUpdateTodoItem.request({
+          id,
+          name,
+          value: valueWithDate,
+          reload,
+        })
       );
     },
     [dispatch]

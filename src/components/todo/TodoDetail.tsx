@@ -135,7 +135,7 @@ const TodoDetail = () => {
       target: { name, value },
     } = e;
     updateTodoDetail({ id, name, value });
-    debounceSave(() => updateTodoItem({ id, name, value }));
+    debounceSave(() => updateTodoItem({ id, name, value, reload: true }));
   };
 
   return (
@@ -180,10 +180,13 @@ const TodoDetail = () => {
             </FooterCol>
             <FooterCol>
               <CreateDate>
-                {moment(todoState.selectedTodo.createdAt).format(
-                  'MM월DD일 HH시'
-                )}{' '}
-                에 생성됨
+                {todoState.selectedTodo.done?.value
+                  ? moment(todoState.selectedTodo.done.updatedAt).format(
+                      'MM월DD일 HH시 에 완료됨'
+                    )
+                  : moment(todoState.selectedTodo.createdAt).format(
+                      'MM월DD일 HH시 에 생성됨'
+                    )}
               </CreateDate>
             </FooterCol>
             <FooterCol>
