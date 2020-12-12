@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { FiChevronDown } from 'react-icons/fi';
 import useTodoState from 'lib/hooks/redux/todos/useTodoState';
 import Todo from 'components/todo/Todo';
 import NewTodo from 'components/todo/NewTodo';
 import useSyncTodos from 'lib/hooks/redux/todos/useSyncTodos';
 import useUserState from 'lib/hooks/redux/user/useUserState';
+import useExpandable from 'lib/hooks/common/useExpandable';
 
 const TodosWrapper = styled.div`
   background: ${(props) => props.theme.whiteColor};
@@ -28,9 +29,17 @@ const ExpandableHeader = styled.div`
   padding: ${(props) => props.theme.space[1]};
 `;
 
-const AngleIcon = styled(FiChevronDown)`
+const AngleIcon = styled(FiChevronDown)<{ $isExpand: boolean }>`
   color: ${(props) => props.theme.grayColor};
   margin-right: ${(props) => props.theme.space[2]};
+  cursor: pointer;
+  transition: transform 0.1s linear;
+
+  ${(props) =>
+    props.$isExpand === false &&
+    css`
+      transform: rotate(-90deg);
+    `}
 `;
 const ExpandableTitle = styled.span`
   color: ${(props) => props.theme.grayDarkColor};
@@ -42,6 +51,7 @@ const Todos = () => {
   const userState = useUserState();
   const todoState = useTodoState();
   const syncTodos = useSyncTodos();
+  const [expand, onToggle] = useExpandable();
 
   // TODO: refactoring
   useEffect(() => {
@@ -52,10 +62,10 @@ const Todos = () => {
   return (
     <TodosWrapper>
       <NewTodo />
-      <TodoItems>
-        {todoState.todos &&
-          todoState.todos
-            .filter((todo) => todo.done === false)
+      {todoState.todos && (
+        <TodoItems>
+          {todoState.todos
+            .filter((todo) => !todo.done || todo.done.value === false)
             .map((todo) => (
               <TodoItem key={todo.id}>
                 <Todo
@@ -64,26 +74,28 @@ const Todos = () => {
                 />
               </TodoItem>
             ))}
-        {todoState.todos &&
-          todoState.todos.filter((todo) => todo.done === true) && (
+          {todoState.todos.filter((todo) => todo.done?.value === true).length >
+            0 && (
             <ExpandableWrapper>
               <ExpandableHeader>
-                <AngleIcon size="20" />
+                <AngleIcon size="20" $isExpand={expand} onClick={onToggle} />
                 <ExpandableTitle>완료됨</ExpandableTitle>
               </ExpandableHeader>
-              {todoState.todos
-                .filter((todo) => todo.done === true)
-                .map((todo) => (
-                  <TodoItem key={todo.id}>
-                    <Todo
-                      {...todo}
-                      isSelected={todoState.selectedTodo?.id === todo.id}
-                    />
-                  </TodoItem>
-                ))}
+              {expand &&
+                todoState.todos
+                  .filter((todo) => todo.done?.value === true)
+                  .map((todo) => (
+                    <TodoItem key={todo.id}>
+                      <Todo
+                        {...todo}
+                        isSelected={todoState.selectedTodo?.id === todo.id}
+                      />
+                    </TodoItem>
+                  ))}
             </ExpandableWrapper>
           )}
-      </TodoItems>
+        </TodoItems>
+      )}
     </TodosWrapper>
   );
 };

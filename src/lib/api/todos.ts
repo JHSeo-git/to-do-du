@@ -8,7 +8,15 @@ const TODO_DOC_NAME = 'todos';
 
 export function* addNewTodo(newTodo: RegisterTodo) {
   const collection = dbService.collection(TODO_DOC_NAME);
-  return yield call([collection, collection.add], newTodo);
+
+  const addInitData: RegisterTodo = {
+    ...newTodo,
+    done: {
+      value: false,
+    },
+  };
+
+  return yield call([collection, collection.add], addInitData);
 }
 
 export function* deleteTodos(id: string) {

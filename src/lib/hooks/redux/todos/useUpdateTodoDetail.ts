@@ -7,7 +7,7 @@ const useUpdateTodoDetail = () => {
 
   return useCallback(
     ({ id, name, value }: { id: string; name: string; value: any }) => {
-      const changedValue: UpdatableItem = {
+      const changedValue: UpdatableItem<typeof value> = {
         value,
       };
       return dispatch(

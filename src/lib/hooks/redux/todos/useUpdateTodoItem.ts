@@ -8,7 +8,7 @@ const useUpdateTodoItem = () => {
   return useCallback(
     ({ id, name, value }: { id: string; name: string; value: any }) => {
       const now = Date.now();
-      const valueWithDate: UpdatableItem = {
+      const valueWithDate: UpdatableItem<typeof value> = {
         value,
         updatedAt: now,
       };

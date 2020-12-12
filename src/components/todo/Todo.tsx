@@ -6,6 +6,7 @@ import moment from 'moment';
 import useSelectedTodo from 'lib/hooks/redux/todos/useSelectedTodo';
 import { Todo as TodoProps } from 'store/modules/todos';
 import { fadeInWithDelay } from 'styles/lib/animation';
+import useUpdateTodoItem from 'lib/hooks/redux/todos/useUpdateTodoItem';
 
 interface Props extends TodoProps {
   isSelected: boolean;
@@ -69,6 +70,7 @@ const CheckIcon = styled(GoCheck)<{ $isDone?: boolean }>`
 `;
 
 const TodoContentWrapper = styled.div`
+  flex: 1;
   margin-left: ${(props) => props.theme.space[2]};
   display: flex;
   flex-direction: column;
@@ -85,9 +87,9 @@ const TodoContent = styled.span`
 
 const Todo = (todoItem: Props) => {
   const {
-    //id,
     //content,
     //userId,
+    id,
     title,
     done,
     targetDate,
@@ -97,6 +99,7 @@ const Todo = (todoItem: Props) => {
   } = todoItem;
 
   const setSelect = useSelectedTodo();
+  const updateItem = useUpdateTodoItem();
 
   useEffect(() => {
     return () => {
@@ -109,12 +112,21 @@ const Todo = (todoItem: Props) => {
     setSelect(todoItem);
   };
 
+  const onComplete = () => {
+    const doneItem: { id: string; name: string; value: any } = {
+      id,
+      name: 'done',
+      value: !done?.value,
+    };
+    updateItem(doneItem);
+  };
+
   // TODO: New Item Transition
   return (
     <TodoWrapper $isSelected={isSelected} $isNew={isNew ? true : false}>
-      <TodoIconWrapper>
-        <CircleBox $isDone={done}>
-          <CheckIcon $isDone={done} />
+      <TodoIconWrapper onClick={onComplete}>
+        <CircleBox $isDone={done?.value}>
+          <CheckIcon $isDone={done?.value} />
         </CircleBox>
       </TodoIconWrapper>
       <TodoContentWrapper onClick={onSelect}>

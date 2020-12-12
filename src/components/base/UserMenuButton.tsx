@@ -38,8 +38,6 @@ const UserMenuButton = () => {
   const baseState = useBaseState();
   const setUserMenu = useUserMenu();
 
-  console.log(userState);
-
   const ref = useRef(null);
 
   const onClick = () => {

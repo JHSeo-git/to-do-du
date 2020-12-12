@@ -129,24 +129,24 @@ export type TodosAction = ActionType<typeof actions>;
 
 export type RegisterTodo = {
   title: string;
-  content: UpdatableItem | null;
-  done: boolean;
+  content: UpdatableItem<string> | null;
+  done: UpdatableItem<boolean> | null;
   userId: string | null;
   createdAt: number | null;
   [name: string]: any;
 };
 
-export type UpdatableItem = {
-  value: any;
+export type UpdatableItem<T> = {
+  value: T;
   updatedAt?: number;
 };
 
 export type Todo = {
   id: string;
   title: string;
-  content?: UpdatableItem;
+  content?: UpdatableItem<string>;
   // TODO: add Date and think Date format
-  done: boolean;
+  done: UpdatableItem<boolean> | null;
   userId: string;
   targetDate: string;
   createdAt: number;
@@ -170,7 +170,7 @@ const initialState: TodosState = {
   registerForm: {
     title: '',
     content: null,
-    done: false,
+    done: null,
     userId: null,
     createdAt: null,
   },
@@ -324,7 +324,7 @@ export const reducer = createReducer<TodosState>(initialState, {
       draft.registerForm = {
         title: '',
         content: null,
-        done: false,
+        done: null,
         userId: null,
         createdAt: null,
       };
