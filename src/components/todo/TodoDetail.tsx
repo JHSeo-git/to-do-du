@@ -1,7 +1,6 @@
 import React from 'react';
 import moment from 'moment';
 import styled, { css } from 'styled-components';
-import _ from 'lodash';
 import useFocus from 'lib/hooks/common/useFocus';
 import useConfirm from 'lib/hooks/common/useConfirm';
 import useTodoState from 'lib/hooks/redux/todos/useTodoState';
@@ -9,6 +8,7 @@ import useDeleteTodo from 'lib/hooks/redux/todos/useDeleteTodo';
 import useSelectedTodo from 'lib/hooks/redux/todos/useSelectedTodo';
 import useUpdateTodoDetail from 'lib/hooks/redux/todos/useUpdateTodoDetail';
 import useUpdateTodoItem from 'lib/hooks/redux/todos/useUpdateTodoItem';
+import { debounce } from 'lib/common';
 import { whiteBox } from 'styles/lib/common';
 import { CloseIcon, DeleteIcon } from 'styles/lib/Icon';
 import { fadeInWithDelay } from 'styles/lib/animation';
@@ -108,10 +108,6 @@ const CreateDate = styled.span`
   color: ${(props) => props.theme.grayDarkColor};
 `;
 
-const debounceSave = _.debounce((func: any) => {
-  func();
-}, 2000);
-
 const TodoDetail = () => {
   const todoState = useTodoState();
   const deleteTodo = useDeleteTodo();
@@ -135,14 +131,11 @@ const TodoDetail = () => {
       target: { name, value },
     } = e;
     updateTodoDetail({ id, name, value });
-    debounceSave(() => updateTodoItem({ id, name, value, reload: true }));
+    debounce(() => updateTodoItem({ id, name, value, reload: true }));
   };
 
   return (
     <>
-      {/* {userId === userState.user?.uid && (
-        <DeleteIcon onClick={onDeleteClick} size="20" />
-      )} */}
       {todoState?.selectedTodo && (
         <TodoDetailWrapper>
           <Inner>

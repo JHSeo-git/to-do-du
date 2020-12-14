@@ -8,6 +8,7 @@ interface Props {
   autoFocus: boolean;
   required: boolean;
   placeholder: string;
+  onBlur: () => void;
 }
 
 const TodoInputWrapper = styled.div`
@@ -28,7 +29,7 @@ const TodoInputBox = styled.input`
   }
 `;
 
-const TodoInput = ({ name, value, onChange, autoFocus, required, placeholder }: Props) => {
+const TodoInput = ({ name, value, onChange, autoFocus, required, placeholder, onBlur }: Props) => {
   return (
     <TodoInputWrapper>
       <TodoInputBox
@@ -38,6 +39,7 @@ const TodoInput = ({ name, value, onChange, autoFocus, required, placeholder }: 
         autoFocus={autoFocus}
         required={required}
         placeholder={placeholder}
+        onBlur={onBlur}
       />
     </TodoInputWrapper>
   );
