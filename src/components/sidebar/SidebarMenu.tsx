@@ -63,9 +63,7 @@ const SidebarMenu = () => {
               <FaTasks />
             </MenuIcon>
             <LinkText>Todo</LinkText>
-            <CountText>
-              {todoState?.todos.length > 0 && todoState?.todos.length}
-            </CountText>
+            <CountText>{todoState?.todos.length > 0 && todoState?.todos.length}</CountText>
           </MenuLink>
         </MenuItem>
         {/* <MenuItem>

@@ -131,9 +131,7 @@ const Todo = (todoItem: Props) => {
       </TodoIconWrapper>
       <TodoContentWrapper onClick={onSelect}>
         <TodoTitle>{title}</TodoTitle>
-        <TodoContent>
-          {moment(createdAt).format('yyyy.MM.DD HH:mm:ss.SSS')}
-        </TodoContent>
+        <TodoContent>{moment(createdAt).format('yyyy.MM.DD HH:mm:ss.SSS')}</TodoContent>
         {targetDate && <TodoContent>{targetDate}</TodoContent>}
       </TodoContentWrapper>
     </TodoWrapper>

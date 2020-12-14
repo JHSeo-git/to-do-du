@@ -7,11 +7,7 @@ import TodosRoute from 'components/todo/TodosRoute';
 
 const Todos = () => {
   return (
-    <TodosTemplate
-      header={<Header />}
-      sidebar={<Sidebar />}
-      detailbar={<TodoDetail />}
-    >
+    <TodosTemplate header={<Header />} sidebar={<Sidebar />} detailbar={<TodoDetail />}>
       <TodosRoute />
     </TodosTemplate>
   );

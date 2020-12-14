@@ -1,21 +1,7 @@
-import {
-  ActionType,
-  createAction,
-  createAsyncAction,
-  createReducer,
-} from 'typesafe-actions';
+import { ActionType, createAction, createAsyncAction, createReducer } from 'typesafe-actions';
 import firebase from 'firebase/app';
 import produce from 'immer';
-import {
-  put,
-  call,
-  all,
-  takeEvery,
-  fork,
-  take,
-  cancel,
-  takeLatest,
-} from 'redux-saga/effects';
+import { put, call, all, takeEvery, fork, take, cancel, takeLatest } from 'redux-saga/effects';
 import * as TodoAPI from 'lib/api/todos';
 import { syncChannel } from 'lib/fbUtils';
 import { ASYNC_LOG_OUT } from 'store/modules/user';
@@ -68,14 +54,8 @@ const updateTodoDetail = createAction(
     return { id, name, value };
   }
 )();
-const selectTodoById = createAction(
-  SELECT_TODO_BY_ID,
-  ({ id }: { id: string }) => id
-)();
-const showTodoDetail = createAction(
-  SHOW_TODO_DETAIL,
-  (payload: Todo) => payload
-)();
+const selectTodoById = createAction(SELECT_TODO_BY_ID, ({ id }: { id: string }) => id)();
+const showTodoDetail = createAction(SHOW_TODO_DETAIL, (payload: Todo) => payload)();
 const hideTodoDetail = createAction(HIDE_TODO_DETAIL)();
 
 const asyncGetTodos = createAsyncAction(
@@ -191,20 +171,14 @@ export const reducer = createReducer<TodosState>(initialState, {
     produce(state, (draft) => {
       draft.showTodoInput = false;
     }),
-  [CHANGE_REGISTER_TODO]: (
-    state,
-    action: ActionType<typeof changeRegisterTodo>
-  ) => {
+  [CHANGE_REGISTER_TODO]: (state, action: ActionType<typeof changeRegisterTodo>) => {
     return produce(state, (draft) => {
       if (!action) return;
       const { payload: registerForm } = action;
       draft.registerForm[registerForm.name] = registerForm.value;
     });
   },
-  [UPDATE_TODO_DETAIL]: (
-    state,
-    action: ActionType<typeof updateTodoDetail>
-  ) => {
+  [UPDATE_TODO_DETAIL]: (state, action: ActionType<typeof updateTodoDetail>) => {
     return produce(state, (draft) => {
       if (!action) return;
       const { payload: info } = action;
@@ -231,46 +205,31 @@ export const reducer = createReducer<TodosState>(initialState, {
       if (!action) return;
       draft.selectedTodo = undefined;
     }),
-  [ASYNC_GET_TODOS.REQUEST]: (
-    state,
-    action: ActionType<typeof asyncGetTodos.request>
-  ) =>
+  [ASYNC_GET_TODOS.REQUEST]: (state, action: ActionType<typeof asyncGetTodos.request>) =>
     produce(state, (draft) => {
       if (!action) return;
       draft.loading = true;
     }),
-  [ASYNC_GET_TODOS.SUCCESS]: (
-    state,
-    action: ActionType<typeof asyncGetTodos.success>
-  ) =>
+  [ASYNC_GET_TODOS.SUCCESS]: (state, action: ActionType<typeof asyncGetTodos.success>) =>
     produce(state, (draft) => {
       if (!action) return;
       const { payload: todos } = action;
       draft.loading = false;
       draft.todos = todos;
     }),
-  [ASYNC_GET_TODOS.FAILURE]: (
-    state,
-    action: ActionType<typeof asyncGetTodos.failure>
-  ) =>
+  [ASYNC_GET_TODOS.FAILURE]: (state, action: ActionType<typeof asyncGetTodos.failure>) =>
     produce(state, (draft) => {
       if (!action) return;
       const { payload: message } = action;
       draft.loading = false;
       draft.error = message;
     }),
-  [ASYNC_SYNC_TODOS.REQUEST]: (
-    state,
-    action: ActionType<typeof asyncSyncTodos.request>
-  ) =>
+  [ASYNC_SYNC_TODOS.REQUEST]: (state, action: ActionType<typeof asyncSyncTodos.request>) =>
     produce(state, (draft) => {
       if (!action) return;
       draft.loading = true;
     }),
-  [ASYNC_SYNC_TODOS.SUCCESS]: (
-    state,
-    action: ActionType<typeof asyncSyncTodos.success>
-  ) =>
+  [ASYNC_SYNC_TODOS.SUCCESS]: (state, action: ActionType<typeof asyncSyncTodos.success>) =>
     produce(state, (draft) => {
       if (!action) return;
       const { payload: todos } = action;
@@ -278,16 +237,12 @@ export const reducer = createReducer<TodosState>(initialState, {
 
       const newTodos = [
         ...todos
-          .filter(
-            (todo) => !draft.todos.map((dTodo) => dTodo.id).includes(todo.id)
-          )
+          .filter((todo) => !draft.todos.map((dTodo) => dTodo.id).includes(todo.id))
           .map((todo) => {
             return { ...todo, isNew: true };
           }),
         ...todos
-          .filter((todo) =>
-            draft.todos.map((dTodo) => dTodo.id).includes(todo.id)
-          )
+          .filter((todo) => draft.todos.map((dTodo) => dTodo.id).includes(todo.id))
           .map((todo) => {
             return { ...todo, isNew: false };
           }),
@@ -295,28 +250,19 @@ export const reducer = createReducer<TodosState>(initialState, {
 
       draft.todos = newTodos;
     }),
-  [ASYNC_SYNC_TODOS.FAILURE]: (
-    state,
-    action: ActionType<typeof asyncSyncTodos.failure>
-  ) =>
+  [ASYNC_SYNC_TODOS.FAILURE]: (state, action: ActionType<typeof asyncSyncTodos.failure>) =>
     produce(state, (draft) => {
       if (!action) return;
       const { payload: message } = action;
       draft.loading = false;
       draft.error = message;
     }),
-  [ASYNC_ADD_TODO.REQUEST]: (
-    state,
-    action: ActionType<typeof asyncAddTodo.request>
-  ) =>
+  [ASYNC_ADD_TODO.REQUEST]: (state, action: ActionType<typeof asyncAddTodo.request>) =>
     produce(state, (draft) => {
       if (!action) return;
       draft.loading = true;
     }),
-  [ASYNC_ADD_TODO.SUCCESS]: (
-    state,
-    action: ActionType<typeof asyncAddTodo.success>
-  ) =>
+  [ASYNC_ADD_TODO.SUCCESS]: (state, action: ActionType<typeof asyncAddTodo.success>) =>
     produce(state, (draft) => {
       if (!action) return;
       draft.loading = false;
@@ -330,38 +276,26 @@ export const reducer = createReducer<TodosState>(initialState, {
         createdAt: null,
       };
     }),
-  [ASYNC_ADD_TODO.FAILURE]: (
-    state,
-    action: ActionType<typeof asyncAddTodo.failure>
-  ) =>
+  [ASYNC_ADD_TODO.FAILURE]: (state, action: ActionType<typeof asyncAddTodo.failure>) =>
     produce(state, (draft) => {
       if (!action) return;
       const { payload: message } = action;
       draft.loading = false;
       draft.error = message;
     }),
-  [ASYNC_DELETE_TODO.REQUEST]: (
-    state,
-    action: ActionType<typeof asyncDeleteTodo.request>
-  ) =>
+  [ASYNC_DELETE_TODO.REQUEST]: (state, action: ActionType<typeof asyncDeleteTodo.request>) =>
     produce(state, (draft) => {
       if (!action) return;
       const { payload: id } = action;
       draft.loading = true;
       draft.targetTodoId = id;
     }),
-  [ASYNC_DELETE_TODO.SUCCESS]: (
-    state,
-    action: ActionType<typeof asyncDeleteTodo.success>
-  ) =>
+  [ASYNC_DELETE_TODO.SUCCESS]: (state, action: ActionType<typeof asyncDeleteTodo.success>) =>
     produce(state, (draft) => {
       if (!action) return;
       draft.loading = false;
     }),
-  [ASYNC_DELETE_TODO.FAILURE]: (
-    state,
-    action: ActionType<typeof asyncDeleteTodo.failure>
-  ) =>
+  [ASYNC_DELETE_TODO.FAILURE]: (state, action: ActionType<typeof asyncDeleteTodo.failure>) =>
     produce(state, (draft) => {
       if (!action) return;
       draft.loading = false;
@@ -448,9 +382,7 @@ function* syncTodosSaga(action: ReturnType<typeof asyncSyncTodos.request>) {
   }
 }
 
-function* syncTodosSagaWithLogInfo(
-  action: ReturnType<typeof asyncSyncTodos.request>
-) {
+function* syncTodosSagaWithLogInfo(action: ReturnType<typeof asyncSyncTodos.request>) {
   try {
     const task = yield fork(syncTodosSaga, action);
 
@@ -471,9 +403,7 @@ function* deleteTodoSaga(action: ReturnType<typeof asyncDeleteTodo.request>) {
   }
 }
 
-function* updateTodoItemSaga(
-  action: ReturnType<typeof asyncUpdateTodoItem.request>
-) {
+function* updateTodoItemSaga(action: ReturnType<typeof asyncUpdateTodoItem.request>) {
   try {
     const {
       payload: { id, name, value, reload },

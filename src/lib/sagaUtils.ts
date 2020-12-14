@@ -13,9 +13,7 @@ type DecideReturn<T> = T extends Promise<infer R>
   ? StripEffects<T> // If it's a generator, strip any effects to get the return type.
   : T; // Otherwise, it's a normal function and the return type is unaffected.
 
-export type CallReturnType<T extends (...args: any[]) => any> = DecideReturn<
-  ReturnType<T>
->;
+export type CallReturnType<T extends (...args: any[]) => any> = DecideReturn<ReturnType<T>>;
 
 interface AsyncAction {
   REQUEST: string;
@@ -34,16 +32,14 @@ export const asyncActionCreator = (actionName: string): AsyncAction => {
 };
 
 export const asyncAction = <T, P, J>(asyncAction: AsyncAction) => {
-  return createAsyncAction(
-    asyncAction.REQUEST,
-    asyncAction.SUCCESS,
-    asyncAction.FAILURE
-  )<T, P, J>();
+  return createAsyncAction(asyncAction.REQUEST, asyncAction.SUCCESS, asyncAction.FAILURE)<
+    T,
+    P,
+    J
+  >();
 };
 
-type PromiseCreatorFunction<P, T> =
-  | ((payload: P) => Promise<T>)
-  | (() => Promise<T>);
+type PromiseCreatorFunction<P, T> = ((payload: P) => Promise<T>) | (() => Promise<T>);
 
 export default function createAsyncSaga<
   RequestType,
@@ -64,10 +60,7 @@ export default function createAsyncSaga<
 ) {
   return function* saga(action: ReturnType<typeof asyncAction.request>) {
     try {
-      const result: SuccessPayload = yield call(
-        asyncFunction,
-        (action as any).payload
-      );
+      const result: SuccessPayload = yield call(asyncFunction, (action as any).payload);
       yield put(asyncAction.success(result));
       if (successFunc) {
         yield call(successFunc, result);

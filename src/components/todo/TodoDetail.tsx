@@ -150,11 +150,7 @@ const TodoDetail = () => {
             <TodoRowFlexCol $hoverType={true} $isFocus={focus}>
               <TodoContent
                 name="content"
-                value={
-                  todoState.selectedTodo.content
-                    ? todoState.selectedTodo.content.value
-                    : ''
-                }
+                value={todoState.selectedTodo.content ? todoState.selectedTodo.content.value : ''}
                 onChange={onChange}
                 onFocus={onFocus}
                 onBlur={onBlur}
@@ -162,16 +158,12 @@ const TodoDetail = () => {
               {todoState.selectedTodo.content?.updatedAt && (
                 <TodoUpdatedAt>
                   업데이트:
-                  {moment(todoState.selectedTodo.content.updatedAt).format(
-                    ' MM월DD일 HH시mm분'
-                  )}
+                  {moment(todoState.selectedTodo.content.updatedAt).format(' MM월DD일 HH시mm분')}
                 </TodoUpdatedAt>
               )}
             </TodoRowFlexCol>
             <TodoRow>
-              <TodoValue>
-                타겟 Date{todoState.selectedTodo.targetDate}
-              </TodoValue>
+              <TodoValue>타겟 Date{todoState.selectedTodo.targetDate}</TodoValue>
             </TodoRow>
           </Inner>
           <FixedFooter>
@@ -181,19 +173,12 @@ const TodoDetail = () => {
             <FooterCol>
               <CreateDate>
                 {todoState.selectedTodo.done?.value
-                  ? moment(todoState.selectedTodo.done.updatedAt).format(
-                      'MM월DD일 HH시 에 완료됨'
-                    )
-                  : moment(todoState.selectedTodo.createdAt).format(
-                      'MM월DD일 HH시 에 생성됨'
-                    )}
+                  ? moment(todoState.selectedTodo.done.updatedAt).format('MM월DD일 HH시 에 완료됨')
+                  : moment(todoState.selectedTodo.createdAt).format('MM월DD일 HH시 에 생성됨')}
               </CreateDate>
             </FooterCol>
             <FooterCol>
-              <DeleteIcon
-                size="20"
-                onClick={() => onDeleteClick(todoState.selectedTodo?.id)}
-              />
+              <DeleteIcon size="20" onClick={() => onDeleteClick(todoState.selectedTodo?.id)} />
             </FooterCol>
           </FixedFooter>
         </TodoDetailWrapper>

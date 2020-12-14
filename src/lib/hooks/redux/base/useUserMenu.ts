@@ -6,8 +6,7 @@ const useUserMenu = () => {
   const dispatch = useDispatch();
 
   return useCallback(
-    (isShow: boolean) =>
-      dispatch(isShow ? actions.showUserMenu() : actions.hideUserMenu()),
+    (isShow: boolean) => dispatch(isShow ? actions.showUserMenu() : actions.hideUserMenu()),
     [dispatch]
   );
 };

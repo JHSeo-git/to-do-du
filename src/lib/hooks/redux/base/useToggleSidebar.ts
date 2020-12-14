@@ -6,8 +6,7 @@ const useToggleSidebar = () => {
   const dispatch = useDispatch();
 
   return useCallback(
-    (isShow: boolean) =>
-      dispatch(isShow ? actions.openSidebar() : actions.closeSidebar()),
+    (isShow: boolean) => dispatch(isShow ? actions.openSidebar() : actions.closeSidebar()),
     [dispatch]
   );
 };
