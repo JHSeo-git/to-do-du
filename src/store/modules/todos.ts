@@ -109,7 +109,7 @@ export const actions = {
 export type TodosAction = ActionType<typeof actions>;
 
 export type RegisterTodo = {
-  title: string;
+  title: UpdatableItem<string> | null;
   content: UpdatableItem<string> | null;
   done: UpdatableItem<boolean> | null;
   userId: string | null;
@@ -124,7 +124,7 @@ export type UpdatableItem<T> = {
 
 export type Todo = {
   id: string;
-  title: string;
+  title: UpdatableItem<string>;
   content?: UpdatableItem<string>;
   // TODO: add Date and think Date format
   done: UpdatableItem<boolean> | null;
@@ -149,7 +149,7 @@ export type TodosState = {
 const initialState: TodosState = {
   showTodoInput: false,
   registerForm: {
-    title: '',
+    title: null,
     content: null,
     done: null,
     userId: null,
@@ -269,7 +269,7 @@ export const reducer = createReducer<TodosState>(initialState, {
       draft.showTodoInput = false;
       draft.error = '';
       draft.registerForm = {
-        title: '',
+        title: null,
         content: null,
         done: null,
         userId: null,
@@ -414,7 +414,11 @@ function* updateTodoItemSaga(action: ReturnType<typeof asyncUpdateTodoItem.reque
       yield put(selectTodoById({ id }));
     }
   } catch (e) {
+    const {
+      payload: { id },
+    } = action;
     yield put(asyncUpdateTodoItem.failure(e.message));
+    yield put(selectTodoById({ id }));
   }
 }
 

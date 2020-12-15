@@ -69,13 +69,6 @@ const Todo = (todoItem: Props) => {
   const setSelect = useSelectedTodo();
   const updateItem = useUpdateTodoItem();
 
-  useEffect(() => {
-    return () => {
-      // when exit, deSelect
-      setSelect();
-    };
-  }, [setSelect]);
-
   const onSelect = () => {
     setSelect(todoItem);
   };
@@ -94,7 +87,7 @@ const Todo = (todoItem: Props) => {
     <TodoWrapper $isSelected={isSelected} $isNew={isNew ? true : false}>
       <TodoCircleButton isDone={done?.value} onClick={onComplete} />
       <TodoContentWrapper onClick={onSelect}>
-        <TodoTitle>{title}</TodoTitle>
+        <TodoTitle>{title.value}</TodoTitle>
         <TodoContent>{moment(createdAt).format('yyyy.MM.DD HH:mm:ss.SSS')}</TodoContent>
         {targetDate && <TodoContent>{targetDate}</TodoContent>}
       </TodoContentWrapper>

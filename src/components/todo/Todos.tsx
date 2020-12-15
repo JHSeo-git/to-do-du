@@ -7,6 +7,7 @@ import NewTodo from 'components/todo/NewTodo';
 import useSyncTodos from 'lib/hooks/redux/todos/useSyncTodos';
 import useUserState from 'lib/hooks/redux/user/useUserState';
 import useExpandable from 'lib/hooks/common/useExpandable';
+import useSelectedTodo from 'lib/hooks/redux/todos/useSelectedTodo';
 
 const TodosWrapper = styled.div`
   background: ${(props) => props.theme.whiteColor};
@@ -50,6 +51,7 @@ const Todos = () => {
   const userState = useUserState();
   const todoState = useTodoState();
   const syncTodos = useSyncTodos();
+  const setSelect = useSelectedTodo();
   const [expand, onToggle] = useExpandable();
 
   // TODO: refactoring
@@ -57,6 +59,13 @@ const Todos = () => {
     if (!userState.user || !userState.user.uid) return;
     syncTodos(userState.user.uid);
   }, [userState.user, syncTodos]);
+
+  useEffect(() => {
+    return () => {
+      // when exit, deSelect
+      setSelect();
+    };
+  }, [setSelect]);
 
   return (
     <TodosWrapper>

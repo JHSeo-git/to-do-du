@@ -62,14 +62,14 @@ const NewTodoInput = ({ todoState }: Props) => {
       <RegIcon size="20" onClick={toggleShowInput} />
       <TodoInput
         name="title"
-        value={todoState.registerForm.title}
+        value={todoState.registerForm.title ? todoState.registerForm.title.value : ''}
         onChange={onChange}
         onBlur={toggleShowInput}
         autoFocus={true}
         required={true}
         placeholder="할 일을 작성해보세요"
       />
-      <Loader $active={true || todoState.loading}>
+      <Loader $active={todoState.loading}>
         <Spinner size="40" />
       </Loader>
     </NewTodoInputWrapper>

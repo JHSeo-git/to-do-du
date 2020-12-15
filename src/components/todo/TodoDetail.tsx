@@ -12,6 +12,7 @@ import { debounce } from 'lib/common';
 import { whiteBox } from 'styles/lib/common';
 import { CloseIcon, DeleteIcon } from 'styles/lib/Icon';
 import { fadeInWithDelay } from 'styles/lib/animation';
+import TodoCircleButton from './TodoCircleButton';
 
 const TodoDetailWrapper = styled.div`
   height: 100%;
@@ -26,14 +27,29 @@ const Inner = styled.div`
   overflow-y: auto;
 `;
 
-const TodoTitle = styled.h3`
-  font-size: ${(props) => props.theme.fontSizes[3]};
-  padding: ${(props) => props.theme.space[2]};
+const TodoInputWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  padding: ${(props) => props.theme.space[1]};
   position: sticky;
   top: 0;
   margin-bottom: ${(props) => props.theme.space[2]};
   ${whiteBox};
   border: 1px solid ${(props) => props.theme.grayLightColor};
+`;
+
+const TodoTitle = styled.input`
+  width: 100%;
+  font-size: ${(props) => props.theme.fontSizes[3]};
+  padding: ${(props) => props.theme.space[0]};
+  margin-left: ${(props) => props.theme.space[0]};
+  border: 1px solid transparent;
+  &:hover {
+    background: ${(props) => props.theme.grayLightColor};
+  }
+  &:focus {
+    border: 1px solid ${(props) => props.theme.grayColor};
+  }
 `;
 
 const TodoRow = styled.div<{ $hoverType?: boolean; $isFocus?: boolean }>`
@@ -123,7 +139,7 @@ const TodoDetail = () => {
     confirm('Confirm delete', () => deleteTodo(id));
   };
 
-  const onChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+  const onChange = (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
     const { selectedTodo } = todoState;
     if (!selectedTodo) return;
     const id = selectedTodo.id;
@@ -134,12 +150,60 @@ const TodoDetail = () => {
     debounce(() => updateTodoItem({ id, name, value, reload: true }));
   };
 
+  const onRegisterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { selectedTodo } = todoState;
+    if (!selectedTodo) return;
+    const id = selectedTodo.id;
+    const {
+      target: { name, value },
+    } = e;
+    updateTodoDetail({ id, name, value });
+  };
+
+  const onComplete = (id?: string, value?: boolean) => {
+    if (!id) return;
+    const doneItem: { id: string; name: string; value: any } = {
+      id,
+      name: 'done',
+      value: !value,
+    };
+    updateTodoItem({ ...doneItem, reload: true });
+  };
+
+  const onKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      const { selectedTodo } = todoState;
+      if (!selectedTodo) return;
+      const id = selectedTodo.id;
+      const {
+        currentTarget: { name, value },
+      } = e;
+      updateTodoItem({ id, name, value, reload: true });
+
+      e.currentTarget.blur();
+    }
+  };
+
   return (
     <>
       {todoState?.selectedTodo && (
         <TodoDetailWrapper>
           <Inner>
-            <TodoTitle>{todoState.selectedTodo.title}</TodoTitle>
+            <TodoInputWrapper>
+              <TodoCircleButton
+                isDone={todoState.selectedTodo.done?.value}
+                onClick={() =>
+                  onComplete(todoState.selectedTodo?.id, todoState.selectedTodo?.done?.value)
+                }
+              />
+              <TodoTitle
+                placeholder=""
+                name="title"
+                value={todoState.selectedTodo.title ? todoState.selectedTodo.title.value : ''}
+                onChange={onRegisterChange}
+                onKeyPress={onKeyPress}
+              />
+            </TodoInputWrapper>
             <TodoRowFlexCol $hoverType={true} $isFocus={focus}>
               <TodoContent
                 name="content"
