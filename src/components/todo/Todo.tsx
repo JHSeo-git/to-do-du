@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react';
-import styled, { css } from 'styled-components';
 import { rgba } from 'polished';
-import { GoCheck } from 'react-icons/go';
 import moment from 'moment';
+import styled, { css } from 'styled-components';
 import useSelectedTodo from 'lib/hooks/redux/todos/useSelectedTodo';
+import useUpdateTodoItem from 'lib/hooks/redux/todos/useUpdateTodoItem';
 import { Todo as TodoProps } from 'store/modules/todos';
 import { fadeInWithDelay } from 'styles/lib/animation';
-import useUpdateTodoItem from 'lib/hooks/redux/todos/useUpdateTodoItem';
+import TodoCircleButton from './TodoCircleButton';
 
 interface Props extends TodoProps {
   isSelected: boolean;
@@ -34,38 +34,6 @@ const TodoWrapper = styled.div<{ $isSelected: boolean; $isNew: boolean }>`
     props.$isNew &&
     css`
       ${fadeInWithDelay()}
-    `}
-`;
-
-const TodoIconWrapper = styled.div``;
-
-const CircleBox = styled.div<{ $isDone?: boolean }>`
-  width: 1.2rem;
-  height: 1.2rem;
-  display: flex;
-  align-items: center;
-  border-radius: 50%;
-  border: 0.1rem solid ${(props) => props.theme.primaryColor};
-  padding: 0.2rem;
-  ${(props) =>
-    props.$isDone &&
-    css`
-      background: ${(props) => props.theme.primaryColor};
-    `}
-`;
-
-const CheckIcon = styled(GoCheck)<{ $isDone?: boolean }>`
-  opacity: 0;
-  color: ${(props) => props.theme.primaryColor};
-  transition: opacity 0.1s linear;
-  ${CircleBox}:hover & {
-    opacity: 1;
-  }
-  ${(props) =>
-    props.$isDone &&
-    css`
-      opacity: 1;
-      color: ${(props) => props.theme.whiteColor};
     `}
 `;
 
@@ -124,11 +92,7 @@ const Todo = (todoItem: Props) => {
   // TODO: New Item Transition
   return (
     <TodoWrapper $isSelected={isSelected} $isNew={isNew ? true : false}>
-      <TodoIconWrapper onClick={onComplete}>
-        <CircleBox $isDone={done?.value}>
-          <CheckIcon $isDone={done?.value} />
-        </CircleBox>
-      </TodoIconWrapper>
+      <TodoCircleButton isDone={done?.value} onClick={onComplete} />
       <TodoContentWrapper onClick={onSelect}>
         <TodoTitle>{title}</TodoTitle>
         <TodoContent>{moment(createdAt).format('yyyy.MM.DD HH:mm:ss.SSS')}</TodoContent>
