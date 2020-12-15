@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { rgba } from 'polished';
 import moment from 'moment';
 import styled, { css } from 'styled-components';
