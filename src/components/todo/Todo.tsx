@@ -40,12 +40,14 @@ const TodoWrapper = styled.div<{ $isSelected: boolean; $isNew: boolean }>`
 const TodoContentWrapper = styled.div`
   flex: 1;
   margin-left: ${(props) => props.theme.space[2]};
+  padding-right: ${(props) => props.theme.space[1]};
   display: flex;
   flex-direction: column;
 `;
 
 const TodoTitle = styled.span`
   font-size: ${(props) => props.theme.fontSizes[3]};
+  line-height: 1.3rem;
 `;
 
 const TodoContent = styled.span`

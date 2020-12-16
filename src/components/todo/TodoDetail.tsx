@@ -38,17 +38,19 @@ const TodoInputWrapper = styled.div`
   border: 1px solid ${(props) => props.theme.grayLightColor};
 `;
 
-const TodoTitle = styled.input`
+const TodoTitle = styled.textarea`
   width: 100%;
   font-size: ${(props) => props.theme.fontSizes[3]};
   padding: ${(props) => props.theme.space[0]};
   margin-left: ${(props) => props.theme.space[0]};
   border: 1px solid transparent;
+  line-height: 1.3rem;
   &:hover {
     background: ${(props) => props.theme.grayLightColor};
   }
   &:focus {
     border: 1px solid ${(props) => props.theme.grayColor};
+    background: ${(props) => props.theme.whiteColor};
   }
 `;
 
@@ -150,7 +152,7 @@ const TodoDetail = () => {
     debounce(() => updateTodoItem({ id, name, value, reload: true }));
   };
 
-  const onRegisterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const onRegisterChange = (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
     const { selectedTodo } = todoState;
     if (!selectedTodo) return;
     const id = selectedTodo.id;
@@ -170,7 +172,7 @@ const TodoDetail = () => {
     updateTodoItem({ ...doneItem, reload: true });
   };
 
-  const onKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  const onKeyPress = (e: React.KeyboardEvent<HTMLTextAreaElement | HTMLInputElement>) => {
     if (e.key === 'Enter') {
       const { selectedTodo } = todoState;
       if (!selectedTodo) return;
