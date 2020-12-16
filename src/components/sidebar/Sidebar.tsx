@@ -13,10 +13,29 @@ const SidebarWrapper = styled.div<{ $isExpand: boolean }>`
     props.$isExpand
       ? css`
           width: ${(props) => props.theme.majorSize.sidebarOpenWidth};
+          &::before {
+            content: '';
+            position: fixed;
+            left: 0;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            z-index: -1;
+            background: rgba(0, 0, 0, 0.5);
+          }
         `
       : css`
           width: ${(props) => props.theme.majorSize.sidebarCloseWidth};
+          &::before {
+            content: none;
+          }
         `}
+
+  @media only screen and (min-width: 770px) {
+    &::before {
+      content: none;
+    }
+  }
 `;
 
 const MenuHeader = styled.div``;

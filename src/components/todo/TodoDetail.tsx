@@ -20,6 +20,23 @@ const TodoDetailWrapper = styled.div`
   padding: ${(props) => props.theme.space[1]};
   width: 18rem;
   position: relative;
+
+  &::before {
+    content: '';
+    position: fixed;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    z-index: -1;
+    background: rgba(0, 0, 0, 0.5);
+  }
+
+  @media only screen and (min-width: 770px) {
+    &::before {
+      content: none;
+    }
+  }
 `;
 
 const Inner = styled.div`

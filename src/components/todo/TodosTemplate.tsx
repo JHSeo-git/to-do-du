@@ -15,10 +15,21 @@ const TodosTemplateWrapper = styled.div`
 const Left = styled.div`
   height: 100vh;
   overflow-y: auto;
+  position: absolute;
+  left: 0;
+  z-index: ${(props) => props.theme.zIndex.modal};
+  @media only screen and (min-width: 770px) {
+    position: static;
+    z-index: 0;
+  }
 `;
 const Right = styled.div`
   flex: 1;
   display: flex;
+  padding-left: 3.125rem;
+  @media only screen and (min-width: 770px) {
+    padding: 0;
+  }
 `;
 
 const Content = styled.div`
@@ -32,6 +43,13 @@ const Content = styled.div`
 const Detail = styled.div`
   height: 100vh;
   display: flex;
+  position: absolute;
+  right: 0;
+  z-index: ${(props) => props.theme.zIndex.modal};
+  @media only screen and (min-width: 770px) {
+    position: static;
+    z-index: 0;
+  }
 `;
 
 const TodosTemplate = ({ header, sidebar, detailbar, children }: Props) => {
