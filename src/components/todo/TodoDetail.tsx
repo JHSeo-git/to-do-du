@@ -20,16 +20,18 @@ const TodoDetailWrapper = styled.div`
   padding: ${(props) => props.theme.space[1]};
   width: 18rem;
   position: relative;
+  z-index: ${(props) => props.theme.zIndex.modal};
+  ${fadeInWithDelay()};
 
   &::before {
     content: '';
     position: fixed;
     left: 0;
     top: 0;
-    right: 0;
+    right: 18rem;
     bottom: 0;
     z-index: -1;
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.3);
   }
 
   @media only screen and (min-width: 770px) {

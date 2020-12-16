@@ -293,6 +293,7 @@ export const reducer = createReducer<TodosState>(initialState, {
     produce(state, (draft) => {
       if (!action) return;
       draft.loading = false;
+      draft.selectedTodo = undefined;
     }),
   [ASYNC_DELETE_TODO.FAILURE]: (state, action: ActionType<typeof asyncDeleteTodo.failure>) =>
     produce(state, (draft) => {
