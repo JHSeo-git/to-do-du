@@ -266,7 +266,6 @@ export const reducer = createReducer<TodosState>(initialState, {
     produce(state, (draft) => {
       if (!action) return;
       draft.loading = false;
-      draft.showTodoInput = false;
       draft.error = '';
       draft.registerForm = {
         title: null,
