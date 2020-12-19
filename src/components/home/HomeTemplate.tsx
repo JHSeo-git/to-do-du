@@ -8,7 +8,11 @@ const HomeTemplate = () => {
   const userState = useUserState();
 
   // logged in or not
-  return userState?.user ? <Redirect to="/todos" /> : <LandingTemplate loginForm={<LoginForm />} />;
+  return userState?.user ? (
+    <Redirect to="/todos" />
+  ) : (
+    <LandingTemplate loginForm={<LoginForm />} />
+  );
 };
 
 export default HomeTemplate;

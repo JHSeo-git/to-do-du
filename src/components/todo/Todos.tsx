@@ -76,10 +76,14 @@ const Todos = () => {
             .filter((todo) => !todo.done || todo.done.value === false)
             .map((todo) => (
               <TodoItem key={todo.id}>
-                <Todo {...todo} isSelected={todoState.selectedTodo?.id === todo.id} />
+                <Todo
+                  {...todo}
+                  isSelected={todoState.selectedTodo?.id === todo.id}
+                />
               </TodoItem>
             ))}
-          {todoState.todos.filter((todo) => todo.done?.value === true).length > 0 && (
+          {todoState.todos.filter((todo) => todo.done?.value === true).length >
+            0 && (
             <ExpandableWrapper>
               <ExpandableHeader onClick={onToggle}>
                 <AngleIcon size="20" $isExpand={expand} />
@@ -90,7 +94,10 @@ const Todos = () => {
                   .filter((todo) => todo.done?.value === true)
                   .map((todo) => (
                     <TodoItem key={todo.id}>
-                      <Todo {...todo} isSelected={todoState.selectedTodo?.id === todo.id} />
+                      <Todo
+                        {...todo}
+                        isSelected={todoState.selectedTodo?.id === todo.id}
+                      />
                     </TodoItem>
                   ))}
             </ExpandableWrapper>

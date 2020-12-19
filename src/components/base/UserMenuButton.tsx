@@ -57,7 +57,9 @@ const UserMenuButton = () => {
     <UserMenuButtonWrapper>
       {userState?.user && (
         <Button onClick={onClick} ref={ref}>
-          {userState.user.photoURL && <Avatar alt="User Avatar" src={userState.user.photoURL} />}
+          {userState.user.photoURL && (
+            <Avatar alt="User Avatar" src={userState.user.photoURL} />
+          )}
           <CaretDownIcon />
         </Button>
       )}

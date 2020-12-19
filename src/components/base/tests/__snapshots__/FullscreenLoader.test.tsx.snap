@@ -1,0 +1,83 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<FullscreenLoader /> matches snapshot 1`] = `
+<div>
+  <div
+    class="sc-bdfBwQ gABrpj"
+  >
+    <img
+      alt="logo"
+      class="sc-gsTCUz PNRc"
+      src="logo.svg"
+    />
+    <svg
+      fill="currentColor"
+      height="1em"
+      stroke="currentColor"
+      stroke-width="0"
+      viewBox="0 0 50 50"
+      width="1em"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <g
+        fill="none"
+        fill-rule="evenodd"
+        stroke-width="2"
+      >
+        <circle
+          cx="25"
+          cy="25"
+          r="1"
+        >
+          <animate
+            attributeName="r"
+            begin="0s"
+            calcMode="spline"
+            dur="1.8s"
+            keySplines="0.165, 0.84, 0.44, 1"
+            keyTimes="0; 1"
+            repeatCount="indefinite"
+            values="1; 20"
+          />
+          <animate
+            attributeName="stroke-opacity"
+            begin="0s"
+            calcMode="spline"
+            dur="1.8s"
+            keySplines="0.3, 0.61, 0.355, 1"
+            keyTimes="0; 1"
+            repeatCount="indefinite"
+            values="1; 0"
+          />
+        </circle>
+        <circle
+          cx="25"
+          cy="25"
+          r="1"
+        >
+          <animate
+            attributeName="r"
+            begin="-0.9s"
+            calcMode="spline"
+            dur="1.8s"
+            keySplines="0.165, 0.84, 0.44, 1"
+            keyTimes="0; 1"
+            repeatCount="indefinite"
+            values="1; 20"
+          />
+          <animate
+            attributeName="stroke-opacity"
+            begin="-0.9s"
+            calcMode="spline"
+            dur="1.8s"
+            keySplines="0.3, 0.61, 0.355, 1"
+            keyTimes="0; 1"
+            repeatCount="indefinite"
+            values="1; 0"
+          />
+        </circle>
+      </g>
+    </svg>
+  </div>
+</div>
+`;

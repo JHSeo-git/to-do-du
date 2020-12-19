@@ -8,7 +8,10 @@ const useToggleNewInput = () => {
   const dispatch = useDispatch();
 
   return useCallback(
-    () => dispatch(todos.showTodoInput ? actions.closeNewTodo() : actions.openNewTodo()),
+    () =>
+      dispatch(
+        todos.showTodoInput ? actions.closeNewTodo() : actions.openNewTodo()
+      ),
     [dispatch, todos.showTodoInput]
   );
 };

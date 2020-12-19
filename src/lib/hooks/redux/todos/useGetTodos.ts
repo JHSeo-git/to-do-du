@@ -5,7 +5,9 @@ import { actions } from 'store/modules/todos';
 const useGetTodos = () => {
   const dispatch = useDispatch();
 
-  return useCallback(() => dispatch(actions.asyncGetTodos.request()), [dispatch]);
+  return useCallback(() => dispatch(actions.asyncGetTodos.request()), [
+    dispatch,
+  ]);
 };
 
 export default useGetTodos;

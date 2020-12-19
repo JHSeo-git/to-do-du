@@ -20,7 +20,11 @@ const NewTodo = () => {
 
   return (
     <NewTodoWrapper>
-      {todoState.showTodoInput ? <NewTodoInput todoState={todoState} /> : <NewTodoButton />}
+      {todoState.showTodoInput ? (
+        <NewTodoInput todoState={todoState} />
+      ) : (
+        <NewTodoButton />
+      )}
     </NewTodoWrapper>
   );
 };

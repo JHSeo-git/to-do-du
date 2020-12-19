@@ -10,7 +10,9 @@ const useUpdateTodoDetail = () => {
       const changedValue: UpdatableItem<typeof value> = {
         value,
       };
-      return dispatch(actions.updateTodoDetail({ id, name, value: changedValue }));
+      return dispatch(
+        actions.updateTodoDetail({ id, name, value: changedValue })
+      );
     },
     [dispatch]
   );

@@ -31,7 +31,10 @@ export function* updateTodo(id: string, name: string, value: string) {
 
 export function* getTodos() {
   const collection = dbService.collection(TODO_DOC_NAME);
-  const snapshot: firebase.firestore.QuerySnapshot<Todo> = yield call([collection, collection.get]);
+  const snapshot: firebase.firestore.QuerySnapshot<Todo> = yield call([
+    collection,
+    collection.get,
+  ]);
 
   const todos: Todo[] = snapshot.docs.map((doc) => {
     const id = doc.id;
@@ -53,7 +56,12 @@ export function* syncGetTodos(
     .where('userId', '==', userId)
     .orderBy('createdAt', 'desc');
 
-  const channel = yield call(makeChannel, collection, undefined, snapshotListenOptions);
+  const channel = yield call(
+    makeChannel,
+    collection,
+    undefined,
+    snapshotListenOptions
+  );
 
   return channel;
 }

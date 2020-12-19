@@ -160,7 +160,9 @@ const TodoDetail = () => {
     confirm('Confirm delete', () => deleteTodo(id));
   };
 
-  const onChange = (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
+  const onChange = (
+    e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+  ) => {
     const { selectedTodo } = todoState;
     if (!selectedTodo) return;
     const id = selectedTodo.id;
@@ -171,7 +173,9 @@ const TodoDetail = () => {
     debounce(() => updateTodoItem({ id, name, value, reload: true }));
   };
 
-  const onRegisterChange = (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
+  const onRegisterChange = (
+    e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+  ) => {
     const { selectedTodo } = todoState;
     if (!selectedTodo) return;
     const id = selectedTodo.id;
@@ -191,7 +195,9 @@ const TodoDetail = () => {
     updateTodoItem({ ...doneItem, reload: true });
   };
 
-  const onKeyPress = (e: React.KeyboardEvent<HTMLTextAreaElement | HTMLInputElement>) => {
+  const onKeyPress = (
+    e: React.KeyboardEvent<HTMLTextAreaElement | HTMLInputElement>
+  ) => {
     if (e.key === 'Enter') {
       const { selectedTodo } = todoState;
       if (!selectedTodo) return;
@@ -214,13 +220,20 @@ const TodoDetail = () => {
               <TodoCircleButton
                 isDone={todoState.selectedTodo.done?.value}
                 onClick={() =>
-                  onComplete(todoState.selectedTodo?.id, todoState.selectedTodo?.done?.value)
+                  onComplete(
+                    todoState.selectedTodo?.id,
+                    todoState.selectedTodo?.done?.value
+                  )
                 }
               />
               <TodoTitle
                 placeholder=""
                 name="title"
-                value={todoState.selectedTodo.title ? todoState.selectedTodo.title.value : ''}
+                value={
+                  todoState.selectedTodo.title
+                    ? todoState.selectedTodo.title.value
+                    : ''
+                }
                 onChange={onRegisterChange}
                 onKeyPress={onKeyPress}
               />
@@ -228,7 +241,11 @@ const TodoDetail = () => {
             <TodoRowFlexCol $hoverType={true} $isFocus={focus}>
               <TodoContent
                 name="content"
-                value={todoState.selectedTodo.content ? todoState.selectedTodo.content.value : ''}
+                value={
+                  todoState.selectedTodo.content
+                    ? todoState.selectedTodo.content.value
+                    : ''
+                }
                 onChange={onChange}
                 onFocus={onFocus}
                 onBlur={onBlur}
@@ -236,12 +253,16 @@ const TodoDetail = () => {
               {todoState.selectedTodo.content?.updatedAt && (
                 <TodoUpdatedAt>
                   업데이트:
-                  {moment(todoState.selectedTodo.content.updatedAt).format(' MM월DD일 HH시mm분')}
+                  {moment(todoState.selectedTodo.content.updatedAt).format(
+                    ' MM월DD일 HH시mm분'
+                  )}
                 </TodoUpdatedAt>
               )}
             </TodoRowFlexCol>
             <TodoRow>
-              <TodoValue>타겟 Date{todoState.selectedTodo.targetDate}</TodoValue>
+              <TodoValue>
+                타겟 Date{todoState.selectedTodo.targetDate}
+              </TodoValue>
             </TodoRow>
           </Inner>
           <FixedFooter>
@@ -251,12 +272,19 @@ const TodoDetail = () => {
             <FooterCol>
               <CreateDate>
                 {todoState.selectedTodo.done?.value
-                  ? moment(todoState.selectedTodo.done.updatedAt).format('MM월DD일 HH시 에 완료됨')
-                  : moment(todoState.selectedTodo.createdAt).format('MM월DD일 HH시 에 생성됨')}
+                  ? moment(todoState.selectedTodo.done.updatedAt).format(
+                      'MM월DD일 HH시 에 완료됨'
+                    )
+                  : moment(todoState.selectedTodo.createdAt).format(
+                      'MM월DD일 HH시 에 생성됨'
+                    )}
               </CreateDate>
             </FooterCol>
             <FooterCol>
-              <DeleteIcon size="20" onClick={() => onDeleteClick(todoState.selectedTodo?.id)} />
+              <DeleteIcon
+                size="20"
+                onClick={() => onDeleteClick(todoState.selectedTodo?.id)}
+              />
             </FooterCol>
           </FixedFooter>
         </TodoDetailWrapper>

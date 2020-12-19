@@ -13,7 +13,9 @@ const useChangeRegisterTodo = () => {
         updatedAt: now,
       };
 
-      return dispatch(actions.changeRegisterTodo({ name, value: valueWithDate }));
+      return dispatch(
+        actions.changeRegisterTodo({ name, value: valueWithDate })
+      );
     },
 
     [dispatch]

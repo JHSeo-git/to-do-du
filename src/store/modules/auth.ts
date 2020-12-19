@@ -5,7 +5,8 @@ import produce from 'immer';
 import * as AuthAPI from 'lib/api/auth';
 import * as FbUtils from 'lib/fbUtils';
 
-const AUTH_ACCOUNT_EXISTS_CODE = 'auth/account-exists-with-different-credential';
+const AUTH_ACCOUNT_EXISTS_CODE =
+  'auth/account-exists-with-different-credential';
 
 // Action Type
 const ASYNC_SOCIAL_LOGIN = {
@@ -46,7 +47,10 @@ export const reducer = createReducer<AuthState>(initialState, {
     produce(state, (draft) => {
       draft.loading = true;
     }),
-  [ASYNC_SOCIAL_LOGIN.SUCCESS]: (state, action: ActionType<typeof asyncSocialLogin.success>) => {
+  [ASYNC_SOCIAL_LOGIN.SUCCESS]: (
+    state,
+    action: ActionType<typeof asyncSocialLogin.success>
+  ) => {
     return produce(state, (draft) => {
       if (!action) return;
       const { payload: authResult } = action;
@@ -55,7 +59,10 @@ export const reducer = createReducer<AuthState>(initialState, {
       draft.error = undefined;
     });
   },
-  [ASYNC_SOCIAL_LOGIN.FAILURE]: (state, action: ActionType<typeof asyncSocialLogin.failure>) => {
+  [ASYNC_SOCIAL_LOGIN.FAILURE]: (
+    state,
+    action: ActionType<typeof asyncSocialLogin.failure>
+  ) => {
     return produce(state, (draft) => {
       if (!action) return;
       const { payload: message } = action;
@@ -98,7 +105,9 @@ function* socialLoginSaga(action: ReturnType<typeof asyncSocialLogin.request>) {
       // 위 code가 오면 같은 계정으로 이미 등록되어 있단 뜻으로 link 시켜준다.
       const providers = yield call(AuthAPI.fetchProvidersForEmail, e.email);
       if (!providers || providers.length === 0) {
-        yield put(asyncSocialLogin.failure('Not Exists Auth Account for your Email'));
+        yield put(
+          asyncSocialLogin.failure('Not Exists Auth Account for your Email')
+        );
         return;
       }
 
@@ -108,12 +117,16 @@ function* socialLoginSaga(action: ReturnType<typeof asyncSocialLogin.request>) {
         providers.find((p: string) => p === provider.providerId)
       );
       if (!firstProvider) {
-        yield put(asyncSocialLogin.failure('Not Exists Auth Provider for your Email'));
+        yield put(
+          asyncSocialLogin.failure('Not Exists Auth Provider for your Email')
+        );
         return;
       }
 
       // 재 로그인
-      const linkProvider = FbUtils.getStringToAuthProvider(firstProvider.providerName);
+      const linkProvider = FbUtils.getStringToAuthProvider(
+        firstProvider.providerName
+      );
       if (!linkProvider) {
         yield put(asyncSocialLogin.failure('Not Exists Link Provider'));
         return;
@@ -132,7 +145,11 @@ function* socialLoginSaga(action: ReturnType<typeof asyncSocialLogin.request>) {
         return;
       }
 
-      const linkResult = yield call(AuthAPI.linkWithCredential, user, e.credential);
+      const linkResult = yield call(
+        AuthAPI.linkWithCredential,
+        user,
+        e.credential
+      );
 
       if (!linkResult || !linkResult.credential) {
         yield put(asyncSocialLogin.failure('Not Linked User'));

@@ -62,7 +62,9 @@ const NewTodoInput = ({ todoState }: Props) => {
       <RegIcon size="20" onClick={toggleShowInput} />
       <TodoInput
         name="title"
-        value={todoState.registerForm.title ? todoState.registerForm.title.value : ''}
+        value={
+          todoState.registerForm.title ? todoState.registerForm.title.value : ''
+        }
         onChange={onChange}
         onBlur={toggleShowInput}
         autoFocus={true}

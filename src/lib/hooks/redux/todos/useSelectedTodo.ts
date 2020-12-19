@@ -7,7 +7,9 @@ const useSelectedTodo = () => {
 
   return useCallback(
     (payload?: Todo) =>
-      payload ? dispatch(actions.showTodoDetail(payload)) : dispatch(actions.hideTodoDetail()),
+      payload
+        ? dispatch(actions.showTodoDetail(payload))
+        : dispatch(actions.hideTodoDetail()),
     [dispatch]
   );
 };

@@ -29,7 +29,15 @@ const TodoInputBox = styled.input`
   }
 `;
 
-const TodoInput = ({ name, value, onChange, autoFocus, required, placeholder, onBlur }: Props) => {
+const TodoInput = ({
+  name,
+  value,
+  onChange,
+  autoFocus,
+  required,
+  placeholder,
+  onBlur,
+}: Props) => {
   return (
     <TodoInputWrapper>
       <TodoInputBox

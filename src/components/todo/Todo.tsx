@@ -90,7 +90,9 @@ const Todo = (todoItem: Props) => {
       <TodoCircleButton isDone={done?.value} onClick={onComplete} />
       <TodoContentWrapper onClick={onSelect}>
         <TodoTitle>{title.value}</TodoTitle>
-        <TodoContent>{moment(createdAt).format('yyyy.MM.DD HH:mm:ss.SSS')}</TodoContent>
+        <TodoContent>
+          {moment(createdAt).format('yyyy.MM.DD HH:mm:ss.SSS')}
+        </TodoContent>
         {targetDate && <TodoContent>{targetDate}</TodoContent>}
       </TodoContentWrapper>
     </TodoWrapper>

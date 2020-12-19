@@ -1,4 +1,9 @@
-import { ActionType, createAction, createAsyncAction, createReducer } from 'typesafe-actions';
+import {
+  ActionType,
+  createAction,
+  createAsyncAction,
+  createReducer,
+} from 'typesafe-actions';
 import produce from 'immer';
 import * as AuthAPI from 'lib/api/auth';
 import { call, put, takeLatest, getContext } from 'redux-saga/effects';
@@ -55,7 +60,10 @@ export const reducer = createReducer<UserState>(initialState, {
       draft.user = user;
       draft.processed = true;
     }),
-  [ASYNC_LOG_OUT.SUCCESS]: (state, action: ActionType<typeof asyncLogOut.success>) =>
+  [ASYNC_LOG_OUT.SUCCESS]: (
+    state,
+    action: ActionType<typeof asyncLogOut.success>
+  ) =>
     produce(state, (draft) => {
       if (!action) return;
       draft.user = null;
