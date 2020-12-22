@@ -2,6 +2,8 @@
 
 This project is ToDo App(v1) with firebase.
 
+> Design Reference: MS Todo
+
 ## v1.1
 
 - update responsive mobile, desktop
@@ -9,8 +11,6 @@ This project is ToDo App(v1) with firebase.
 ## v1
 
 - Only can make a simple Todo
-
-> Design Reference: MS Todo
 
 <p align="center" style="display:grid; grid-template-columns: repeat(3, 1fr); grid-gap: 10px">
     <img src="https://images.velog.io/images/namezin/post/1cad1da7-df9f-4a07-aa98-3be1bc52d00d/login%20page.png" width="100%" />

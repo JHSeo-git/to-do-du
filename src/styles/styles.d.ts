@@ -14,7 +14,7 @@ declare module 'styled-components' {
     toast: number;
     modal: number;
   }
-  export interface DefaultTheme {
+  interface DefaultTheme {
     fontSizes: string[];
     space: string[];
     whiteColor: string;
