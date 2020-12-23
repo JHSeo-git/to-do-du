@@ -40,7 +40,7 @@ This project is ToDo App(v1) with firebase.
 ## Redux Stack
 
 - pattern : ducks
-- mapStateToProps, mapStateToProps: use hooks(react-redux)
+- mapStateToProps, mapDispatchToProps: use hooks(react-redux)
 - snyc reducer : typesafe-actions > reducer
 - async reducer : redux-saga, generator
 - immutability: immer.js
