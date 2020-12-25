@@ -2,9 +2,9 @@ import React from 'react';
 import { IconBase } from 'react-icons';
 import { IconBaseProps } from 'react-icons/lib';
 
-type Props = IconBaseProps;
+export type SpinnerProps = IconBaseProps;
 
-const Spinner = (props: Props) => {
+export const Spinner = (props: SpinnerProps) => {
   return (
     <IconBase viewBox="0 0 50 50" {...props}>
       <g fill="none" fillRule="evenodd" strokeWidth="2">
