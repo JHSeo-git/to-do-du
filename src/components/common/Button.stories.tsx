@@ -23,19 +23,9 @@ Default.args = {
   children: 'Button',
 };
 
-// export const Secondary = Template.bind({});
-// Secondary.args = {
-//   label: 'Button',
-// };
-
-// export const Large = Template.bind({});
-// Large.args = {
-//   size: 'large',
-//   label: 'Button',
-// };
-
-// export const Small = Template.bind({});
-// Small.args = {
-//   size: 'small',
-//   label: 'Button',
-// };
+export const SocialButton = Template.bind({});
+SocialButton.args = {
+  provider: 'GITHUB',
+  isLoading: false,
+  children: 'Button',
+};

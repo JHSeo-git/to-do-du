@@ -1,10 +1,15 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
 import { darken } from 'polished';
+import { FcGoogle } from 'react-icons/fc';
+import { FaFacebookF, FaGithub } from 'react-icons/fa';
+import Spinner from 'components/common/Spinner';
+
+type SocialProvider = 'GITHUB' | 'GOOGLE' | 'FACEBOOK' | 'DEFAULT';
 
 interface StyledButtonProps {
   $isLoading?: boolean;
-  $provider?: string;
+  $provider?: SocialProvider;
 }
 
 const Text = styled.span`
@@ -13,12 +18,23 @@ const Text = styled.span`
   color: inherit;
 `;
 
-const Loading = styled.span`
+const Loading = styled.div`
   position: absolute;
-  top: 50%;
+  top: 0;
   left: 0;
   right: 0;
-  opacity: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.5);
+`;
+
+const FaceBookIcon = styled(FaFacebookF)`
+  color: ${(props) => props.theme.whiteColor};
+`;
+const GithubIcon = styled(FaGithub)`
+  color: ${(props) => props.theme.whiteColor};
 `;
 
 const StyledButton = styled.button<StyledButtonProps>`
@@ -32,8 +48,9 @@ const StyledButton = styled.button<StyledButtonProps>`
   overflow: hidden;
   text-decoration: none;
   user-select: none;
+  position: relative;
   ${(props) =>
-    (!props.$provider || props.$provider === 'default') &&
+    (!props.$provider || props.$provider === 'DEFAULT') &&
     css`
       background: ${(props) => props.theme.whiteColor};
       color: ${(props) => props.theme.grayDarkColor};
@@ -46,7 +63,7 @@ const StyledButton = styled.button<StyledButtonProps>`
       }
     `};
   ${(props) =>
-    props.$provider === 'Github' &&
+    props.$provider === 'GITHUB' &&
     css`
       background: ${(props) => props.theme.githubGray};
       color: ${(props) => props.theme.whiteColor};
@@ -59,7 +76,7 @@ const StyledButton = styled.button<StyledButtonProps>`
       }
     `};
   ${(props) =>
-    props.$provider === 'Facebook' &&
+    props.$provider === 'FACEBOOK' &&
     css`
       background: ${(props) => props.theme.facebookBlue};
       color: ${(props) => props.theme.whiteColor};
@@ -72,7 +89,7 @@ const StyledButton = styled.button<StyledButtonProps>`
       }
     `};
   ${(props) =>
-    props.$provider === 'Google' &&
+    props.$provider === 'GOOGLE' &&
     css`
       background: ${(props) => props.theme.whiteColor};
       color: ${(props) => props.theme.blackColor};
@@ -87,7 +104,7 @@ const StyledButton = styled.button<StyledButtonProps>`
 `;
 
 export interface ButtonProps {
-  provider?: string;
+  provider?: SocialProvider;
   isLoading?: boolean;
   children: React.ReactNode;
 }
@@ -101,12 +118,24 @@ export const Button = ({
   const content = (
     <>
       <Text>{children}</Text>
-      {isLoading && <Loading>...loading</Loading>}
+      {isLoading && (
+        <Loading>
+          <Spinner size="2rem" />
+        </Loading>
+      )}
+    </>
+  );
+  const Icon = (
+    <>
+      {provider === 'GOOGLE' && <FcGoogle size="20" />}
+      {provider === 'FACEBOOK' && <FaceBookIcon size="20" />}
+      {provider === 'GITHUB' && <GithubIcon size="20" />}
     </>
   );
 
   return (
     <StyledButton $isLoading={isLoading} $provider={provider} {...rest}>
+      {Icon}
       {content}
     </StyledButton>
   );
