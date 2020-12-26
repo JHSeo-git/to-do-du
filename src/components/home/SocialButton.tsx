@@ -1,3 +1,4 @@
+// deprecated
 import React from 'react';
 import useSocialLogin from 'lib/hooks/redux/auth/useSocialLogin';
 import styled, { css } from 'styled-components';

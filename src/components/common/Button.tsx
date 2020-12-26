@@ -106,12 +106,14 @@ const StyledButton = styled.button<StyledButtonProps>`
 export interface ButtonProps {
   provider?: SocialProvider;
   isLoading?: boolean;
+  onSocialClick?: () => void;
   children: React.ReactNode;
 }
 
 export const Button = ({
   provider,
   isLoading,
+  onSocialClick,
   children,
   ...rest
 }: ButtonProps) => {
@@ -134,7 +136,12 @@ export const Button = ({
   );
 
   return (
-    <StyledButton $isLoading={isLoading} $provider={provider} {...rest}>
+    <StyledButton
+      $isLoading={isLoading}
+      $provider={provider}
+      onClick={onSocialClick}
+      {...rest}
+    >
       {Icon}
       {content}
     </StyledButton>

@@ -1,7 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import SocialButton from 'components/home/SocialButton';
+import SocialButton from 'components/common/Button';
 import logo from 'static/images/logo.svg';
+import useSocialLogin from 'lib/hooks/redux/auth/useSocialLogin';
 
 const LoginFormWrapper = styled.div`
   width: 480px;
@@ -22,17 +23,23 @@ const LogoImg = styled.img`
 `;
 
 const ButtonItems = styled.ul`
-  padding: ${(props) => props.theme.space[2]};
+  padding: ${(props) => props.theme.space[4]};
 `;
 
 const ButtonItem = styled.li`
   width: 100%;
   &:not(:last-child) {
-    margin-right: ${(props) => props.theme.space[3]};
+    margin-bottom: ${(props) => props.theme.space[2]};
   }
 `;
 
 const LoginForm = () => {
+  const socialLogin = useSocialLogin();
+
+  const onSocialClick = (provider: string) => {
+    socialLogin(provider);
+  };
+
   return (
     <LoginFormWrapper>
       <Title>
@@ -40,13 +47,28 @@ const LoginForm = () => {
       </Title>
       <ButtonItems>
         <ButtonItem>
-          <SocialButton provider="Google" />
+          <SocialButton
+            provider="GOOGLE"
+            onSocialClick={() => onSocialClick('Google')}
+          >
+            Google
+          </SocialButton>
         </ButtonItem>
         <ButtonItem>
-          <SocialButton provider="Github" />
+          <SocialButton
+            provider="GITHUB"
+            onSocialClick={() => onSocialClick('Github')}
+          >
+            Github
+          </SocialButton>
         </ButtonItem>
         <ButtonItem>
-          <SocialButton provider="Facebook" />
+          <SocialButton
+            provider="FACEBOOK"
+            onSocialClick={() => onSocialClick('Facebook')}
+          >
+            Facebook
+          </SocialButton>
         </ButtonItem>
       </ButtonItems>
     </LoginFormWrapper>
